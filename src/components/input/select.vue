@@ -1,11 +1,15 @@
 <template>
   <combo-wrapper v-model="comboValue" class="mu-select" :editable="false">
-    <div
-      class="mu-select_value-box mu-text-ellipsis"
-      :placeholder="placeholder"
-      :title="showValueTooltip ? comboValue : null">
-      {{ comboValue }}
-    </div>
+    <template v-if="isMultiple" #default="{ placeholder }">
+      <div
+        class="mu-select_value-box mu-text-ellipsis"
+        :placeholder="placeholder"
+        :title="showValueTooltip ? '' : null">
+        <span v-for="(item, idx) in selections" :key="`${item.value}_${idx}`">
+          {{ item.label || item.value }}
+        </span>
+      </div>
+    </template>
     <template #dropdown>
       <slot name="dropdown">
         <component
@@ -27,10 +31,12 @@
   defineOptions({ name: 'MusselSelect' })
 
   const model = defineModel()
-  const props = defineProps({ ...selectProps, placeholder: String, showValueTooltip: Boolean })
+  const props = defineProps({ ...selectProps, showValueTooltip: Boolean })
 
   const {
+    isMultiple,
     comboValue,
+    selections,
     optionItems
   } = useSelect(model, props)
 </script>

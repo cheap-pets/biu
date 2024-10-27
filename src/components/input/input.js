@@ -30,6 +30,19 @@ export function useInput (model, props, emit) {
     placeholder: props.placeholder
   }))
 
+  const clearButtonAttrs = {
+    class: 'mu-input_clear-button',
+    tag: 'a',
+    icon: 'x'
+  }
+
+  const clearButtonVisible = computed(() =>
+    props.clearable &&
+    !props.disabled &&
+    !props.readonly &&
+    !isEmpty(model.value)
+  )
+
   const AffixResolver = {
     icon: ({ value, ...attrs }) => ({ is: 'mu-icon', attrs: { icon: value, ...attrs } }),
     tool: ({ value, ...attrs }) => ({ is: 'mu-icon', attrs: { tag: 'a', icon: value, ...attrs } }),
@@ -61,19 +74,6 @@ export function useInput (model, props, emit) {
   function onSuffixClick () {
     emit('suffixClick')
   }
-
-  const clearButtonAttrs = {
-    class: 'mu-input_clear-button',
-    tag: 'a',
-    icon: 'x'
-  }
-
-  const clearButtonVisible = computed(() =>
-    props.clearable &&
-    !props.disabled &&
-    !props.readonly &&
-    !isEmpty(model.value)
-  )
 
   return {
     wrapperAttrs,

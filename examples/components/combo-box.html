@@ -78,11 +78,21 @@
         v-model="artist"
         show-value-tooltip
         placeholder="select an artist"
-        :options="artists" />
+        :options="artists">
+      </mu-select>
+      <mu-select
+        v-model="selectedArtists"
+        value-mode="composite"
+        show-value-tooltip
+        placeholder="select an artist"
+        :options="artists">
+      </mu-select>
     </div>
     <div class="group mu-box" position="fixed bottom left">
       <mu-combo-box
-        v-model="artist"
+        v-model="artistCn"
+        value-mode="composite"
+        clearable
         :options="artistsCn"
         :dropdown-panel="{ width: '600px' }">
       </mu-combo-box>
@@ -94,6 +104,8 @@
       setup () {
         const artist = Vue.ref('Johann Baptist Strauss')
 
+        const selectedArtists = Vue.ref([])
+
         const artists = Vue.ref([
           { is: '-', label: 'GROUP 1' },
           { value: 'Ludwig van Beethoven' },
@@ -102,6 +114,8 @@
           { is: '-', label: 'GROUP 2' },
           { value: 'Johann Baptist Strauss', disabled: true  }
         ])
+
+        const artistCn = Vue.ref()
 
         const artistsCn = [
           { value: 'Ludwig van Beethoven', label: '贝多芬' },
@@ -121,16 +135,18 @@
           })
         }
 
-        
-        setInterval(() => {
-          if (artists.value.length > 3) {
-            artists.value.pop()
-          } else {
-            artists.value[1].label = 'shit' + new Date()
-          }
-        }, 3000)
+        // setInterval(() => {
+        //   if (artists.value.length > 3) {
+        //     artists.value.pop()
+        //   } else {
+        //     artists.value[1].label = 'shit' + new Date()
+        //   }
+        // }, 3000)
 
-        return { artist, artists, artistsCn, onPrefixClick, addOption }
+        return {
+          artist, artists, artistCn, artistsCn, selectedArtists,
+          onPrefixClick, addOption
+        }
       },
       methods: {
         onDropdownShow () {
