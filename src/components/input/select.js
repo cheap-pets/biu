@@ -18,12 +18,11 @@ export function useSelect (model, props) {
     const result = {}
 
     if (!props.editable && !isCompositeValue.value) {
-      (props.options || Array.from(mountedOptions.value))
-        .forEach(el => {
-          if (el.value != null) {
-            result[el.value] = el.label ?? el.value
-          }
-        })
+      (props.options || Array.from(mountedOptions.value)).forEach(el => {
+        if (el.value != null) {
+          result[el.value] = el.label ?? el.value
+        }
+      })
     }
 
     return result
@@ -50,26 +49,33 @@ export function useSelect (model, props) {
     }
   })
 
-  const selections = computed(() => {
+  const selectedOptions = computed(() => {
+    if (!isMultiple.value) return
+
     const result = []
+    const values = model.value
+    const labels = labelsMap.value
 
-    if (isMultiple.value) {
-      const values = model.value
-      const labels = labelsMap.value
+    values.forEach(value => {
+      const item = isCompositeValue.value
+        ? { ...value }
+        : value in labels
+          ? { value, label: labels[value] }
+          : { value }
 
-      values.forEach(value => {
-        const item = isCompositeValue.value
-          ? value
-          : value in labels
-            ? { value, label: labels[value] }
-            : { value }
+      if (item.value == null) return
+      if (item.label == null) item.label = item.value
 
-        if (item.value != null) result.push(item)
-      })
-    }
+      result.push(item)
+    })
 
     return result
   })
+
+  const selectedValues = computed(() =>
+    selectedOptions.value &&
+    Object.fromEntries(selectedOptions.value.map(el => [el.value, true]))
+  )
 
   const { items: optionItems } = useListItems(
     toRef(props, 'options'),
@@ -91,20 +97,39 @@ export function useSelect (model, props) {
     }
   }
 
+  function unselectOption (option) {
+    const value = option.value
+    const modelValue = model.value
+    const isComposite = isCompositeValue.value
+
+    const idx = modelValue.findIndex(el =>
+      isComposite
+        ? el.value === value
+        : el === value
+    )
+
+    if (idx >= 0) {
+      model.value = modelValue.filter((el, index) => idx !== index)
+    }
+  }
+
   function onOptionClick (option) {
     const value = option.value
     const modelValue = model.value
+    const isComposite = isCompositeValue.value
 
     if (isMultiple.value) {
-      const exist = modelValue.find(el => el.value === value)
+      const idx = modelValue.findIndex(el =>
+        isComposite
+          ? el.value === value
+          : el === value
+      )
 
-      if (exist) {
-        model.value = modelValue.filter(el => el.value !== value)
-      } else {
-        model.value = [...modelValue, { ...option }]
-      }
+      model.value = idx < 0
+        ? [...modelValue, isComposite ? { ...option } : option.value]
+        : modelValue.filter((el, index) => idx !== index)
     } else {
-      model.value = isCompositeValue.value
+      model.value = isComposite
         ? pick(option, ['value', 'label'])
         : value
     }
@@ -112,6 +137,7 @@ export function useSelect (model, props) {
 
   provide('select', {
     isMultiple,
+    selectedValues,
     mountOption,
     unmountOption,
     onOptionClick
@@ -120,7 +146,9 @@ export function useSelect (model, props) {
   return {
     isMultiple,
     comboValue,
-    selections,
-    optionItems
+    optionItems,
+    selectedOptions,
+    selectedValues,
+    unselectOption
   }
 }

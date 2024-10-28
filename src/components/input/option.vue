@@ -1,6 +1,6 @@
 <template>
   <div class="mu-list-item mu-dropdown-item mu-option" @click="onClick">
-    <mu-icon v-if="isMultiple" :icon="checkIcon" />
+    <mu-icon v-if="isMultiple" class="mu-list-item_check-icon" :icon="checkIcon" />
     <slot>
       <mu-icon v-if="icon != null" class="mu-list-item_icon" :icon="icon" />
       <label class="mu-list-item_label">{{ label ?? value }}</label>
@@ -20,9 +20,13 @@
   })
 
   const { hide: collapse } = inject('dropdown')
-  const { isMultiple, mountOption, unmountOption, onOptionClick } = inject('select')
+  const { isMultiple, selectedValues, mountOption, unmountOption, onOptionClick } = inject('select')
 
-  const checkIcon = computed(() => '')
+  const checkIcon = computed(() =>
+    selectedValues.value[props.value]
+      ? 'check'
+      : ''
+  )
 
   function onClick (event) {
     onOptionClick(props)

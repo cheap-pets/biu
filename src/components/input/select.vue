@@ -1,12 +1,13 @@
 <template>
   <combo-wrapper v-model="comboValue" class="mu-select" :editable="false">
     <template v-if="isMultiple" #default="{ placeholder }">
-      <div
-        class="mu-select_value-box mu-text-ellipsis"
-        :placeholder="placeholder"
-        :title="showValueTooltip ? '' : null">
-        <span v-for="(item, idx) in selections" :key="`${item.value}_${idx}`">
-          {{ item.label || item.value }}
+      <div class="mu-select_values" :placeholder="placeholder">
+        <span
+          v-for="(item, idx) in selectedOptions"
+          :key="`${item.value}_${idx}`"
+          class="mu-text-ellipsis">
+          {{ item.label }}
+          <mu-icon icon="X" @click.stop="unselectOption(item)" />
         </span>
       </div>
     </template>
@@ -36,7 +37,8 @@
   const {
     isMultiple,
     comboValue,
-    selections,
-    optionItems
+    optionItems,
+    selectedOptions,
+    unselectOption
   } = useSelect(model, props)
 </script>
