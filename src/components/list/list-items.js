@@ -51,25 +51,23 @@ export function useListItems (itemsRef, options = {}) {
     itemsRef.value.forEach(el => {
       if (el == null || el === '') return
 
-      if (el) {
-        const isObj = isObject(el)
+      const isObj = isObject(el)
 
-        const item = resolveItemProps(
-          isObj
-            ? el
-            : shortcuts[el]
-              ? { is: el }
-              : { [nonObjectSetToProp]: el }
-        )
+      const item = resolveItemProps(
+        isObj
+          ? el
+          : shortcuts[el]
+            ? { is: el }
+            : { [nonObjectSetToProp]: el }
+      )
 
-        item.key ??= isObj
-          ? getObjectKey(el)
-          : genKey()
+      item.key ??= isObj
+        ? getObjectKey(el)
+        : genKey()
 
-        result.push(
-          Object.assign(item, shortcuts[item.is])
-        )
-      }
+      result.push(
+        Object.assign(item, shortcuts[item.is])
+      )
     })
 
     return result

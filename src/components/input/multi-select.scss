@@ -1,13 +1,13 @@
-.mu-select[allow-wrap] {
+.mu-multi-select[allow-wrap] {
   height: auto;
 
-  & > .mu-select_values {
+  & > .mu-multi-select_values {
     flex-wrap: wrap;
     height: auto;
   }
 }
 
-.mu-select_values {
+.mu-multi-select_values {
   overflow: hidden;
   display: flex;
   flex: 1 1 0;

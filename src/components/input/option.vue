@@ -14,22 +14,16 @@
 
   defineOptions({ name: 'MusselOption' })
 
-  const props = defineProps({
-    ...dropdownItemProps,
-    value: { required: true }
-  })
+  const props = defineProps({ ...dropdownItemProps, value: { required: true } })
 
   const { hide: collapse } = inject('dropdown')
-  const { isMultiple, selectedValues, mountOption, unmountOption, onOptionClick } = inject('select')
+  const { selectedValues, mountOption, unmountOption, toggleOption } = inject('select')
 
-  const checkIcon = computed(() =>
-    selectedValues.value[props.value]
-      ? 'check'
-      : ''
-  )
+  const isMultiple = computed(() => Boolean(selectedValues))
+  const checkIcon = computed(() => selectedValues.value[props.value] ? 'check' : '')
 
   function onClick (event) {
-    onOptionClick(props)
+    toggleOption(props)
 
     if (!isMultiple.value) collapse()
   }

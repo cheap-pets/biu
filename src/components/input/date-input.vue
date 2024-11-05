@@ -55,9 +55,10 @@
   import { calendarProps, useCalendar } from '../calendar/calendar'
 
   import lang from '@/langs'
+
   import ComboWrapper from './combo-wrapper.vue'
-  import MonthPicker from '../calendar/month-picker.vue'
   import CalendarGrid from '../calendar/date-table.vue'
+  import MonthPicker from '../calendar/month-picker.vue'
 
   const { YEAR_AND_MONTH, MONTHS, THIS_YEAR, THIS_MONTH } = lang.Calendar
 

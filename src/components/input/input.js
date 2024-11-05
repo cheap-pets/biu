@@ -40,7 +40,7 @@ export function useInput (model, props, emit) {
     props.clearable &&
     !props.disabled &&
     !props.readonly &&
-    !isEmpty(model.value)
+    !isEmpty(model.value, { skipBoolean: true })
   )
 
   const AffixResolver = {

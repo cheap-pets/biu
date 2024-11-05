@@ -4,7 +4,7 @@
       <slot name="dropdown">
         <component
           :is="el.is"
-          v-for="el in optionItems" :key="el.key"
+          v-for="el in optionComponents" :key="el.key"
           v-bind="el.bindings" />
       </slot>
     </template>
@@ -18,25 +18,8 @@
 
   defineOptions({ name: 'MusselComboBox' })
 
-  const model = defineModel({
-    validator (v) {
-      if (Array.isArray(v)) {
-        console.warn(
-          '[MUSSEL:COMBO]',
-          'Prop "modelValue" cannot be specified as an array.'
-        )
-
-        return false
-      }
-
-      return true
-    }
-  })
-
+  const model = defineModel()
   const props = defineProps({ ...selectProps, editable: Boolean })
 
-  const {
-    comboValue,
-    optionItems
-  } = useSelect(model, props)
+  const { comboValue, optionComponents } = useSelect(model, props)
 </script>
