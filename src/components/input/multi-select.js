@@ -1,6 +1,13 @@
-import { provide, computed } from 'vue'
+import { ref, provide, computed } from 'vue'
 import { selectProps, useOptions } from './select'
 import { isEmpty } from '@/utils/type'
+
+const multiSelectProps = {
+  ...selectProps,
+  showTagTooltip: Boolean,
+  showFilteredOptions: Boolean,
+  maxVisibleTags: { type: Number, default: 3 }
+}
 
 function useMultiSelect (model, props) {
   const {
@@ -9,6 +16,8 @@ function useMultiSelect (model, props) {
     mountOption,
     unmountOption
   } = useOptions(props)
+
+  const filterValues = ref()
 
   const comboValue = computed({
     get () {
@@ -36,38 +45,42 @@ function useMultiSelect (model, props) {
     return result
   })
 
-  const selectedValues = computed(() =>
-    selectedItems.value &&
-    Object.fromEntries(selectedItems.value.map(el => [el.value, true]))
+  const values = computed(() =>
+    new Set(selectedItems.value.map(el => el.value))
   )
 
-  function unselectOption (option) {
-    const values = model.value || []
+  const visibleTags = computed(() => {
+    const max = props.maxVisibleTags
+    const items = selectedItems.value
+    const total = items.length
+    const more = total - max
 
-    const idx = props.valueMode === 'composite'
-      ? values.findIndex(el => el.value === option.value)
-      : values.findIndex(el => el === option.value)
+    return !max || max >= total
+      ? selectedItems.value
+      : [
+          ...items.slice(0, max),
+          { more: true, value: '$$more$$', label: `+${more > 99 ? 99 : more}` }
+        ]
+  })
 
-    if (idx >= 0) {
-      model.value = values.filter((el, index) => idx !== index)
-    }
-  }
-
-  function toggleOption (option) {
-    const values = model.value || []
+  function toggleOption (option, checked) {
+    const modelValue = model.value || []
     const isComposite = props.valueMode === 'composite'
 
     const idx = isComposite
-      ? values.findIndex(el => el.value === option.value)
-      : values.findIndex(el => el === option.value)
+      ? modelValue.findIndex(el => el.value === option.value)
+      : modelValue.findIndex(el => el === option.value)
+
+    if ((checked && idx >= 0) || (checked === false && idx < 0)) return
 
     model.value = idx < 0
-      ? [...values, isComposite ? { ...option } : option.value]
-      : values.filter((el, index) => idx !== index)
+      ? [...modelValue, isComposite ? { ...option } : option.value]
+      : modelValue.filter((el, index) => idx !== index)
   }
 
   provide('select', {
-    selectedValues,
+    values,
+    filterValues,
     mountOption,
     unmountOption,
     toggleOption
@@ -75,13 +88,15 @@ function useMultiSelect (model, props) {
 
   return {
     comboValue,
-    optionComponents,
+    visibleTags,
+    filterValues,
     selectedItems,
-    unselectOption
+    optionComponents,
+    toggleOption
   }
 }
 
 export {
-  selectProps,
+  multiSelectProps,
   useMultiSelect
 }

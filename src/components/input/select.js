@@ -1,3 +1,5 @@
+import './select.scss'
+
 import { provide, ref, toRef, computed } from 'vue'
 import { useListItems } from '../list/list-items'
 

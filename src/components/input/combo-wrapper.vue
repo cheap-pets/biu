@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapper" class="mu-input" v-bind="wrapperAttrs" @click="toggleDropdown">
+  <div ref="wrapper" class="mu-input" v-bind="wrapperAttrs" @click="toggleDropdown" @sizechange="updatePosition">
     <component :is="pre.is" v-if="pre" v-bind="pre.attrs" @click.stop="onPrefixClick">
       {{ pre.content }}
     </component>
@@ -16,7 +16,6 @@
         ref="dropdownPanel"
         v-mu-scrollbar="dropdownScrollbar"
         v-bind="dropdownPanelAttrs"
-        class="mu-combo-box_dropdown-panel"
         @click="onDropdownClick">
         <slot name="dropdown" />
       </div>
@@ -59,11 +58,14 @@
     wrapper,
     dropdownPanel,
     dropdownReady,
+    dropdownVisible,
     dropdownContainer,
     dropdownIconAttrs,
     dropdownPanelAttrs,
+    show: expand,
     hide: collapse,
     toggle: toggleDropdown,
+    updatePosition,
     onDropdownClick
   } = useDropdown(props, emit)
 
@@ -79,6 +81,8 @@
   }
 
   defineExpose({
+    dropdownVisible,
+    expand,
     collapse,
     toggleDropdown
   })

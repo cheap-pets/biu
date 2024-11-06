@@ -17,6 +17,7 @@
   line-height: var(--mu-common-line-height);
 
   border-radius: var(--mu-input_border-radius);
+  outline: none;
 
   &[small] {
     --mu-input_height: var(--mu-input-size-small);

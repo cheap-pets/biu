@@ -1,5 +1,10 @@
 <template>
-  <combo-wrapper v-model="comboValue" class="mu-select" :editable="false">
+  <combo-wrapper
+    v-model="comboValue"
+    class="mu-select"
+    dropdown-class="mu-select_dropdown-panel"
+    dropdown-scrollbar
+    :editable="false">
     <template #dropdown>
       <slot name="dropdown">
         <component

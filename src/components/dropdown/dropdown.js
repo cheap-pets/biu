@@ -63,14 +63,14 @@ export function useDropdown (props, emit, options = {}) {
   }))
 
   const hostElement = computed(() => {
-    const componentEl = wrapper.value?.$el || wrapper.value
+    const wrapperEl = wrapper.value?.$el || wrapper.value
     const host = props.dropdownHost
 
     return host
       ? host === '$parent'
-        ? componentEl?.parentNode
+        ? wrapperEl?.parentNode
         : host.$el || host
-      : componentEl
+      : wrapperEl
   })
 
   const dropdownElement = computed(() => dropdownPanel.value?.$el || dropdownPanel.value)
@@ -108,7 +108,7 @@ export function useDropdown (props, emit, options = {}) {
       const { width: dw, height: dh } = element.getBoundingClientRect()
       const { innerWidth: tw, innerHeight: th } = window
 
-      if (dw < hw) {
+      if (dw <= hw) {
         style.width = `${hw}px`
       }
 
@@ -271,6 +271,7 @@ export function useDropdown (props, emit, options = {}) {
     show,
     hide,
     toggle,
+    updatePosition,
     onTriggerClick,
     onTriggerMouseOver,
     onTriggerMouseLeave,

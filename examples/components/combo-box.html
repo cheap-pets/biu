@@ -84,8 +84,9 @@
         v-model="selectedArtists"
         value-mode="composite"
         allow-wrap
-        show-value-tooltip
+        show-tag-tooltip
         placeholder="select an artist"
+        :max-visible-tags="1"
         :options="artists"
         style="width: 450px;">
       </mu-select>
@@ -115,6 +116,17 @@
           { value: 'Frédéric François Chopin' },
           { is: '-', label: 'GROUP 2' },
           { value: 'Johann Baptist Strauss', disabled: true  }
+        ])
+
+        const cetaceans = Vue.ref([
+          'Peale’s Dolphin',
+          'Long-finned Pilot Whale',
+          'Australian Snubfin Dolphin',
+          'Long-Beaked Common Dolphin',
+          'Chinese White Dolphin',
+          'Long-finned Pilot Whale',
+          'Short-Beaked Common Dolphin',
+          'Peale’s Dolphin'
         ])
 
         const artistCn = Vue.ref()
