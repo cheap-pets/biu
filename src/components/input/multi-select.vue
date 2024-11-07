@@ -3,25 +3,46 @@
     ref="wrapper"
     v-model="comboValue"
     class="mu-multi-select"
-    dropdown-class="mu-select_dropdown-panel"
-    dropdown-scrollbar
+    :dropdown-width="dropdownWidth"
+    :dropdown-class="['mu-select_dropdown-panel', dropdownClass]"
+    :dropdown-scrollbar="dropdownScrollbar"
     :editable="false"
-    @keydown="onKeyDown"
-    @dropdown:hide="filterValues = null">
+    @keydown="onKeyDown">
     <template #default="{ placeholder }">
-      <div class="mu-multi-select_tags" :placeholder="placeholder">
+      <div class="mu-tags-box" :shrink-tags="tagShrink || null" :placeholder="placeholder">
         <div
-          v-for="(el, idx) in visibleTags"
-          :key="`${el.value}_${idx}`"
-          :class="el.more ? 'mu-multi-select_more-tag' : null"
-          class="mu-multi-select_tag"
-          tabindex="-1"
-          @click="onTagClick($event, el)">
-          <label class="mu-text-ellipsis" :title="showTagTooltip && !el.more ? el.label : null">
+          v-for="(el, idx) in tags"
+          :key="`${idx}:${el.value}`"
+          class="mu-tags-box_tag"
+          tabindex="-1">
+          <label :title="tagTooltip ? el.label : null">
             {{ el.label }}
           </label>
-          <mu-icon v-if="!el.more" icon="X" @click.stop="toggleOption(el, false)" />
+          <mu-icon icon="X" @click.stop="toggleOption(el, false)" />
         </div>
+        <mu-dropdown
+          v-if="moreCount"
+          class="mu-tags-box_more-tag"
+          tabindex="-1"
+          dropdown-class="mu-tags-box mu-select_dropdown-panel"
+          dropdown-trigger="click"
+          :dropdown-host="wrapper"
+          :dropdown-width="dropdownWidth"
+          :dropdown-scrollbar="dropdownScrollbar"
+          @click.stop>
+          +{{ moreCount }}
+          <template #dropdown>
+            <div
+              v-for="(el, idx) in selectedItems"
+              :key="`${el.value}_${idx}`"
+              class="mu-tags-box_tag">
+              <label :title="tagTooltip ? el.label : null">
+                {{ el.label }}
+              </label>
+              <mu-icon icon="X" @click.stop="toggleOption(el, false)" />
+            </div>
+          </template>
+        </mu-dropdown>
       </div>
     </template>
     <template #dropdown>
@@ -40,7 +61,7 @@
 
   import ComboWrapper from './combo-wrapper.vue'
 
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { multiSelectProps, useMultiSelect } from './multi-select'
 
   defineOptions({ name: 'MusselMultiSelect' })
@@ -48,41 +69,51 @@
   const model = defineModel({ type: Array })
   const props = defineProps({ ...multiSelectProps })
 
-  const wrapper = ref()
-
   const {
     comboValue,
-    visibleTags,
-    filterValues,
     selectedItems,
     optionComponents,
     toggleOption
   } = useMultiSelect(model, props)
 
+  const wrapper = ref()
+
+  const moreCount = computed(() => {
+    const max = props.maxTags
+    const items = selectedItems.value
+    const total = items.length
+
+    return !max || max >= total
+      ? 0
+      : Math.min(total - max, 99)
+  })
+
+  const tags = computed(() => {
+    const max = props.maxTags
+    const items = selectedItems.value
+
+    return moreCount.value
+      ? items.slice(0, max)
+      : items
+  })
+
   function onKeyDown ({ keyCode }) {
     if (![37, 39].includes(keyCode)) return
 
     const wrapperEl = wrapper.value.$el
-    const target = wrapperEl.querySelector('.mu-multi-select_tag:focus')
+    const target = wrapperEl.querySelector('.mu-tags-box_tag:focus')
 
     const sibling = target
       ? (
         (keyCode === 37 && target.previousElementSibling) ||
         (keyCode === 39 && target.nextElementSibling)
       )
-      : wrapperEl.querySelector('.mu-multi-select_tag')
+      : wrapperEl.querySelector('.mu-tags-box_tag')
 
     if (!sibling) return
     if (target) wrapper.value.collapse()
 
     sibling.focus()
     sibling.scrollIntoView()
-  }
-
-  function onTagClick (event, tag) {
-    if (!tag.more) return
-    if (wrapper.value.dropdownVisible) event.stopPropagation()
-
-    filterValues.value = new Set(selectedItems.value.map(el => el.value))
   }
 </script>

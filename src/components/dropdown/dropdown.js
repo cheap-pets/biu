@@ -4,6 +4,7 @@ import { ref, shallowRef, computed, provide, inject } from 'vue'
 import { findUp, isElementInViewport } from '@/utils/dom'
 import { getTransitionDuration } from '@/utils/style'
 import { usePopupManager } from '@/hooks/popup'
+import { resolveSize } from '@/utils/size'
 import { isString } from '@/utils/type'
 import { delay } from '@/utils/timer'
 
@@ -12,6 +13,8 @@ export const dropdownProps = {
   dropdownClass: null,
   dropdownStyle: null,
   dropdownAttrs: Object,
+  dropdownWidth: String,
+  dropdownHeight: String,
   dropdownIcon: {
     type: String,
     default: 'chevronDown'
@@ -43,7 +46,7 @@ export function useDropdown (props, emit, options = {}) {
   const rootEl = inject('$mussel').rootElement
 
   const expanded = ref()
-  const activityStyle = ref()
+  const activeStyle = ref()
   const dropdownReady = ref()
   const dropdownContainer = shallowRef(rootEl)
 
@@ -51,8 +54,17 @@ export function useDropdown (props, emit, options = {}) {
     class: ['mu-dropdown-panel', props.dropdownClass],
     style: [
       props.dropdownStyle,
-      activityStyle.value || { display: 'none' }
+      {
+        width: resolveSize(props.dropdownWidth),
+        height: resolveSize(props.dropdownHeight)
+      },
+      activeStyle.value || { display: 'none' }
     ],
+    ...(
+      isString(props.dropdownPositioned)
+        ? { position: props.dropdownPositioned }
+        : undefined
+    ),
     ...props.dropdownAttrs
   }))
 
@@ -95,39 +107,34 @@ export function useDropdown (props, emit, options = {}) {
   }
 
   function updatePosition () {
-    if (!activityStyle.value) return
+    if (!activeStyle.value || props.dropdownPositioned) return
 
-    const positioned = props.dropdownPositioned
     const element = dropdownElement.value
     const style = {}
 
-    if (isString(positioned)) {
-      element.setAttribute('position', positioned)
-    } else if (!positioned) {
-      const { width: hw, top: ht, right: hr, bottom: hb, left: hl } = hostElement.value.getBoundingClientRect()
-      const { width: dw, height: dh } = element.getBoundingClientRect()
-      const { innerWidth: tw, innerHeight: th } = window
+    const { width: hw, top: ht, right: hr, bottom: hb, left: hl } = hostElement.value.getBoundingClientRect()
+    const { width: dw, height: dh } = element.getBoundingClientRect()
+    const { innerWidth: tw, innerHeight: th } = window
 
-      if (dw <= hw) {
-        style.width = `${hw}px`
-      }
-
-      if ((dw > hw) && ((tw - hl >= dw) || (hr < dw))) {
-        style.left = `${hl}px`
-      } else {
-        style.right = `${tw - hr}px`
-      }
-
-      if (th - hb > dh || ht < dh) {
-        element.setAttribute('position', 'bottom')
-        style.top = `${hb}px`
-      } else {
-        element.setAttribute('position', 'top')
-        style.bottom = `${th - ht}px`
-      }
+    if (props.dropdownWidth === '$same' || dw <= hw) {
+      style.width = `${hw}px`
     }
 
-    activityStyle.value = style
+    if ((dw > hw) && ((tw - hl >= dw) || (hr < dw))) {
+      style.left = `${hl}px`
+    } else {
+      style.right = `${tw - hr}px`
+    }
+
+    if (th - hb > dh || ht < dh) {
+      element.setAttribute('position', 'bottom')
+      style.top = `${hb}px`
+    } else {
+      element.setAttribute('position', 'top')
+      style.bottom = `${th - ht}px`
+    }
+
+    activeStyle.value = style
   }
 
   function show () {
@@ -151,14 +158,14 @@ export function useDropdown (props, emit, options = {}) {
           ddEl.removeAttribute('expanded')
           ddEl.style.transition = 'none'
 
-          activityStyle.value = {
+          activeStyle.value = {
             transform: 'none',
             visibility: 'hidden'
           }
 
           delay()
-            .then(updatePosition)
-            .then(delay)
+            .then(() => updatePosition(true))
+            .then(() => delay())
             .then(() => { ddEl.style.transition = null })
             .then(() => expanded.value && ddEl.setAttribute('expanded', ''))
         })
@@ -179,7 +186,7 @@ export function useDropdown (props, emit, options = {}) {
       ddEl.removeAttribute('expanded')
 
       delay(duration).then(() => {
-        if (!expanded.value) activityStyle.value = null
+        if (!expanded.value) activeStyle.value = null
       })
     }
   }

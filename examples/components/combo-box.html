@@ -82,13 +82,13 @@
       </mu-select>
       <mu-multi-select
         v-model="selectedArtists"
-        value-mode="composite"
-        allow-wrap
-        show-tag-tooltip
-        placeholder="select an artist"
-        :max-visible-tags="1"
         :options="artists"
-        style="width: 450px;">
+        :max-tags="2"
+        :tag-shrink="true"
+        :tag-tooltip="true"
+        value-mode="composite"
+        style="width: 420px;" nowrap
+        placeholder="select an artist">
       </mu-select>
     </div>
     <div class="group mu-box" position="fixed bottom left">
@@ -112,7 +112,7 @@
         const artists = Vue.ref([
           { is: '-', label: 'GROUP 1' },
           { value: 'Ludwig van Beethoven' },
-          { value: 'Wolfgang Amadeus Mozart' },
+          { value: 'Wolfgang Amadeus MozartWolfgang Amadeus MozartWolfgang Amadeus Mozart' },
           { value: 'Frédéric François Chopin' },
           { is: '-', label: 'GROUP 2' },
           { value: 'Johann Baptist Strauss', disabled: true  }

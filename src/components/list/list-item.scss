@@ -14,8 +14,8 @@
 
   font-size: var(--mu-common-font-size);
   line-height: var(--mu-common-line-height);
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  // text-overflow: ellipsis;
+  // white-space: nowrap;
 
   & > .mu-icon {
     flex: none;

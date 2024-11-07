@@ -2,8 +2,8 @@
   <combo-wrapper
     v-model="comboValue"
     class="mu-combo-box mu-select"
-    dropdown-class="mu-select_dropdown-panel"
-    dropdown-scrollbar
+    :dropdown-class="['mu-select_dropdown-panel', dropdownClass]"
+    :dropdown-scrollbar="dropdownScrollbar"
     :editable="editable">
     <template #dropdown>
       <slot name="dropdown">

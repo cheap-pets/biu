@@ -6,7 +6,9 @@ import { useListItems } from '../list/list-items'
 const selectProps = {
   options: Array,
   optionKey: { type: String, default: 'value' },
-  valueMode: { type: String, default: 'normal', validator: v => ['normal', 'composite'].includes(v) }
+  valueMode: { type: String, default: 'normal', validator: v => ['normal', 'composite'].includes(v) },
+  dropdownClass: null,
+  dropdownScrollbar: { type: [Boolean, String], default: true }
 }
 
 function useOptions (props) {

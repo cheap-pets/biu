@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="isVisible"
-    class="mu-list-item mu-dropdown-item mu-option"
-    @click="onClick">
+  <div class="mu-list-item mu-dropdown-item mu-option" @click="onClick">
     <mu-icon v-if="isMultiple" class="mu-list-item_check-icon" :icon="checkIcon" />
     <slot>
       <mu-icon v-if="icon != null" class="mu-list-item_icon" :icon="icon" />
@@ -20,11 +17,10 @@
   const props = defineProps({ ...dropdownItemProps, value: { required: true } })
 
   const { hide: collapse } = inject('dropdown')
-  const { values, filterValues = {}, mountOption, unmountOption, toggleOption } = inject('select')
+  const { selectedValues, mountOption, unmountOption, toggleOption } = inject('select')
 
-  const isMultiple = computed(() => Boolean(values))
-  const checkIcon = computed(() => values.value.has(props.value) ? 'check' : '')
-  const isVisible = computed(() => !filterValues.value || filterValues.value.has(props.value))
+  const isMultiple = computed(() => Boolean(selectedValues))
+  const checkIcon = computed(() => selectedValues.value.has(props.value) ? 'check' : '')
 
   function onClick (event) {
     toggleOption(props)

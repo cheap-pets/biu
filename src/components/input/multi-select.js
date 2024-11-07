@@ -1,12 +1,13 @@
-import { ref, provide, computed } from 'vue'
+import { provide, computed } from 'vue'
 import { selectProps, useOptions } from './select'
 import { isEmpty } from '@/utils/type'
 
 const multiSelectProps = {
   ...selectProps,
-  showTagTooltip: Boolean,
-  showFilteredOptions: Boolean,
-  maxVisibleTags: { type: Number, default: 3 }
+  maxTags: { type: Number, default: 2 },
+  tagShrink: { type: Boolean, default: true },
+  tagTooltip: { type: Boolean, default: true },
+  dropdownWidth: { type: String, default: '$same' }
 }
 
 function useMultiSelect (model, props) {
@@ -16,8 +17,6 @@ function useMultiSelect (model, props) {
     mountOption,
     unmountOption
   } = useOptions(props)
-
-  const filterValues = ref()
 
   const comboValue = computed({
     get () {
@@ -45,23 +44,9 @@ function useMultiSelect (model, props) {
     return result
   })
 
-  const values = computed(() =>
+  const selectedValues = computed(() =>
     new Set(selectedItems.value.map(el => el.value))
   )
-
-  const visibleTags = computed(() => {
-    const max = props.maxVisibleTags
-    const items = selectedItems.value
-    const total = items.length
-    const more = total - max
-
-    return !max || max >= total
-      ? selectedItems.value
-      : [
-          ...items.slice(0, max),
-          { more: true, value: '$$more$$', label: `+${more > 99 ? 99 : more}` }
-        ]
-  })
 
   function toggleOption (option, checked) {
     const modelValue = model.value || []
@@ -79,8 +64,7 @@ function useMultiSelect (model, props) {
   }
 
   provide('select', {
-    values,
-    filterValues,
+    selectedValues,
     mountOption,
     unmountOption,
     toggleOption
@@ -88,8 +72,6 @@ function useMultiSelect (model, props) {
 
   return {
     comboValue,
-    visibleTags,
-    filterValues,
     selectedItems,
     optionComponents,
     toggleOption
