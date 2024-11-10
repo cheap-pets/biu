@@ -46,7 +46,7 @@
 <script setup>
   import './dialog.scss'
 
-  import { ref, shallowRef, reactive, computed, watchEffect } from 'vue'
+  import { useSlots, ref, shallowRef, reactive, computed, watchEffect } from 'vue'
   import { modalProps, modalEvents, useModal } from './modal'
   import { DialogToolPresets } from './dialog-tool-presets'
   import { sizeProps, useSize } from '@/hooks/size'
@@ -56,7 +56,6 @@
 
   defineOptions({ name: 'MusselDialog', inheritAttrs: false })
 
-  const slots = defineSlots()
   const emit = defineEmits([...modalEvents, 'buttonClick'])
 
   const props = defineProps({
@@ -69,6 +68,8 @@
     title: [String, Object],
     closeButton: { type: Boolean, default: true }
   })
+
+  const slots = useSlots()
 
   const { ready, container, modalVisible, hide, onMaskClick } = useModal(props, emit)
   const { genKey, getObjectKey } = useKeyGen()

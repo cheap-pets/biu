@@ -9,6 +9,7 @@ import { isString } from '@/utils/type'
 import { delay } from '@/utils/timer'
 
 export const dropdownProps = {
+  dropdownDisabled: Boolean,
   dropdownHost: null,
   dropdownClass: null,
   dropdownStyle: null,
@@ -200,7 +201,7 @@ export function useDropdown (props, emit, options = {}) {
 
   function toggle () {
     if (expanded.value) hide()
-    else show()
+    else if (!props.dropdownDisabled) show()
   }
 
   function onTriggerClick () {

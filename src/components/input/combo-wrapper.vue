@@ -70,7 +70,11 @@
     onDropdownClick
   } = useDropdown(props, emit)
 
-  const expandable = computed(() => !props.disabled && !props.readonly)
+  const expandable = computed(() =>
+    !props.disabled &&
+    !props.readonly &&
+    !props.dropdownDisabled
+  )
 
   function clear () {
     model.value = null

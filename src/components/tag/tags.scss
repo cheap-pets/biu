@@ -1,4 +1,4 @@
-.mu-tags-box {
+.mu-tags {
   overflow: hidden;
   display: flex;
   flex: 1 1 0;
@@ -34,12 +34,12 @@
   }
 }
 
-.mu-tags-box[nowrap], [nowrap] > .mu-tags-box  {
+.mu-tags[nowrap], [nowrap] > .mu-tags  {
   flex-wrap: nowrap;
 }
 
-.mu-tags-box_tag,
-.mu-tags-box_more-tag {
+.mu-tags_tag,
+.mu-tags_more {
   height: 20px;
   padding: 0 5px;
 
@@ -47,6 +47,7 @@
   border-radius: 4px;
   outline: none;
 
+  &:focus,
   &:hover {
     background-color: var(--mu-bg-translucent-primary);
   }
@@ -56,7 +57,7 @@
   }
 }
 
-.mu-tags-box_tag {
+.mu-tags_tag {
   overflow: hidden;
   display: inline-flex;
   flex: none;
@@ -88,16 +89,12 @@
   }
 }
 
-.mu-tags-box_more-tag {
+.mu-tags_more {
   cursor: pointer;
   flex: none;
   line-height: 20px;
 }
 
-.mu-tags-box[shrink-tags] > .mu-tags-box_tag {
+.mu-tags[tag-shrink] > .mu-tags_tag {
   flex: 0 1 auto;
-}
-
-.mu-dropdown-panel.mu-tags-box > :first-child {
-  margin-left: 0;
 }

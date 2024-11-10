@@ -13,6 +13,7 @@ import * as ModalComponents from './modal'
 import * as DropdownComponents from './dropdown'
 import * as MessageComponents from './message'
 
+import MuTags from './tag/tags.vue'
 import MuBadge from './badge/badge.vue'
 import MuScrollBox from './scrollbar/scroll-box.vue'
 
@@ -45,6 +46,7 @@ export function install (app, options) {
   _install(MessageComponents)
 
   _install({
+    MuTags,
     MuBadge,
     MuScrollBox
   })
