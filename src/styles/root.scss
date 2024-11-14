@@ -6,7 +6,7 @@
     --mu-#{$v}: $#{$v};
   }
 
-  @each $v in (primary, neutral, success, warning, danger, accent) {
+  @each $v in (primary, success, warning, danger, accent) {
     --mu-#{$v}-color: $#{$v};
 
     @for $i from 0 through 9 {
@@ -14,37 +14,36 @@
     }
   }
 
-  --mu-gray: var(--mu-neutral-color-5);
+  --mu-gray: $neutral5;
 
   @for $i from 0 through 9 {
-    --mu-gray-#{$i}: var(--mu-neutral-color-#{$i});
+    --mu-gray-#{$i}: $neutral#{$i};
   }
 }
 
 .mu-root {
-  --mu-text-color-body: var(--mu-gray-8);
   --mu-text-color-normal: var(--mu-gray-7);
-  --mu-text-color-soft: var(--mu-gray-5);
-  --mu-text-color-muted: var(--mu-gray-4);
-  --mu-text-color-subtle: var(--mu-gray-3);
-  --mu-text-color-placeholder: var(--mu-gray-2);
-  
-  --mu-translucent-alpha: 0.08;
-  --mu-bg-translucent-gray: rgba(0, 0, 0, .07);
-
-  @each $v in (primary, success, warning, danger, accent) {
-    --mu-bg-translucent-#{$v}: rgb(from var(--mu-#{$v}-color) r g b / var(--mu-translucent-alpha));
-  }
+  --mu-text-color-clear: var(--mu-gray-8);
+  --mu-text-color-soft: var(--mu-gray-4);
+  --mu-text-color-muted: var(--mu-gray-3);
+  --mu-text-color-weak: var(--mu-gray-2);
 
   --mu-bg-normal: #fff;
-  --mu-bg-strong: var(--mu-gray-0);
-  --mu-bg-disabled: var(--mu-gray-0);
+  --mu-bg-strong: rgba(0, 0, 0, .05);
+  --mu-bg-marked: rgba(0, 0, 0, .1);
+  --mu-bg-disabled: rgba(0, 0, 0, .1);
 
-  --mu-bg-overlay: var(--mu-bg-normal);
   --mu-bg-mask: rgba(0, 0, 0, .5);
+  --mu-bg-overlay: var(--mu-bg-normal);
 
-  --mu-border-color: var(--mu-gray-3);
-  --mu-border-color-muted: var(--mu-gray-1);
+  --mu-bg-translucent-gray: rgb(from var(--mu-gray) r g b / 0.1);
+
+  @each $v in (primary, success, warning, danger, accent) {
+    --mu-bg-translucent-#{$v}: rgb(from var(--mu-#{$v}-color) r g b / 0.1);
+  }
+
+  --mu-border-color: var(--mu-gray-4);
+  --mu-border-color-muted: var(--mu-gray-2);
 }
 
 .mu-root {
@@ -87,7 +86,7 @@
     "Helvetica Neue", Helvetica, Arial,
     system-ui, sans-serif;
   font-size: var(--mu-common-font-size);
-  color: var(--mu-text-color-body);
+  color: var(--mu-text-color-normal);
   background-color: var(--mu-bg-normal);
 
   & :fullscreen {

@@ -38,14 +38,18 @@
     </slot>
   </a>
   <template v-if="expanded">
-    <mu-tree-nodes :nodes="data.childNodes" :level="level + 1">
+    <mu-tree-node
+      v-for="el in data.childNodes"
+      :key="el[keyProp]"
+      :node="el"
+      :level="level + 1">
       <template #default="scoped">
         <slot :node="scoped.node" />
       </template>
       <template #buttons="scoped">
         <slot name="buttons" :node="scoped.node" />
       </template>
-    </mu-tree-nodes>
+    </mu-tree-node>
   </template>
 </template>
 
@@ -60,6 +64,7 @@
     nodeIcons,
     expandIcons,
     nodeProps,
+    keyProp,
     expandLevel,
     checkbox,
     checkedNodesKeys,

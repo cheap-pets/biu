@@ -40,7 +40,6 @@
       dropdownProps,
       key => !['dropdownTrigger', 'dropdownPositioned'].includes(key)
     ),
-    dropdownWidth: { type: String, default: '$same' },
     editable: Boolean
   })
 

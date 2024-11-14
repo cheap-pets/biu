@@ -1,13 +1,13 @@
 <template>
   <div class="mu-tree">
-    <mu-tree-nodes :nodes="data" :level="0">
+    <mu-tree-node v-for="el in data" :key="el[keyProp]" :node="el" :level="0">
       <template #default="{ node }">
         <slot :node="node" />
       </template>
       <template #buttons="{ node }">
         <slot name="buttons" :node="node" />
       </template>
-    </mu-tree-nodes>
+    </mu-tree-node>
   </div>
 </template>
 

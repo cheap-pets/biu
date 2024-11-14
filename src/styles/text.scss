@@ -2,16 +2,16 @@
   color: var(--mu-text-color-normal);
 }
 
-.mu-text-color-body {
-  color: var(--mu-text-color-normal);
+.mu-text-color-clear {
+  color: var(--mu-text-color-body);
+}
+
+.mu-text-color-muted {
+  color: var(--mu-text-color-muted);
 }
 
 .mu-text-color-weak {
-  color: var(--mu-text-color-subtle);
-}
-
-.mu-text-color-placeholder {
-  color: var(--mu-text-color-placeholder);
+  color: var(--mu-text-color-weak);
 }
 
 .mu-text-color-primary {
@@ -46,7 +46,7 @@
   min-width: 20px;
 
   font-weight: 500;
-  color: var(--mu-text-color-muted);
+  color: var(--mu-text-color-soft);
   text-overflow: ellipsis;
   white-space: nowrap;
 }

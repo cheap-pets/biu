@@ -6,8 +6,7 @@ const multiSelectProps = {
   ...selectProps,
   maxTags: { type: Number, default: 2 },
   tagShrink: { type: Boolean, default: true },
-  tagTooltip: { type: Boolean, default: true },
-  dropdownWidth: { type: String, default: '$same' }
+  tagTooltip: { type: Boolean, default: true }
 }
 
 function useMultiSelect (model, props) {

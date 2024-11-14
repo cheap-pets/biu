@@ -281,20 +281,24 @@ export function generateAccentPalette (primaryColor) {
   )
 }
 
-export function generateNeutralPalette (primaryColor, length = 10) {
-  const rgb = str2rgba(primaryColor)
+export function generateNeutralPalette (baseColor, count = 10) {
+  const rgb = str2rgba(baseColor)
 
   if (!rgb) return
+
+  const minV = 5
+  const maxV = 95
+  const step = (maxV - minV) / (count - 1)
 
   const hsv = rgb2hsv(rgb)
   const palette = []
 
-  for (let i = length - 1; i >= 0; i--) {
+  for (let i = 0; i < count; i++) {
     palette.push(
       hsv2hex({
         h: hsv.h,
-        s: Math.max(0, hsv.s * 0.3 * (1 - i / (length - 1))),
-        v: 5 + (90 * i / (length - 1))
+        s: hsv.s * 0.3 * i / (count - 1),
+        v: maxV - step * i
       })
     )
   }

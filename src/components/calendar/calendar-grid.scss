@@ -8,18 +8,18 @@
 
   & th, & td {
     padding: 8px;
-    font-weight: 500;
     line-height: 1;
-    color: var(--mu-text-color-soft);
   }
   
   & th {
     height: 40px;
-    color: var(--mu-text-color-muted);
+    font-weight: 600;
+    color: var(--mu-text-color-soft);
   }
   
   & td {
     cursor: pointer;
+    color: var(--mu-text-color-normal);
     vertical-align: top;
     border: 1px solid var(--mu-border-color-muted);
 
@@ -29,7 +29,7 @@
 
     &[muted] {
       cursor: default;
-      color: var(--mu-text-color-placeholder);
+      color: var(--mu-text-color-muted);
       background: none;
     }
 

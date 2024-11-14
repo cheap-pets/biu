@@ -1,8 +1,8 @@
 <template>
   <component :is="componentTag" class="mu-list-item">
     <slot>
-      <mu-icon v-if="icon != null" class="mu-list-item_icon" :icon="icon" />
-      <label v-if="label" class="mu-list-item_label">{{ label }}</label>
+      <mu-icon v-if="icon != null" :icon="icon" />
+      <label v-if="label">{{ label }}</label>
     </slot>
   </component>
 </template>

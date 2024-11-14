@@ -3,9 +3,9 @@
     ref="wrapper"
     v-model="comboValue"
     class="mu-multi-select"
-    :dropdown-width="dropdownWidth"
     :dropdown-class="['mu-select_dropdown-panel', dropdownClass]"
     :dropdown-scrollbar="dropdownScrollbar"
+    :dropdown-width="dropdownWidth"
     :editable="false"
     @keydown="onKeyDown">
     <template #default="{ placeholder }">

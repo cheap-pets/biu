@@ -23,7 +23,7 @@
   
       width: 100%;
   
-      color: var(--mu-text-color-placeholder);
+      color: var(--mu-text-color-weak);
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -43,7 +43,7 @@
   height: 20px;
   padding: 0 5px;
 
-  background-color: var(--mu-bg-translucent-gray);
+  background-color: var(--mu-bg-marked);
   border-radius: 4px;
   outline: none;
 
@@ -81,7 +81,7 @@
   & > .mu-icon {
     cursor: pointer;
     font-size: 12px;
-    color: var(--mu-text-color-subtle);
+    color: var(--mu-text-color-muted);
 
     &:hover {
       color: var(--mu-text-color-normal);

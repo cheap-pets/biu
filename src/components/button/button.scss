@@ -127,7 +127,7 @@
   &:disabled,
   &[disabled] {
     pointer-events: none;
-    color: var(--mu-text-color-subtle) !important;
+    color: var(--mu-text-color-muted) !important;
     background: var(--mu-bg-disabled);
     border-color: var(--mu-border-color-muted);
   }

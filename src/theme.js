@@ -1,5 +1,4 @@
 import { kebabCase } from './utils/case.js'
-// import { isHtmlElement, isString } from './utils/type.js'
 
 import {
   generatePalette,
@@ -31,7 +30,7 @@ const SPECIAL_COLORS = {
   accent: null
 }
 
-function extendColors (colors) {
+function complementColors (colors) {
   const { primary, accent, neutral, ...result } = colors
 
   function appendColors (name, palette) {
@@ -52,7 +51,8 @@ function extendColors (colors) {
   }
 
   if (neutral || primary) {
-    appendColors('neutral', neutral ? generatePalette(neutral) : generateNeutralPalette(primary))
+    appendColors('neutral', generateNeutralPalette(neutral || primary))
+    // neutral ? generatePalette(neutral) : generateNeutralPalette(primary)
   }
 
   return result
@@ -84,7 +84,7 @@ export function install (app, options) {
   }
 
   Object
-    .entries(extendColors(variables))
+    .entries(complementColors(variables))
     .forEach(([key, value]) =>
       value &&
       root.style.setProperty(
@@ -100,7 +100,7 @@ export function install (app, options) {
 }
 
 export function generatePreCssVariables (incomingColors) {
-  return extendColors({
+  return complementColors({
     ...COLORS,
     ...SPECIAL_COLORS,
     ...incomingColors

@@ -38,7 +38,7 @@
   &[disabled] {
     pointer-events: none;
     cursor: default;
-    color: var(--mu-text-color-subtle) !important;
+    color: var(--mu-text-color-muted) !important;
     background: unset !important;
   }
 }

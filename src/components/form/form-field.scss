@@ -19,7 +19,7 @@
     padding-right: 12px;
 
     font-size: calc(1em - 1px);
-    color: var(--mu-text-color-muted);
+    color: var(--mu-text-color-soft);
 
     @each $v in (left, right, center) {
       &[text-align="#{$v}"] {

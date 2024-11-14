@@ -14,6 +14,7 @@
 
   & > span {
     display: block;
+    color: var(--mu-text-color-normal);
   }
 
   & > input {
@@ -40,11 +41,19 @@
 
   &[disabled] {
     pointer-events: none;
-    color: var(--mu-text-color-muted);
+
+    & > span {
+      color: var(--mu-text-color-soft);
+    }
 
     & > input {
-      background-color: var(--mu-text-color-placeholder);
-      border-color: transparent;
+      background-color: var(--mu-bg-disabled);
+      border-color: var(--mu-border-color-muted);
+
+      &:checked{
+        background-color: var(--mu-text-color-weak);
+        border-color: transparent;
+      }
     }
   }
 }

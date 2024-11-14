@@ -45,7 +45,7 @@
     input#{&},
     #{&} > input {
       line-height: var(--mu-common-line-height);
-      color: var(--mu-text-color-body);
+      color: var(--mu-text-color-clear);
       outline: none;
 
       &::-ms-clear {
@@ -53,7 +53,7 @@
       }
 
       &::placeholder {
-        color: var(--mu-text-color-placeholder);
+        color: var(--mu-text-color-weak);
       }
     }
   }
@@ -71,7 +71,7 @@ div.mu-input {
 .mu-input {
   & > span, & > a {
     flex: none;
-    color: var(--mu-text-color-muted);
+    color: var(--mu-text-color-soft);
   }
 
   & > span {
@@ -83,7 +83,7 @@ div.mu-input {
     text-decoration: none;
 
     &:hover {
-      color: var(--mu-text-color-soft);
+      color: var(--mu-text-color-normal);
     }
   }
 
@@ -149,7 +149,7 @@ div.mu-input {
 
   & > a, & > span, & > label, & > .mu-input-addon {
     flex: none;
-    background: var(--mu-bg-translucent-gray);
+    background: var(--mu-bg-strong);
   }
 
   & > :focus-within {
@@ -198,12 +198,12 @@ div.mu-input {
     
     &,
     & > input {
-      color: var(--mu-text-color-muted);
+      color: var(--mu-text-color-soft);
     }
   }
 
   &[input-style="solid"] {
-    --mu-input_bg: var(--mu-bg-translucent-gray);
+    --mu-input_bg: var(--mu-bg-strong);
 
     border-color: transparent;
   }

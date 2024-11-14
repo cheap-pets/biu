@@ -10,16 +10,30 @@
   <script type="text/javascript" src="../../node_modules/vue/dist/vue.global.js"></script>
   <script type="text/javascript" src="../../dist/mussel.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="../../dist/mussel.css" />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="./style.css" />
+
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="../../dist/mussel.css">
+
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="../../node_modules/@tabler/icons-webfont/dist/tabler-icons-outline.css">
+
+
   <style>
     body {
-      margin: 0;
       min-width: 1200px;
     }
 
     h2 {
+      width: 100%;
       margin: 0;
-      padding: 16px 16px 0;
     }
 
     h3 {
@@ -59,7 +73,6 @@
 </head>
 
 <body>
-  <h2>Tree Examples</h2>
   <div
     id="app"
     class="mu-box mu-bg-normal"
@@ -68,16 +81,16 @@
     flex-wrap
     gap="2x"
     padding="2x">
-    <div style="width: 100%;">
+    <h2>
+      Tree Examples
       <mu-combo-box class="mu-box" width="400" v-model="demo" :options="demos"></mu-combo-box>
       <mu-switch
         v-model="darkMode"
-        style="margin-left: 16px;"
         active-label="Dark"
         inactive-label="Light"
         @update:model-value="onUIModeChange">
       </mu-switch>
-    </div>
+    </h2>
     <div v-if="!demo || demo === 1" class="demo-panel">
       <h3>1. Basic Style</h3>
       <mu-tree
@@ -109,7 +122,7 @@
       <mu-tree
         :data="data"
         :active-node="activeNode"
-        :node-icons="{ folder: 'ok', folderOpen: 'ok', leaf: 'x' }"
+        :node-icons="{ folder: 'ok', folderOpen: 'ok', leaf: 'alien' }"
         @node-click="onNodeClick">
       </mu-tree>
     </div>
@@ -119,7 +132,7 @@
         :data="data"
         :active-node="activeNode"
         :expand-icons="{ expanded: 'folderOpen', collapsed: 'folder', leaf: 'file' }"
-        :node-icons="{ folder: 'X', folderOpen: 'X', leaf: 'X' }"
+        :node-icons="{ folder: 'lock', folderOpen: 'lockOpen', leaf: 'calendar' }"
         @node-click="onNodeClick">
       </mu-tree>
     </div>
@@ -283,8 +296,8 @@
       function createNode(level) {
         const node = {
           id: count,
-          icon: count % 5 === 0 && 'point',
-          icon2: 'x',
+          icon: count % 5 === 0 && 'flag',
+          icon2: 'alien',
           label: `Node ${count}`,
           alias: `Node Alias ${count}`,
           disabled: count % 7 === 0
@@ -311,11 +324,11 @@
     const root = generateRandomTree(200, 5)
 
     const contextMenus = [
-      { divider: true, label: 'File' },
+      { is: '-', label: 'File' },
       { label: 'Copy' },
       { label: 'Move' },
       { label: 'Remove' },
-      { divider: true, label: 'Follow' },
+      { is: '-', label: 'Follow' },
       { label: 'WeChat' },
       { label: 'FaceBook' }
     ]
@@ -450,6 +463,13 @@
 
     mussel.install(app, {
       darkMode: false,
+      icons: {
+        lock: 'ti ti-lock',
+        lockOpen: 'ti ti-lock-open',
+        flag: 'ti ti-flag',
+        alien: 'ti ti-alien',
+        dotsVert: 'ti ti-dots-vertical'
+      },
       tree: {
         nodeIcons: {
           leaf: 'ok'
