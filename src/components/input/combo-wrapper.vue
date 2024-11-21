@@ -1,6 +1,15 @@
 <template>
-  <div ref="wrapper" class="mu-input" v-bind="wrapperAttrs" @click="toggleDropdown" @sizechange="updatePosition">
-    <component :is="pre.is" v-if="pre" v-bind="pre.attrs" @click.stop="onPrefixClick">
+  <div
+    ref="wrapper"
+    class="mu-input"
+    v-bind="wrapperAttrs"
+    @click="onWrapperClick"
+    @sizechange="updatePosition">
+    <component
+      :is="pre.is"
+      v-if="pre"
+      v-bind="pre.attrs"
+      @click.stop="onPrefixClick">
       {{ pre.content }}
     </component>
     <slot v-bind="inputAttrs">
@@ -8,7 +17,11 @@
     </slot>
     <mu-icon v-if="clearButtonVisible" v-bind="clearButtonAttrs" @click.stop="clear" />
     <mu-icon v-if="expandable" tag="a" v-bind="dropdownIconAttrs" />
-    <component :is="suf.is" v-if="suf" v-bind="suf.attrs" @click.stop="onSuffixClick">
+    <component
+      :is="suf.is"
+      v-if="suf"
+      v-bind="suf.attrs"
+      @click.stop="onSuffixClick">
       {{ suf.content }}
     </component>
     <Teleport v-if="expandable && dropdownReady" :to="dropdownContainer">
@@ -16,6 +29,8 @@
         ref="dropdownPanel"
         v-mu-scrollbar="dropdownScrollbar"
         v-bind="dropdownPanelAttrs"
+        class="mu-dropdown-panel"
+        :class="dropdownClass"
         @click="onDropdownClick">
         <slot name="dropdown" />
       </div>
@@ -25,23 +40,23 @@
 
 <script setup>
   import { computed } from 'vue'
-  import { pickBy } from '@/utils/object'
   import { inputProps, inputEvents, useInput } from './input'
   import { dropdownProps, dropdownEvents, useDropdown } from '../dropdown/dropdown'
 
   defineOptions({ name: 'MusselComboWrapper' })
 
-  const emit = defineEmits([...inputEvents, ...dropdownEvents])
   const model = defineModel()
 
   const props = defineProps({
     ...inputProps,
-    ...pickBy(
-      dropdownProps,
-      key => !['dropdownTrigger', 'dropdownPositioned'].includes(key)
-    ),
+    ...dropdownProps,
     editable: Boolean
   })
+
+  const emit = defineEmits([
+    ...inputEvents,
+    ...dropdownEvents
+  ])
 
   const {
     wrapperAttrs,
@@ -62,8 +77,8 @@
     dropdownContainer,
     dropdownIconAttrs,
     dropdownPanelAttrs,
-    show: expand,
-    hide: collapse,
+    expand,
+    collapse,
     toggle: toggleDropdown,
     updatePosition,
     onDropdownClick
@@ -78,6 +93,10 @@
   function clear () {
     model.value = null
     collapse()
+  }
+
+  function onWrapperClick () {
+    if (!props.disabled && !props.readonly) toggleDropdown()
   }
 
   function onInputClick () {

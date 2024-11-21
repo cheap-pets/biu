@@ -16,23 +16,28 @@ export const dropdownProps = {
   dropdownAttrs: Object,
   dropdownWidth: String,
   dropdownHeight: String,
+  dropdownScrollbar: [Boolean, String],
   dropdownIcon: {
     type: String,
     default: 'chevronDown'
+  }
+}
+
+export const optionalProps = {
+  dropdownItems: Array,
+  dropdownPositioned: {
+    type: [Boolean, String],
+    validator: v => [true, false, 'top', 'bottom'].includes(v)
   },
   dropdownTrigger: {
     type: String,
     default: 'click',
     validator: v => ['hover', 'click'].includes(v)
-  },
-  dropdownScrollbar: [Boolean, String],
-  dropdownPositioned: {
-    type: [Boolean, String],
-    validator: v => [true, false, 'top', 'bottom'].includes(v)
   }
 }
 
 export const dropdownEvents = [
+  'action',
   'dropdown:show',
   'dropdown:hide',
   'dropdown:itemclick'
@@ -47,19 +52,18 @@ export function useDropdown (props, emit, options = {}) {
   const rootEl = inject('$mussel').rootElement
 
   const expanded = ref()
-  const activeStyle = ref()
+  const popupStyle = ref()
   const dropdownReady = ref()
   const dropdownContainer = shallowRef(rootEl)
 
   const dropdownPanelAttrs = computed(() => ({
-    class: ['mu-dropdown-panel', props.dropdownClass],
     style: [
       props.dropdownStyle,
       {
         width: resolveSize(props.dropdownWidth),
         height: resolveSize(props.dropdownHeight)
       },
-      activeStyle.value || { display: 'none' }
+      popupStyle.value || { display: 'none' }
     ],
     ...(
       isString(props.dropdownPositioned)
@@ -108,7 +112,7 @@ export function useDropdown (props, emit, options = {}) {
   }
 
   function updatePosition () {
-    if (!activeStyle.value || props.dropdownPositioned) return
+    if (!popupStyle.value || props.dropdownPositioned) return
 
     const element = dropdownElement.value
     const style = {}
@@ -135,15 +139,17 @@ export function useDropdown (props, emit, options = {}) {
       style.bottom = `${th - ht}px`
     }
 
-    activeStyle.value = style
+    popupStyle.value = style
+
+    return true
   }
 
   function show () {
     resetHideTimer()
 
     if (!expanded.value) {
-      dropdownContainer.value = document.fullscreenElement || rootEl
       expanded.value = true
+      dropdownContainer.value = document.fullscreenElement || rootEl
 
       emit('dropdown:show')
 
@@ -156,19 +162,17 @@ export function useDropdown (props, emit, options = {}) {
         .then(() => {
           const ddEl = dropdownElement.value
 
-          ddEl.removeAttribute('expanded')
+          ddEl.removeAttribute('pop-up')
           ddEl.style.transition = 'none'
 
-          activeStyle.value = {
-            transform: 'none',
-            visibility: 'hidden'
-          }
+          popupStyle.value = props.dropdownPositioned
+            ? {}
+            : { transform: 'none', visibility: 'hidden' }
 
           delay()
-            .then(() => updatePosition(true))
-            .then(() => delay())
+            .then(() => updatePosition() && delay())
             .then(() => { ddEl.style.transition = null })
-            .then(() => expanded.value && ddEl.setAttribute('expanded', ''))
+            .then(() => expanded.value && ddEl.setAttribute('pop-up', ''))
         })
     }
   }
@@ -184,10 +188,10 @@ export function useDropdown (props, emit, options = {}) {
       const ddEl = dropdownElement.value
       const duration = getTransitionDuration(ddEl)
 
-      ddEl.removeAttribute('expanded')
+      ddEl.removeAttribute('pop-up')
 
       delay(duration).then(() => {
-        if (!expanded.value) activeStyle.value = null
+        if (!expanded.value) popupStyle.value = null
       })
     }
   }
@@ -235,11 +239,6 @@ export function useDropdown (props, emit, options = {}) {
     onTriggerMouseLeave()
   }
 
-  function onDropdownItemClick (item) {
-    emit('dropdown:itemclick', item)
-    hide()
-  }
-
   function onCaptureEscKeyDown (event) {
     if (expanded.value && !isHoverTrigger.value) hide()
   }
@@ -262,10 +261,19 @@ export function useDropdown (props, emit, options = {}) {
     ) updatePosition()
   }
 
-  provide('dropdown', {
+  function emitAction (action) {
+    emit('action', action)
+  }
+
+  function emitItemClick (item) {
+    emit('dropdown:itemclick', item)
+  }
+
+  provide('popup', {
+    visible: dropdownVisible,
     hide,
-    dropdownVisible,
-    onDropdownItemClick
+    emitAction,
+    emitItemClick
   })
 
   return {
@@ -276,8 +284,8 @@ export function useDropdown (props, emit, options = {}) {
     dropdownContainer,
     dropdownIconAttrs,
     dropdownPanelAttrs,
-    show,
-    hide,
+    expand: show,
+    collapse: hide,
     toggle,
     updatePosition,
     onTriggerClick,
@@ -285,7 +293,6 @@ export function useDropdown (props, emit, options = {}) {
     onTriggerMouseLeave,
     onDropdownClick,
     onDropdownMouseOver,
-    onDropdownMouseLeave,
-    onDropdownItemClick
+    onDropdownMouseLeave
   }
 }

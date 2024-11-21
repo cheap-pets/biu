@@ -86,6 +86,7 @@
         :max-tags="2"
         :tag-shrink="true"
         :tag-tooltip="true"
+        readonly
         value-mode="composite"
         style="width: 420px;" nowrap
         placeholder="select an artist">
@@ -107,7 +108,7 @@
       setup () {
         const artist = Vue.ref('Johann Baptist Strauss')
 
-        const selectedArtists = Vue.ref([])
+        const selectedArtists = Vue.ref([{ value: 'Ludwig van Beethoven' }])
 
         const artists = Vue.ref([
           { is: '-', label: 'GROUP 1' },

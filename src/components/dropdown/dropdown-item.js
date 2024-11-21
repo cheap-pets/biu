@@ -9,14 +9,22 @@ export const dropdownItemProps = {
 }
 
 export function useDropdownItem (props) {
-  const dropdown = inject('dropdown')
+  const {
+    hide: collapse,
+    emitAction,
+    emitItemClick
+  } = inject('popup')
 
-  function onClick (event) {
-    dropdown.onDropdownItemClick(props)
+  function handleClick () {
+    collapse()
+    emitItemClick(props)
+
+    if (props.action) {
+      emitAction(props.action)
+    }
   }
 
   return {
-    dropdown,
-    onClick
+    handleClick
   }
 }

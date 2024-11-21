@@ -36,15 +36,15 @@ window.addEventListener('scroll', event => {
   activePopup?.onCaptureScroll?.(event)
 }, true)
 
-window.addEventListener('blur', () => activePopup?.hide?.())
-window.addEventListener('fullscreenchange', () => activePopup?.hide?.())
+window.addEventListener('blur', () => activePopup?.hide())
+window.addEventListener('fullscreenchange', () => activePopup?.hide())
 
 export function usePopupManager (watchableVisible, options = {}) {
   const instance = { ...options }
 
   function setActivePopup () {
     if (activePopup !== instance) {
-      activePopup?.hide?.()
+      activePopup?.hide()
       activePopup = instance
     }
   }

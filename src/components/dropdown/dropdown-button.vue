@@ -26,6 +26,8 @@
       ref="dropdownPanel"
       v-mu-scrollbar="dropdownScrollbar"
       v-bind="dropdownPanelAttrs"
+      class="mu-dropdown-panel"
+      :class="dropdownClass"
       @click="onDropdownClick"
       @mouseover.stop="onDropdownMouseOver"
       @mouseleave.stop="onDropdownMouseLeave">
@@ -40,18 +42,18 @@
 </template>
 
 <script setup>
-  import { dropdownProps, dropdownEvents, useDropdown } from './dropdown'
-  import { useListItems } from '../list/list-items'
   import { toRef } from 'vue'
+  import { useListItems } from '../list/list-items'
+  import { dropdownProps, optionalProps, dropdownEvents, useDropdown } from './dropdown'
 
   defineOptions({ name: 'MusselDropdownButton', inheritAttrs: false })
 
   const props = defineProps({
     ...dropdownProps,
+    ...optionalProps,
     icon: String,
     caption: String,
-    splitButton: Boolean,
-    dropdownItems: Array
+    splitButton: Boolean
   })
 
   const emit = defineEmits([...dropdownEvents])
@@ -64,7 +66,7 @@
     dropdownContainer,
     dropdownIconAttrs,
     dropdownPanelAttrs,
-    hide: collapse,
+    collapse,
     onTriggerClick,
     onTriggerMouseOver,
     onTriggerMouseLeave,

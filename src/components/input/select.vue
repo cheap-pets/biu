@@ -2,9 +2,9 @@
   <combo-wrapper
     v-model="comboValue"
     class="mu-select"
-    :dropdown-class="['mu-select_dropdown-panel', dropdownClass]"
-    :dropdown-scrollbar="dropdownScrollbar"
     :dropdown-width="dropdownWidth"
+    :dropdown-class="dropdownClass"
+    :dropdown-scrollbar="dropdownScrollbar"
     :editable="false">
     <template #dropdown>
       <slot name="dropdown">

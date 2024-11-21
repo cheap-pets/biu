@@ -29,7 +29,8 @@
 
   <style>
     .mu-dropdown-panel.sys-menu_mask {
-      top: 56px;
+      overflow: hidden;
+      top: 60px;
       right: 0;
       bottom: 0;
       left: 0;
@@ -41,25 +42,28 @@
 
     .sys-menu {
       position: absolute;
-      top: 0;
+      top: 4px;
       right: 0;
-      bottom: 0;
+      bottom: 4px;
       width: 360px;
-      background-color: var(--mu-bg-strong);
+      background-color: var(--mu-bg-overlay);
+      border: 1px solid var(--mu-border-color-muted);
+      border-radius: 8px 0 0 8px;
+      box-shadow: var(--mu-shadow-layer);
       opacity: 0;
-      transform: translateY(-100%);
+      transform: translateX(100%);
       transition: transform .2s, opacity .2s;
     }
 
-    .sys-menu_mask[expanded] > .sys-menu {
-      transform: translateY(0);
+    .sys-menu_mask[pop-up] > .sys-menu {
+      transform: translateX(0);
       opacity: 1;
     }
   </style>
 </head>
 
 <body>
-  <div id="app" class="mu-box" position="fixed fit" style="overflow: auto;">
+  <div id="app" class="mu-box" position="fixed fit">
     <h2>
       Dropdown Components
       <mu-switch
@@ -82,7 +86,8 @@
         style="display: inline-block;"
         :dropdown-items="artists"
         @dropdown:show="onShow"
-        @dropdown:itemclick="onItemClick">
+        @dropdown:itemclick="onItemClick"
+        @action="onAction">
         <mu-button>{{ artist || 'Mouse Hover' }}</mu-button>
       </mu-dropdown>
       <mu-dropdown
@@ -90,7 +95,8 @@
         dropdown-trigger="click"
         :dropdown-items="artists"
         @dropdown:show="onShow"
-        @dropdown:itemclick="onItemClick">
+        @dropdown:itemclick="onItemClick"
+        @action="onAction">
         <mu-button>Press me</mu-button>
       </mu-dropdown>
     </div>
@@ -98,7 +104,8 @@
       <mu-dropdown-button
         danger
         :dropdown-items="artists"
-        @dropdown:itemclick="onItemClick">
+        @dropdown:itemclick="onItemClick"
+        @action="onAction">
         Dropdown Button A
       </mu-dropdown-button>
       <mu-dropdown-button
@@ -107,7 +114,8 @@
         caption="Split Button"
         :dropdown-items="artists"
         @click="onButtonClick"
-        @dropdown:itemclick="onItemClick">
+        @dropdown:itemclick="onItemClick"
+        @action="onAction">
       </mu-dropdown-button>
       <mu-dropdown-button
         class="mu-icon-button"
@@ -115,7 +123,8 @@
         dropdown-icon="dots"
         dropdown-trigger="hover"
         :dropdown-items="artists"
-        @dropdown:itemclick="onItemClick">
+        @dropdown:itemclick="onItemClick"
+        @action="onAction">
       </mu-dropdown-button>
     </div>
     <div class="group">
@@ -123,7 +132,8 @@
         split-button
         x-color="grape"
         caption="Check & Radio"
-        @dropdown:itemclick="onItemClick">
+        @dropdown:itemclick="onItemClick"
+        @action="onAction">
         <template #dropdown>
           <mu-dropdown-check-item
             value="Ludwig van Beethoven"
@@ -164,7 +174,8 @@
         dropdown-trigger="click"
         :dropdown-items="artists"
         @click="requestFullscreen"
-        @dropdown:itemclick="onItemClick">
+        @dropdown:itemclick="onItemClick"
+        @action="onAction">
       </mu-dropdown-button>
     </div>
   </div>
@@ -175,13 +186,13 @@
         const artist = Vue.ref()
         const artists = Vue.ref([
           { is: '-', label: 'GROUP 1' },
-          { label: 'Ludwig van Beethoven', icon: 'info'  },
-          { label: 'Wolfgang Amadeus Mozart', icon: 'question' },
+          { label: 'Ludwig van Beethoven', icon: 'info', action: 'A'  },
+          { label: 'Wolfgang Amadeus Mozart', icon: 'question', action: 'B' },
           '-',
           { is: '-', label: 'GROUP 2' },
           { is: '-', label: 'GROUP 3' },
-          { label: 'Frédéric François Chopin', icon: '' },
-          { label: 'Johann Baptist Strauss', icon: 'ok' }
+          { label: 'Frédéric François Chopin', icon: '', action: 'C' },
+          { label: 'Johann Baptist Strauss', icon: 'ok', action: 'D' }
         ])
         const checkedArtist = Vue.ref(null)
         const checkedArtists = Vue.ref([])
@@ -193,6 +204,10 @@
 
         function onItemClick (item) {
           artist.value = item.value || item.label
+        }
+
+        function onAction (action) {
+          console.log('action:', action)
         }
 
         function onButtonClick () {
@@ -219,6 +234,7 @@
           stickyPanelVisible,
           permission,
           onShow,
+          onAction,
           onItemClick,
           onButtonClick,
           requestFullscreen,

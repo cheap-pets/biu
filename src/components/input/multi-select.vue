@@ -3,23 +3,25 @@
     ref="wrapper"
     v-model="comboValue"
     class="mu-multi-select"
-    :dropdown-class="['mu-select_dropdown-panel', dropdownClass]"
-    :dropdown-scrollbar="dropdownScrollbar"
+    :disabled="disabled"
+    :readonly="readonly"
     :dropdown-width="dropdownWidth"
+    :dropdown-class="dropdownClass"
+    :dropdown-scrollbar="dropdownScrollbar"
     :editable="false"
     @keydown="onKeyDown">
     <template #default="{ placeholder }">
       <mu-tags
-        removable
         expandable
         :max="maxTags"
         :tags="selectedItems"
         :tooltip="tagTooltip"
         :tag-shrink="tagShrink || null"
+        :removable="!disabled && !readonly"
         :placeholder="placeholder"
         :dropdown-host="wrapper"
         :dropdown-width="dropdownWidth"
-        :dropdown-class="['mu-select_dropdown-panel', dropdownClass]"
+        :dropdown-class="dropdownClass"
         :dropdown-scrollbar="dropdownScrollbar"
         @tag-remove="onItemRemove" />
     </template>
@@ -45,7 +47,12 @@
   defineOptions({ name: 'MusselMultiSelect' })
 
   const model = defineModel({ type: Array })
-  const props = defineProps({ ...multiSelectProps })
+
+  const props = defineProps({
+    disabled: Boolean,
+    readonly: Boolean,
+    ...multiSelectProps
+  })
 
   const {
     comboValue,

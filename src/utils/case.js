@@ -8,6 +8,12 @@ export function kebabCase (str) {
 
 export function camelCase (str) {
   return kebabCase(str)
-    .replace(/-([a-z])/g, (match, p1) => p1.toUpperCase())
+    .replace(/(-[a-z])/g, (match, p1) => p1.toUpperCase())
+    .replace(/-/g, '')
+}
+
+export function pascalCase (str) {
+  return kebabCase(str)
+    .replace(/(^[a-z]|(-[a-z]))/g, (match, p1) => p1.toUpperCase())
     .replace(/-/g, '')
 }

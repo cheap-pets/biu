@@ -1,20 +1,17 @@
 <template>
-  <label class="mu-check mu-list-item mu-dropdown-item" @click="onClick">
+  <label class="mu-check mu-list-item mu-dropdown-item" @click="handleClick">
     <input v-model="model" type="checkbox" :value="value" @click.stop>
     <span>{{ label ?? value }}</span>
   </label>
 </template>
 
 <script setup>
-  import {
-    dropdownItemProps,
-    useDropdownItem
-  } from './dropdown-item'
+  import { dropdownItemProps, useDropdownItem } from './dropdown-item'
 
   defineOptions({ name: 'MusselDropdownCheckItem' })
 
   const model = defineModel({ type: [Boolean, Array] })
   const props = defineProps({ ...dropdownItemProps, value: null })
 
-  const { onClick } = useDropdownItem(props)
+  const { handleClick } = useDropdownItem(props)
 </script>

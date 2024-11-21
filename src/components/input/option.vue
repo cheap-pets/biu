@@ -16,7 +16,7 @@
 
   const props = defineProps({ ...dropdownItemProps, value: { required: true } })
 
-  const { hide: collapse } = inject('dropdown')
+  const { hide: collapse } = inject('popup')
   const { selectedValues, mountOption, unmountOption, toggleOption } = inject('select')
 
   const isMultiple = computed(() => Boolean(selectedValues))
