@@ -2,10 +2,13 @@
   <Teleport v-if="ready" :to="container">
     <div
       v-if="ready"
+      v-show="popupStyle"
       ref="menu"
+      v-bind="$attrs"
       class="mu-context-menu mu-dropdown-panel"
-      :style="popupStyle || { display: 'none' }"
-      @click="onMenuClick">
+      :style="popupStyle"
+      @click="onMenuClick"
+      @contextmenu.prevent>
       <slot>
         <component
           :is="el.is"
@@ -18,12 +21,18 @@
 </template>
 
 <script setup>
-  import { ref, shallowRef, computed, provide, inject } from 'vue'
+  import { ref, shallowRef, toRef, computed, provide, inject } from 'vue'
+  import { usePopupManager } from '@/hooks/popup'
+  import { useListItems } from '../list/list-items'
+
+  import { getTransitionDuration } from '@/utils/style'
   import { findUp } from '@/utils/dom'
   import { delay } from '@/utils/timer'
 
+  defineOptions({ name: 'MusselContextMenu', inheritAttrs: false })
+
   const emit = defineEmits(['show', 'hide', 'action', 'itemclick'])
-  const props = defineProps({ items: Array })
+  const props = defineProps({ menus: Array })
 
   const menu = shallowRef()
   const rootEl = inject('$mussel').rootElement
@@ -35,15 +44,48 @@
 
   const popupVisible = computed(() => visible.value)
 
-  function updatePosition (options) {
+  const { items } = useListItems(
+    toRef(props, 'menus'),
+    { defaultComponent: 'mu-dropdown-item' }
+  )
 
+  function updatePosition ({ pageX, pageY }) {
+    if (!popupStyle.value) return
+
+    const { width: mw, height: mh } = menu.value.getBoundingClientRect()
+    const { innerWidth: tw, innerHeight: th } = window
+
+    const style = {}
+
+    if ((tw - pageX > mw) || (tw - pageX > pageX)) {
+      style.left = `${pageX}px`
+    } else {
+      style.right = `${tw - pageX}px`
+    }
+
+    if (mh >= th) {
+      style.top = 0
+    } else if (th - pageY > mh) {
+      style.top = `${pageY}px`
+    } else if (pageY > mh) {
+      style.bottom = `${th - pageY}px`
+    } else {
+      style.bottom = 0
+    }
+
+    popupStyle.value = style
+
+    return true
   }
 
-  function show (options) {
+  function show (event) {
+    const { pageX, pageY } = event
+
     visible.value = true
     container.value = document.fullscreenElement || rootEl
 
     emit('show')
+    event.preventDefault?.()
 
     Promise
       .resolve(!ready.value && (ready.value = true) && delay())
@@ -56,13 +98,25 @@
         popupStyle.value = { transform: 'none', visibility: 'hidden' }
 
         delay()
-          .then(() => updatePosition(options) && delay())
+          .then(() => updatePosition({ pageX, pageY }) && delay())
           .then(() => { el.style.transition = null })
           .then(() => visible.value && el.setAttribute('pop-up', ''))
       })
   }
 
   function hide () {
+    visible.value = false
+
+    emit('hide')
+
+    const menuEl = menu.value
+    const duration = getTransitionDuration(menuEl)
+
+    menuEl.removeAttribute('pop-up')
+
+    delay(duration).then(() => {
+      if (!visible.value) popupStyle.value = null
+    })
   }
 
   function onMenuClick (event) {
@@ -83,6 +137,21 @@
   function emitItemClick (item) {
     emit('itemclick', item)
   }
+
+  function onCaptureEscKeyDown (event) {
+    if (popupVisible.value) hide()
+  }
+
+  function hideOnEvent (event) {
+    if (popupVisible.value && !menu.value.contains(event.target)) hide()
+  }
+
+  usePopupManager(popupVisible, {
+    hide,
+    onCaptureEscKeyDown,
+    onCaptureMouseDown: hideOnEvent,
+    onCaptureScroll: hideOnEvent
+  })
 
   provide('popup', {
     hide,

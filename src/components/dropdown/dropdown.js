@@ -5,17 +5,16 @@ import { findUp, isElementInViewport } from '@/utils/dom'
 import { getTransitionDuration } from '@/utils/style'
 import { usePopupManager } from '@/hooks/popup'
 import { resolveSize } from '@/utils/size'
-import { isString } from '@/utils/type'
 import { delay } from '@/utils/timer'
 
 export const dropdownProps = {
-  dropdownDisabled: Boolean,
   dropdownHost: null,
   dropdownClass: null,
   dropdownStyle: null,
   dropdownAttrs: Object,
   dropdownWidth: String,
   dropdownHeight: String,
+  dropdownDisabled: Boolean,
   dropdownScrollbar: [Boolean, String],
   dropdownIcon: {
     type: String,
@@ -25,14 +24,15 @@ export const dropdownProps = {
 
 export const optionalProps = {
   dropdownItems: Array,
-  dropdownPositioned: {
-    type: [Boolean, String],
-    validator: v => [true, false, 'top', 'bottom'].includes(v)
-  },
   dropdownTrigger: {
     type: String,
     default: 'click',
     validator: v => ['hover', 'click'].includes(v)
+  },
+  dropdownPosition: {
+    type: String,
+    default: 'auto',
+    validator: v => ['auto', 'fixed', 'top', 'bottom'].includes(v)
   }
 }
 
@@ -66,9 +66,8 @@ export function useDropdown (props, emit, options = {}) {
       popupStyle.value || { display: 'none' }
     ],
     ...(
-      isString(props.dropdownPositioned)
-        ? { position: props.dropdownPositioned }
-        : undefined
+      !['auto', 'fixed'].includes(props.dropdownPosition) &&
+      { position: props.dropdownPosition }
     ),
     ...props.dropdownAttrs
   }))
@@ -112,7 +111,7 @@ export function useDropdown (props, emit, options = {}) {
   }
 
   function updatePosition () {
-    if (!popupStyle.value || props.dropdownPositioned) return
+    if (!popupStyle.value || props.dropdownPosition !== 'auto') return
 
     const element = dropdownElement.value
     const style = {}
@@ -165,9 +164,9 @@ export function useDropdown (props, emit, options = {}) {
           ddEl.removeAttribute('pop-up')
           ddEl.style.transition = 'none'
 
-          popupStyle.value = props.dropdownPositioned
-            ? {}
-            : { transform: 'none', visibility: 'hidden' }
+          popupStyle.value = props.dropdownPosition === 'auto'
+            ? { transform: 'none', visibility: 'hidden' }
+            : {}
 
           delay()
             .then(() => updatePosition() && delay())
@@ -252,13 +251,13 @@ export function useDropdown (props, emit, options = {}) {
   }
 
   function onCaptureScroll (event) {
+    if (!expanded.value) return
+
     if (!isElementInViewport(hostElement.value)) {
       hide()
-    } else if (
-      expanded.value &&
-      event.target.contains(hostElement.value)
-      // && !dropdownElement.value.contains(event.target)
-    ) updatePosition()
+    } else if (event.target.contains(hostElement.value)) {
+      updatePosition()
+    }
   }
 
   function emitAction (action) {

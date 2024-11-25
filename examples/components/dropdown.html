@@ -7,7 +7,7 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui">
 
-  <title>Dropdown Component Example</title>
+  <title>Dropdown & Context-Menu Example</title>
 
   <script type="text/javascript" src="../../node_modules/vue/dist/vue.global.js"></script>
   <script type="text/javascript" src="../../dist/mussel.js"></script>
@@ -63,126 +63,131 @@
 </head>
 
 <body>
-  <div id="app" class="mu-box" position="fixed fit">
-    <h2>
-      Dropdown Components
-      <mu-switch
-        active-label="Dark"
-        inactive-label="Light"
-        @update:model-value="onUIModeChange">
-      </mu-switch>
-      <mu-dropdown-button
-        class="mu-icon-button" accent
-        dropdown-icon="dotsVert"
-        dropdown-class="sys-menu_mask mu-dropdown_collapse-trigger"
-        dropdown-positioned>
-        <template #dropdown>
-          <div class="sys-menu"></div>
-        </template>
-      </mu-dropdown-button>
-    </h2>
-    <div class="group">
-      <mu-dropdown
-        style="display: inline-block;"
-        :dropdown-items="artists"
-        @dropdown:show="onShow"
-        @dropdown:itemclick="onItemClick"
-        @action="onAction">
-        <mu-button>{{ artist || 'Mouse Hover' }}</mu-button>
-      </mu-dropdown>
-      <mu-dropdown
-        style="display: inline-block;"
-        dropdown-trigger="click"
-        :dropdown-items="artists"
-        @dropdown:show="onShow"
-        @dropdown:itemclick="onItemClick"
-        @action="onAction">
-        <mu-button>Press me</mu-button>
-      </mu-dropdown>
-    </div>
-    <div class="group">
-      <mu-dropdown-button
-        danger
-        :dropdown-items="artists"
-        @dropdown:itemclick="onItemClick"
-        @action="onAction">
-        Dropdown Button A
-      </mu-dropdown-button>
-      <mu-dropdown-button
-        x-color="cyan"
-        split-button
-        caption="Split Button"
-        :dropdown-items="artists"
-        @click="onButtonClick"
-        @dropdown:itemclick="onItemClick"
-        @action="onAction">
-      </mu-dropdown-button>
-      <mu-dropdown-button
-        class="mu-icon-button"
-        button-style="text"
-        dropdown-icon="dots"
-        dropdown-trigger="hover"
-        :dropdown-items="artists"
-        @dropdown:itemclick="onItemClick"
-        @action="onAction">
-      </mu-dropdown-button>
-    </div>
-    <div class="group">
-      <mu-dropdown-button
-        split-button
-        x-color="grape"
-        caption="Check & Radio"
-        @dropdown:itemclick="onItemClick"
-        @action="onAction">
-        <template #dropdown>
-          <mu-dropdown-check-item
-            value="Ludwig van Beethoven"
-            v-model="checkedArtists">
-          </mu-dropdown-check-item>
-          <mu-dropdown-check-item
-            value="Wolfgang Amadeus Mozart"
-            v-model="checkedArtists">
-          </mu-dropdown-check-item>
-          <mu-list-divider></mu-list-divider>
-          <mu-dropdown-radio-item
-            value="Frédéric François Chopin"
-            v-model="checkedArtist">
-          </mu-dropdown-radio-item>
-          <mu-dropdown-radio-item
-            value="Johann Baptist Strauss"
-            v-model="checkedArtist">
-          </mu-dropdown-radio-item>
-        </template>
-      </mu-dropdown-button>
-    </div>
-    <div class="group">
-      <mu-dropdown
-        dropdown-trigger="click"
-        dropdown-style="max-height: 200px;"
-        dropdown-scrollbar
-        :dropdown-items="artists">
-        <mu-button>Mussel Scrollbar</mu-button>
-      </mu-dropdown>
-    </div>
-    <div id="divX" class="group">
-      <mu-dropdown-button
-        style="align-self: flex-start;"
-        primary
-        split-button
-        button-style="outline"
-        caption="Request Fullscreen"
-        dropdown-trigger="click"
-        :dropdown-items="artists"
-        @click="requestFullscreen"
-        @dropdown:itemclick="onItemClick"
-        @action="onAction">
-      </mu-dropdown-button>
+  <div id="app" class="mu-box" position="fixed fit" style="overflow: auto;">
+    <mu-context-menu ref="contextMenu" :menus="artists">
+    </mu-context-menu>
+    <div style="height: 100%; min-height: 800px;" @contextmenu="onContextMenu">
+      <h2>
+        Dropdown & Context-Menu Components
+        <mu-switch
+          active-label="Dark"
+          inactive-label="Light"
+          @update:model-value="onUIModeChange">
+        </mu-switch>
+        <mu-dropdown-button
+          class="mu-icon-button" accent
+          dropdown-icon="dotsVert"
+          dropdown-class="sys-menu_mask mu-dropdown_collapse-trigger"
+          dropdown-position="fixed">
+          <template #dropdown>
+            <div class="sys-menu"></div>
+          </template>
+        </mu-dropdown-button>
+      </h2>
+      <div class="group">
+        <mu-dropdown
+          style="display: inline-block;"
+          :dropdown-items="artists"
+          @dropdown:show="onShow"
+          @dropdown:itemclick="onItemClick"
+          @action="onAction">
+          <mu-button>{{ artist || 'Mouse Hover' }}</mu-button>
+        </mu-dropdown>
+        <mu-dropdown
+          style="display: inline-block;"
+          dropdown-trigger="click"
+          :dropdown-items="artists"
+          @dropdown:show="onShow"
+          @dropdown:itemclick="onItemClick"
+          @action="onAction">
+          <mu-button>Press me</mu-button>
+        </mu-dropdown>
+      </div>
+      <div class="group">
+        <mu-dropdown-button
+          danger
+          :dropdown-items="artists"
+          @dropdown:itemclick="onItemClick"
+          @action="onAction">
+          Dropdown Button A
+        </mu-dropdown-button>
+        <mu-dropdown-button
+          x-color="cyan"
+          split-button
+          caption="Split Button"
+          :dropdown-items="artists"
+          @click="onButtonClick"
+          @dropdown:itemclick="onItemClick"
+          @action="onAction">
+        </mu-dropdown-button>
+        <mu-dropdown-button
+          class="mu-icon-button"
+          button-style="text"
+          dropdown-icon="dots"
+          dropdown-trigger="hover"
+          :dropdown-items="artists"
+          @dropdown:itemclick="onItemClick"
+          @action="onAction">
+        </mu-dropdown-button>
+      </div>
+      <div class="group">
+        <mu-dropdown-button
+          split-button
+          x-color="grape"
+          caption="Check & Radio"
+          @dropdown:itemclick="onItemClick"
+          @action="onAction">
+          <template #dropdown>
+            <mu-dropdown-check-item
+              value="Ludwig van Beethoven"
+              v-model="checkedArtists">
+            </mu-dropdown-check-item>
+            <mu-dropdown-check-item
+              value="Wolfgang Amadeus Mozart"
+              v-model="checkedArtists">
+            </mu-dropdown-check-item>
+            <mu-list-divider></mu-list-divider>
+            <mu-dropdown-radio-item
+              value="Frédéric François Chopin"
+              v-model="checkedArtist">
+            </mu-dropdown-radio-item>
+            <mu-dropdown-radio-item
+              value="Johann Baptist Strauss"
+              v-model="checkedArtist">
+            </mu-dropdown-radio-item>
+          </template>
+        </mu-dropdown-button>
+      </div>
+      <div class="group">
+        <mu-dropdown
+          dropdown-trigger="click"
+          dropdown-style="max-height: 200px;"
+          dropdown-scrollbar
+          :dropdown-items="artists">
+          <mu-button>Mussel Scrollbar</mu-button>
+        </mu-dropdown>
+      </div>
+      <div id="divX" class="group">
+        <mu-dropdown-button
+          style="align-self: flex-start;"
+          primary
+          split-button
+          button-style="outline"
+          caption="Request Fullscreen"
+          dropdown-trigger="click"
+          :dropdown-items="artists"
+          @click="requestFullscreen"
+          @dropdown:itemclick="onItemClick"
+          @action="onAction">
+        </mu-dropdown-button>
+      </div>
     </div>
   </div>
 
   <script type="text/javascript">
     const app = Vue.createApp({
       setup () {
+        const contextMenu = Vue.ref()
         const artist = Vue.ref()
         const artists = Vue.ref([
           { is: '-', label: 'GROUP 1' },
@@ -226,7 +231,12 @@
           document.querySelector('.mu-root').classList.toggle('mu-dark')
         }
 
+        function onContextMenu (event) {
+          contextMenu.value.show(event)
+        }
+
         return {
+          contextMenu,
           artist,
           artists,
           checkedArtist,
@@ -238,7 +248,8 @@
           onItemClick,
           onButtonClick,
           requestFullscreen,
-          onUIModeChange
+          onUIModeChange,
+          onContextMenu
         }
       }
     })
