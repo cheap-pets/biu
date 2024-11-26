@@ -222,7 +222,7 @@ export function useDropdown (props, emit, options = {}) {
   function onDropdownClick (event) {
     if (
       findUp(event.target, pEl => {
-        if (pEl.classList.contains('mu-dropdown_collapse-trigger')) return true
+        if (pEl.classList.contains('mu-popup_hide-trigger')) return true
         if (pEl === dropdownElement.value) return false
       })
     ) {

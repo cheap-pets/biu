@@ -122,7 +122,7 @@
   function onMenuClick (event) {
     if (
       findUp(event.target, pEl => {
-        if (pEl.classList.contains('mu-collapse-trigger')) return true
+        if (pEl.classList.contains('mu-popup_hide-trigger')) return true
         if (pEl === menu.value) return false
       })
     ) {

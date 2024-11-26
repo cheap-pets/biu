@@ -85,14 +85,14 @@
         </mu-dropdown-button>
       </h2>
       <div class="group">
-        <mu-dropdown
+        <mu-new-dropdown
           style="display: inline-block;"
           :dropdown-items="artists"
           @dropdown:show="onShow"
           @dropdown:itemclick="onItemClick"
           @action="onAction">
           <mu-button>{{ artist || 'Mouse Hover' }}</mu-button>
-        </mu-dropdown>
+        </mu-new-dropdown>
         <mu-dropdown
           style="display: inline-block;"
           dropdown-trigger="click"
