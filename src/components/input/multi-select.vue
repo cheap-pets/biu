@@ -19,7 +19,7 @@
         :tag-shrink="tagShrink || null"
         :removable="!disabled && !readonly"
         :placeholder="placeholder"
-        :dropdown-host="wrapper"
+        :dropdown-snap-to="wrapper"
         :dropdown-width="dropdownWidth"
         :dropdown-class="dropdownClass"
         :dropdown-scrollbar="dropdownScrollbar"

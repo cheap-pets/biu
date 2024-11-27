@@ -1,50 +1,43 @@
 <template>
   <mu-button-group
     v-if="splitButton"
-    ref="wrapper" class="mu-dropdown" v-bind="$attrs">
+    ref="wrapperRef"
+    class="mu-dropdown"
+    v-bind="$attrs">
     <mu-button :icon="icon" :caption="caption" @click="collapse">
       <slot />
     </mu-button>
-    <mu-button
-      class="mu-button mu-icon-button" :active="dropdownVisible"
-      @click.stop="onTriggerClick" @mouseover="onTriggerMouseOver" @mouseleave="onTriggerMouseLeave">
+    <mu-button class="mu-button mu-icon-button" :active="dropdownVisible" v-on="wrapperEvents">
       <mu-icon v-bind="dropdownIconAttrs" />
     </mu-button>
   </mu-button-group>
   <mu-button
     v-else
-    ref="wrapper" class="mu-dropdown" v-bind="$attrs" :active="dropdownVisible"
-    @click="onTriggerClick" @mouseover="onTriggerMouseOver" @mouseleave="onTriggerMouseLeave">
+    ref="wrapperRef"
+    v-bind="$attrs" class="mu-dropdown" :active="dropdownVisible"
+    v-on="wrapperEvents">
     <slot>
       <mu-icon v-if="icon" :icon="icon" />
       {{ caption }}
     </slot>
     <mu-icon v-bind="dropdownIconAttrs" />
   </mu-button>
-  <Teleport v-if="dropdownReady" :to="dropdownContainer">
-    <div
-      ref="dropdownPanel"
-      v-mu-scrollbar="dropdownScrollbar"
-      v-bind="dropdownPanelAttrs"
-      class="mu-dropdown-panel"
-      :class="dropdownClass"
-      @click="onDropdownClick"
-      @mouseover.stop="onDropdownMouseOver"
-      @mouseleave.stop="onDropdownMouseLeave">
-      <slot name="dropdown">
-        <component
-          :is="el.is"
-          v-for="el in items" :key="el.key"
-          v-bind="el.bindings" />
-      </slot>
-    </div>
-  </Teleport>
+  <mu-dropdown-panel
+    v-if="!dropdownPanel"
+    ref="dropdownPanelRef"
+    v-bind="dropdownPanelAttrs"
+    v-on="dropdownPanelEvents">
+    <slot name="dropdown" />
+  </mu-dropdown-panel>
 </template>
 
 <script setup>
-  import { toRef } from 'vue'
-  import { useListItems } from '../list/list-items'
-  import { dropdownProps, optionalProps, dropdownEvents, useDropdown } from './dropdown'
+  import {
+    dropdownEvents,
+    dropdownProps,
+    optionalProps,
+    useDropdown
+  } from './dropdown-wrapper'
 
   defineOptions({ name: 'MusselDropdownButton', inheritAttrs: false })
 
@@ -56,32 +49,23 @@
     splitButton: Boolean
   })
 
-  const emit = defineEmits([...dropdownEvents])
+  const emit = defineEmits(dropdownEvents)
 
   const {
-    wrapper,
-    dropdownPanel,
-    dropdownReady,
+    wrapperRef,
+    wrapperEvents,
     dropdownVisible,
-    dropdownContainer,
-    dropdownIconAttrs,
+    dropdownPanelRef,
     dropdownPanelAttrs,
-    collapse,
-    onTriggerClick,
-    onTriggerMouseOver,
-    onTriggerMouseLeave,
-    onDropdownClick,
-    onDropdownMouseOver,
-    onDropdownMouseLeave
+    dropdownPanelEvents,
+    dropdownIconAttrs,
+    expand,
+    collapse
   } = useDropdown(props, emit)
-
-  const { items } = useListItems(
-    toRef(props, 'dropdownItems'),
-    { defaultComponent: 'mu-dropdown-item' }
-  )
 
   defineExpose({
     dropdownVisible,
+    expand,
     collapse
   })
 </script>

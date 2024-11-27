@@ -10,26 +10,40 @@
       @click="onClick"
       @mouseover.stop="clearHideTimer"
       @mouseleave.stop="delayHide">
-      <slot />
+      <slot>
+        <component
+          :is="el.is"
+          v-for="el in items"
+          :key="el.key"
+          v-bind="el.bindings" />
+      </slot>
     </div>
   </Teleport>
 </template>
 
 <script setup>
-  import { ref, shallowRef, shallowReactive, computed, inject } from 'vue'
+  import { ref, toRef, shallowRef, shallowReactive, computed, provide, inject } from 'vue'
+  import { useListItems } from '../list/list-items'
   import { usePopupManager } from '@/hooks/popup'
 
   import { findUp, isElementInViewport } from '@/utils/dom'
   import { getTransitionDuration } from '@/utils/style'
   import { delay } from '@/utils/timer'
 
-  const emit = defineEmits(['show', 'hide'])
+  defineOptions({ name: 'MusselDropdownPanel', inheritAttrs: false })
+
+  const emit = defineEmits([
+    'show',
+    'hide',
+    'action',
+    'itemclick'
+  ])
 
   const props = defineProps({
     width: String,
     height: String,
     scrollbar: Boolean,
-    snapTo: null,
+    dropdownItems: Array,
     trigger: {
       type: String,
       default: 'click',
@@ -56,6 +70,11 @@
     width: ctx.width === '$same' ? undefined : ctx.width,
     height: ctx.height
   }))
+
+  const { items } = useListItems(
+    toRef(props, 'dropdownItems'),
+    { defaultComponent: 'mu-dropdown-item' }
+  )
 
   function clearHideTimer () {
     if (ctx.delayHideTimer) {
@@ -108,9 +127,9 @@
     clearHideTimer()
 
     const {
+      snapTo,
       width = props.width,
       height = props.height,
-      snapTo = props.snapTo,
       trigger = props.trigger,
       onHideCallback
     } = snapOptions
@@ -215,6 +234,14 @@
     }
   }
 
+  function emitAction (action) {
+    emit('action', action)
+  }
+
+  function emitItemClick (item) {
+    emit('itemclick', item)
+  }
+
   usePopupManager(visible, {
     hide,
     onCaptureEscKeyDown,
@@ -222,10 +249,17 @@
     onCaptureScroll
   })
 
+  provide('popup', {
+    hide,
+    emitAction,
+    emitItemClick
+  })
+
   defineExpose({
     visible,
     show,
     hide,
-    delayHide
+    delayHide,
+    updatePosition
   })
 </script>

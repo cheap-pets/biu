@@ -214,6 +214,11 @@
     </div>
     <div v-if="!demo || demo === 11" class="demo-panel">
       <h3>11. Context Menu (*Temporary)</h3>
+      <mu-dropdown-panel
+        ref="dropdownMenu"
+        :style="{ minWidth: '150px' }"
+        :dropdown-items="contextMenus">
+      </mu-dropdown-panel>
       <mu-tree
         :data="data"
         :active-node="activeNode"
@@ -224,10 +229,8 @@
           </label>
           <mu-dropdown
             class="mu-tree-node_button"
-            dropdown-align="right"
             dropdown-trigger="click"
-            :dropdown-style="{ minWidth: '150px' }"
-            :dropdown-items="contextMenus">
+            :dropdown-panel="dropdownMenu">
             <mu-icon class="mu-icon-button" icon="dotsVert"></mu-icon>
           </mu-dropdown>
         </template>
@@ -373,6 +376,8 @@
           }
         ]
 
+        const dropdownMenu = Vue.ref()
+
         function onNodeClick (node) {
           activeNode.value = node
         }
@@ -444,6 +449,7 @@
           data,
           activeNode,
           buttons,
+          dropdownMenu,
           contextMenus,
           expandTree,
           expandTree2,

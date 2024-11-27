@@ -1,36 +1,23 @@
 <template>
-  <div
-    ref="wrapper"
-    class="mu-dropdown"
-    @click="onTriggerClick"
-    @mouseover="onTriggerMouseOver"
-    @mouseleave="onTriggerMouseLeave">
+  <div ref="wrapperRef" class="mu-dropdown" v-on="wrapperEvents">
     <slot />
-    <Teleport v-if="dropdownReady" :to="dropdownContainer">
-      <div
-        ref="dropdownPanel"
-        v-mu-scrollbar="dropdownScrollbar"
-        v-bind="dropdownPanelAttrs"
-        class="mu-dropdown-panel"
-        :class="dropdownClass"
-        @click="onDropdownClick"
-        @mouseover.stop="onDropdownMouseOver"
-        @mouseleave.stop="onDropdownMouseLeave">
-        <slot name="dropdown">
-          <component
-            :is="el.is"
-            v-for="el in items" :key="el.key"
-            v-bind="el.bindings" />
-        </slot>
-      </div>
-    </Teleport>
+    <mu-dropdown-panel
+      v-if="!dropdownPanel"
+      ref="dropdownPanelRef"
+      v-bind="dropdownPanelAttrs"
+      v-on="dropdownPanelEvents">
+      <slot name="dropdown" />
+    </mu-dropdown-panel>
   </div>
 </template>
 
 <script setup>
-  import { toRef } from 'vue'
-  import { useListItems } from '../list/list-items'
-  import { dropdownProps, optionalProps, dropdownEvents, useDropdown } from './dropdown'
+  import {
+    dropdownEvents,
+    dropdownProps,
+    optionalProps,
+    useDropdown
+  } from './dropdown-wrapper'
 
   defineOptions({ name: 'MusselDropdown' })
 
@@ -40,31 +27,22 @@
     dropdownTrigger: { ...optionalProps.dropdownTrigger, default: 'hover' }
   })
 
-  const emit = defineEmits([...dropdownEvents])
+  const emit = defineEmits(dropdownEvents)
 
   const {
-    wrapper,
-    dropdownPanel,
-    dropdownReady,
+    wrapperRef,
+    wrapperEvents,
     dropdownVisible,
-    dropdownContainer,
+    dropdownPanelRef,
     dropdownPanelAttrs,
-    collapse,
-    onTriggerClick,
-    onTriggerMouseOver,
-    onTriggerMouseLeave,
-    onDropdownClick,
-    onDropdownMouseOver,
-    onDropdownMouseLeave
+    dropdownPanelEvents,
+    expand,
+    collapse
   } = useDropdown(props, emit)
-
-  const { items } = useListItems(
-    toRef(props, 'dropdownItems'),
-    { defaultComponent: 'mu-dropdown-item' }
-  )
 
   defineExpose({
     dropdownVisible,
+    expand,
     collapse
   })
 </script>

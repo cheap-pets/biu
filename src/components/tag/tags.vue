@@ -1,17 +1,10 @@
 <template>
   <div class="mu-tags">
-    <div
-      v-for="el in items"
-      :key="getKey(el)"
-      class="mu-tags_tag"
-      tabindex="-1">
+    <div v-for="el in items" :key="getKey(el)" class="mu-tags_tag" tabindex="-1">
       <label :title="tooltip ? (el.title || el.label) : null">
         {{ el.label }}
       </label>
-      <mu-icon
-        v-if="removable"
-        icon="X"
-        @click.stop="onRemove(el)" />
+      <mu-icon v-if="removable" icon="X" @click.stop="onRemove(el)" />
     </div>
     <mu-dropdown
       v-if="moreCount || dropdownVisible"
@@ -50,7 +43,8 @@
     expandable: Boolean,
     max: { type: Number },
     tags: { type: Array, default: () => [] },
-    tooltip: { type: Boolean, default: true }
+    tooltip: { type: Boolean, default: true },
+    dropdownSnapTo: { default: '$parent' }
   })
 
   const attrs = useAttrs()
@@ -63,10 +57,10 @@
   )
 
   const dropdownBindings = computed(() => ({
-    'dropdown-host': '$parent',
     'dropdown-width': '$same',
     'dropdown-trigger': 'click',
     'dropdown-disabled': !props.expandable,
+    'dropdown-snap-to': props.dropdownSnapTo,
     ...pickBy(attrs, key => key.startsWith('dropdown'))
   }))
 

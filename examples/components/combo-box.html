@@ -86,7 +86,6 @@
         :max-tags="2"
         :tag-shrink="true"
         :tag-tooltip="true"
-        readonly
         value-mode="composite"
         style="width: 420px;" nowrap
         placeholder="select an artist">
@@ -96,9 +95,9 @@
       <mu-combo-box
         v-model="artistCn"
         value-mode="composite"
+        dropdown-width="600px"
         clearable
-        :options="artistsCn"
-        :dropdown-panel="{ width: '600px' }">
+        :options="artistsCn">
       </mu-combo-box>
     </div>
   </div>

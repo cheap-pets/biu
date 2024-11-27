@@ -1,10 +1,10 @@
 <template>
   <div
-    ref="wrapper"
+    ref="wrapperRef"
     class="mu-input"
     v-bind="wrapperAttrs"
     @click="onWrapperClick"
-    @sizechange="updatePosition">
+    @sizechange="updateDropdownPosition">
     <component
       :is="pre.is"
       v-if="pre"
@@ -24,24 +24,20 @@
       @click.stop="onSuffixClick">
       {{ suf.content }}
     </component>
-    <Teleport v-if="expandable && dropdownReady" :to="dropdownContainer">
-      <div
-        ref="dropdownPanel"
-        v-mu-scrollbar="dropdownScrollbar"
-        v-bind="dropdownPanelAttrs"
-        class="mu-dropdown-panel"
-        :class="dropdownClass"
-        @click="onDropdownClick">
-        <slot name="dropdown" />
-      </div>
-    </Teleport>
+    <mu-dropdown-panel
+      v-if="!dropdownPanel"
+      ref="dropdownPanelRef"
+      v-bind="dropdownPanelAttrs"
+      v-on="dropdownPanelEvents">
+      <slot name="dropdown" />
+    </mu-dropdown-panel>
   </div>
 </template>
 
 <script setup>
   import { computed } from 'vue'
   import { inputProps, inputEvents, useInput } from './input'
-  import { dropdownProps, dropdownEvents, useDropdown } from '../dropdown/dropdown'
+  import { dropdownProps, dropdownEvents, useDropdown } from '../dropdown/dropdown-wrapper'
 
   defineOptions({ name: 'MusselComboWrapper' })
 
@@ -70,18 +66,16 @@
   } = useInput(model, props, emit)
 
   const {
-    wrapper,
-    dropdownPanel,
-    dropdownReady,
+    wrapperRef,
     dropdownVisible,
-    dropdownContainer,
-    dropdownIconAttrs,
+    dropdownPanelRef,
     dropdownPanelAttrs,
+    dropdownPanelEvents,
+    dropdownIconAttrs,
     expand,
     collapse,
     toggle: toggleDropdown,
-    updatePosition,
-    onDropdownClick
+    updateDropdownPosition
   } = useDropdown(props, emit)
 
   const expandable = computed(() =>
@@ -106,7 +100,6 @@
   defineExpose({
     dropdownVisible,
     expand,
-    collapse,
-    toggleDropdown
+    collapse
   })
 </script>
