@@ -56,7 +56,7 @@
       v-model:active-tab="activeTab"
       :tab-style="tabStyle"
       :tab-position="tabPosition"
-      :tab-bar="{ width: ['left', 'right'].includes(tabPosition) ? '150px' : undefined }"
+      :tab-bar-attrs="{ width: ['left', 'right'].includes(tabPosition) ? '150px' : undefined }"
       class="mu-box" margin="2x" padding="1x" border="dashed">
       <mu-tab-panel name="Tab_1" caption="Tab Alpha" layout="flex" content-center>This is Tab 1</mu-tab-panel>
       <mu-tab-panel name="Tab_2" caption="Tab Bravo" layout="flex" content-center>This is Tab 2</mu-tab-panel>
@@ -67,10 +67,11 @@
     <div class="mu-divider mu-box" margin-x="2x" thin></div>
 
     <mu-tabs
-      v-model:active-tab="activeTab"
+      :active-tab="activeTab2"
       :tab-style="tabStyle"
       class="mu-box" margin="2x" padding="1x" border="muted"
-      style="--mu-tab-bar_active-bar-width: 1px;">
+      style="--mu-tab-bar_active-bar-width: 1px;"
+      @update:active-tab="updateActiveTab2">
       <template #tab-bar-prepend>
         <label class="mu-label">Customized Tab Bar</label>
         <div class="mu-space"></div>
@@ -115,6 +116,7 @@
         ]
 
         const activeTab = Vue.ref()
+        const activeTab2 = Vue.ref()
         const tabStyle = Vue.ref('simple')
         const tabPosition = Vue.ref('top')
 
@@ -132,16 +134,22 @@
           document.querySelector('.mu-root').classList.toggle('mu-dark')
         }
 
+        function updateActiveTab2 (tabName) {
+          activeTab2.value = tabName
+        }
+
         return { 
           darkMode,
           positions,
           styles,
           tabItems,
           activeTab,
+          activeTab2,
           tabStyle,
           tabPosition,
           artists,
-          onUIModeChange
+          onUIModeChange,
+          updateActiveTab2
         }
       }
     })

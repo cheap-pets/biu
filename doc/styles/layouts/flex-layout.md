@@ -2,9 +2,9 @@
 
 
 
-### 非兼容提示
+### 兼容性提示
 
-在 Mussel 3 中，不再以组件形式（ `mu-flex-box`、`mu-h-box`、`mu-h-box`、`mu-flex-item` ）来提供 Flex 布局能力。
+在 Mussel 3 中，不再以组件形式提供 `mu-flex-box` 与 `mu-flex-item`。
 
 过多的组件嵌套，会或多或少的降低页面渲染性能，并影响浏览器 Vue 开发插件使用的愉悦程度。
 

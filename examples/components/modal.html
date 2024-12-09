@@ -129,10 +129,10 @@
         }
 
         function onButtonClick(button) {
-          if (button?.caption === 'Find') {
+          if (button === 'Find') {
             $mussel.messageBox.alert('Cannot find any !')
           } else {
-            console.log(button?.caption)
+            console.log(button)
           }
         }
 
