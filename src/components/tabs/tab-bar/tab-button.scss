@@ -15,7 +15,7 @@
 
   font-size: var(--mu-common-font-size);
   font-weight: 500;
-  line-height: var(--mu-common-line-height);
+  // line-height: var(--mu-common-line-height);
   color: var(--mu-text-color-normal);
   text-decoration: none;
 
@@ -40,16 +40,6 @@
     cursor: default;
     color: var(--mu-text-color-muted) !important;
     background: unset !important;
-  }
-}
-
-.mu-tab-bar {
-  &[tab-position=left] .mu-tab-button {
-    justify-content: end;
-  }
-
-  &[tab-position=right] .mu-tab-button {
-    justify-content: start;
   }
 }
 

@@ -57,7 +57,7 @@
   --mu-content-spacing: 5px;
 
   --mu-common-font-size: 14px;
-  --mu-common-line-height: 20px;
+  // --mu-common-line-height: 20px;
 
   --mu-common-border-radius: 4px;
   --mu-window-border-radius: 8px;
@@ -86,7 +86,9 @@
     "Helvetica Neue", Helvetica, Arial,
     system-ui, sans-serif;
   font-size: var(--mu-common-font-size);
+  font-weight: 400;
   color: var(--mu-text-color-normal);
+
   background-color: var(--mu-bg-normal);
 
   & :fullscreen {

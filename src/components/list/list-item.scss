@@ -13,9 +13,7 @@
   padding: 6px 12px;
 
   font-size: var(--mu-common-font-size);
-  line-height: var(--mu-common-line-height);
-  // text-overflow: ellipsis;
-  // white-space: nowrap;
+  // line-height: var(--mu-common-line-height);
 
   & > .mu-icon {
     flex: none;
@@ -47,10 +45,6 @@
   &[active] {
     color: #fff;
     background-color: var(--mu-primary-color);
-
-    & .mu-text-color-weak {
-      color: rgba(255, 255, 255, .5);
-    }
   }
 
   &[disabled] {

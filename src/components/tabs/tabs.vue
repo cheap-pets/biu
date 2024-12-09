@@ -2,7 +2,7 @@
   <div ref="thisEl" class="mu-tabs" :style="sizeStyle" :tab-position="tabPosition">
     <mu-tab-bar
       v-model:active-tab="activeTab"
-      v-bind="tabBar"
+      v-bind="tabBarAttrs"
       :tab-style="tabStyle"
       :tab-buttons="buttons"
       :tab-position="tabPosition">
@@ -28,8 +28,6 @@
   const activeTab = defineModel('activeTab', { type: String })
 
   const props = defineProps({
-    tabBar: Object,
-    tabButtons: Array,
     tabStyle: {
       type: String,
       default: 'button',
@@ -40,6 +38,8 @@
       default: 'top',
       validator: v => ['top', 'right', 'bottom', 'left'].includes(v)
     },
+    tabBarAttrs: Object,
+    tabButtons: Array,
     ...sizeProps
   })
 

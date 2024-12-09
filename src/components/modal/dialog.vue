@@ -127,10 +127,9 @@
   const onMaskResize = debounce(300, correctPosition)
 
   function onDragStart (event) {
-    const { classList } = event.target
-
     if (
-      !['mu-dialog_header', 'mu-dialog_title'].find(cls => classList.contains(cls))
+      !['mu-dialog_header', 'mu-dialog_title']
+        .find(cls => event.target.classList.contains(cls))
     ) return
 
     const { pageY, pageX } = event
