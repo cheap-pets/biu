@@ -11,24 +11,27 @@
   import { pickBy } from '@/utils/object'
 
   const props = defineProps({
-    small: Boolean,
-    large: Boolean,
     round: Boolean,
     disabled: Boolean,
     primary: Boolean,
     danger: Boolean,
     accent: Boolean,
     xColor: [Boolean, String],
+    size: {
+      type: String,
+      default: null,
+      validator: v => ['small', 'normal', 'large'].includes(v)
+    },
     buttonStyle: {
       type: String,
-      default: 'normal',
+      default: null,
       validator: v => ['normal', 'outline'].includes(v)
     }
   })
 
   const forcedButtonOptions = computed(() =>
     pickBy(props, (key, value) =>
-      ['small', 'large', 'round', 'disabled', 'buttonStyle'].includes(key) &&
+      ['size', 'round', 'disabled', 'buttonStyle'].includes(key) &&
       (key !== 'disabled' || value)
     )
   )

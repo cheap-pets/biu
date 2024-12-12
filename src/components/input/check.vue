@@ -1,5 +1,5 @@
 <template>
-  <label class="mu-check">
+  <label class="mu-check" :disabled="disabled || null">
     <input v-model="model" type="checkbox" :value="value">
     <span v-if="label">{{ label }}</span>
   </label>
@@ -14,6 +14,7 @@
 
   defineProps({
     value: null,
-    label: String
+    label: String,
+    disabled: Boolean
   })
 </script>

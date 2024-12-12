@@ -22,8 +22,6 @@
     icon: String,
     caption: String,
     active: Boolean,
-    small: Boolean,
-    large: Boolean,
     round: Boolean,
     disabled: Boolean,
     primary: Boolean,
@@ -31,6 +29,10 @@
     accent: Boolean,
     xColor: [Boolean, String],
     type: { type: String, default: 'button' },
+    size: {
+      type: String,
+      validator: v => ['small', 'normal', 'large'].includes(v)
+    },
     buttonStyle: {
       type: String,
       validator: v => ['normal', 'outline', 'text', 'link'].includes(v)

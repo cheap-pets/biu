@@ -1,6 +1,6 @@
 import './dropdown.scss'
 
-import { ref, shallowRef, computed } from 'vue'
+import { ref, shallowRef, readonly, computed } from 'vue'
 
 export const dropdownEvents = [
   'action',
@@ -43,8 +43,7 @@ export function useDropdown (props, emit, options = {}) {
   } = options
 
   const expanded = ref()
-
-  const dropdownVisible = computed(() => expanded.value)
+  const dropdownVisible = readonly(expanded)
 
   const dropdownPanel = computed(() =>
     props.dropdownPanel || dropdownPanelRef.value

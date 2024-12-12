@@ -1,5 +1,5 @@
 <template>
-  <div class="mu-bar mu-tab-bar" :style="sizeStyle">
+  <div class="mu-bar mu-tab-bar">
     <slot name="prepend" />
     <div class="mu-tab-bar_buttons">
       <mu-tab-button
@@ -16,18 +16,10 @@
 <script setup>
   import './index.scss'
 
-  import { useSize } from '@/hooks/size'
-
   import MuTabButton from './tab-button.vue'
 
   defineOptions({ name: 'MusselTabBar' })
+  defineProps({ tabButtons: Array })
 
   const activeTab = defineModel('activeTab', { type: String })
-
-  const props = defineProps({
-    width: String,
-    tabButtons: Array
-  })
-
-  const { sizeStyle } = useSize(props)
 </script>

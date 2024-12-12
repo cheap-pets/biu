@@ -30,14 +30,14 @@
     font-size: calc(1em + 2px);
   }
 
-  &[small] {
+  &[size="small"] {
     --mu-button_size: var(--mu-input-size-small);
 
     padding: 0 7px;
     font-size: 12px;
   }
 
-  &[large] {
+  &[size="large"] {
     --mu-button_size: var(--mu-input-size-large);
 
     padding: 0 23px;

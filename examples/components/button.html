@@ -196,10 +196,10 @@
     </div>
     <div class="group">
       <h3>SIZE</h3>
-      <mu-button small caption="SMALL"></mu-button>
-      <mu-button small primary caption="SMALL"></mu-button>
-      <mu-button large caption="LARGE"></mu-button>
-      <mu-button large primary caption="LARGE"></mu-button>
+      <mu-button size="small" caption="SMALL"></mu-button>
+      <mu-button size="small" primary caption="SMALL"></mu-button>
+      <mu-button size="large" caption="LARGE"></mu-button>
+      <mu-button size="large" primary caption="LARGE"></mu-button>
     </div>
     <div class="group">
       <h3>BUTTON GROUP</h3>
@@ -224,9 +224,9 @@
         <mu-button :active="activeItem === 2" @click="select(2)">Two</mu-button>
         <mu-button :active="activeItem === 3" @click="select(3)">Three</mu-button>
       </mu-button-group>
-      <mu-button-group danger round button-style="outline">
+      <mu-button-group danger round button-style="outline" size="small">
         <mu-button :active="activeItem === 1" @click="select(1)">One</mu-button>
-        <mu-button :active="activeItem === 2" @click="select(2)" small>Two</mu-button>
+        <mu-button :active="activeItem === 2" @click="select(2)" size="large">Two</mu-button>
         <mu-button :active="activeItem === 3" @click="select(3)">Three</mu-button>
       </mu-button-group>
       <mu-button-group disabled small>
@@ -237,21 +237,21 @@
     </div>
     <div class="group">
       <h3>TOOL BUTTON</h3>
-      <mu-tool-button small icon="chevronUp"></mu-tool-button>
-      <mu-tool-button small icon="chevronRight" danger></mu-tool-button>
-      <mu-tool-button small icon="chevronDown" disabled></mu-tool-button>
-      <mu-tool-button small icon="chevronLeft" toggle v-model:active="active1"></mu-tool-button>
-      <mu-tool-button small icon="album" danger toggle v-model:active="active2"></mu-tool-button>
+      <mu-tool-button size="small" icon="chevronUp"></mu-tool-button>
+      <mu-tool-button size="small" icon="chevronRight" danger></mu-tool-button>
+      <mu-tool-button size="small" icon="chevronDown" disabled></mu-tool-button>
+      <mu-tool-button size="small" icon="chevronLeft" toggle v-model:active="active1"></mu-tool-button>
+      <mu-tool-button size="small" icon="album" danger toggle v-model:active="active2"></mu-tool-button>
       <mu-tool-button icon="chevronUp"></mu-tool-button>
       <mu-tool-button icon="chevronRight" danger></mu-tool-button>
       <mu-tool-button icon="chevronDown" disabled></mu-tool-button>
       <mu-tool-button icon="chevronLeft" toggle v-model:active="active1"></mu-tool-button>
       <mu-tool-button icon="album" danger toggle v-model:active="active2"></mu-tool-button>
-      <mu-tool-button large icon="chevronUp"></mu-tool-button>
-      <mu-tool-button large icon="chevronRight" danger></mu-tool-button>
-      <mu-tool-button large icon="chevronDown" disabled></mu-tool-button>
-      <mu-tool-button large icon="chevronLeft" toggle v-model:active="active1"></mu-tool-button>
-      <mu-tool-button large icon="album" danger toggle v-model:active="active2"></mu-tool-button>
+      <mu-tool-button size="large" icon="chevronUp"></mu-tool-button>
+      <mu-tool-button size="large" icon="chevronRight" danger></mu-tool-button>
+      <mu-tool-button size="large" icon="chevronDown" disabled></mu-tool-button>
+      <mu-tool-button size="large" icon="chevronLeft" toggle v-model:active="active1"></mu-tool-button>
+      <mu-tool-button size="large" icon=".ti.ti-file" danger toggle v-model:active="active2"></mu-tool-button>
     </div>
   </div>
 

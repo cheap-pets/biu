@@ -1,5 +1,5 @@
 <template>
-  <label class="mu-radio">
+  <label class="mu-radio" :disabled="disabled || null">
     <input v-model="model" type="radio" :value="value">
     <span v-if="label">{{ label }}</span>
   </label>
@@ -12,6 +12,7 @@
 
   defineProps({
     value: { required: true },
-    label: String
+    label: String,
+    disabled: Boolean
   })
 </script>

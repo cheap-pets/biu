@@ -93,17 +93,36 @@ Flex 布局子元素分隔条，可拖拽调整元素尺寸。
 | ------------- | ------ | ------------------------------------------- |
 | active-tab    | String | 双向绑定属性，用于指定活动标签页的名称      |
 | tab-style     | String | button、small-button、simple                |
+| tab-buttons   | Array  | 页签按钮，默认按内部 tab-panel 组件自动生成 |
 | tab-position  | String | top、bottom、left、right                    |
 | tab-bar-attrs | Object | 绑定到内置 MuTabBar 的各种属性              |
-| tab-buttons   | Array  | 页签按钮，默认按内部 tab-panel 组件自动生成 |
+
+
+
+| 插槽名称        | 说明                 |
+| --------------- | -------------------- |
+| tab-bar-prepend | 页签按钮栏的前置内容 |
+| tab-bar-append  | 页签按钮栏的后置内容 |
 
 
 
 ### MuTabBar
 
-多页签容器的页签栏，必须放置于 MuTabs 中
+独立使用的页签栏
+
+| 属性名称   | 类型   | 说明                                   |
+| ---------- | ------ | -------------------------------------- |
+| active-tab | String | 双向绑定属性，用于指定活动标签页的名称 |
+| tab-style     | String | button、small-button、simple                |
+| tab-buttons   | Array  | 页签按钮 |
+| tab-position  | String | top、bottom、left、right                    |
 
 
+
+| 插槽名称        | 说明                 |
+| --------------- | -------------------- |
+| prepend | 前置内容 |
+| append  | 后置内容 |
 
 
 
@@ -111,13 +130,20 @@ Flex 布局子元素分隔条，可拖拽调整元素尺寸。
 
 单个页签内容容器，必须放置于 MuTabs 中
 
-
+| 属性名称  | 类型    | 说明                                             |
+| --------- | ------- | ------------------------------------------------ |
+| name      | String  | 页签名称，在 Tabs 内唯一，用于标识当前选中标签页 |
+| icon      | String  | 对应页签栏按钮的图标                             |
+| caption   | String  | 对应页签栏按钮的标题                             |
+| title     | String  | 对应页签栏按钮的 tooltip 标题                    |
+| disabled  | Boolean | 对应页签的禁用状态                               |
+| tab-order | Number  | 手动指定的页签顺序，默认值为 0                   |
 
 
 
 ### MuToolbar
 
-工具栏
+工具栏，具有特殊样式的 MuBar
 
 
 
@@ -127,13 +153,48 @@ Flex 布局子元素分隔条，可拖拽调整元素尺寸。
 
 ### MuIcon
 
-图标，支持 svg 和 icon-font class，需先注册
+图标，支持 svg 和 icon-font class。
+
+
+
+图标建议在使用前进行集中注册，这样便于管理应用中所用到的图标。
+
+注册代码示例：
+
+``` javascript
+import { install as installMussel, installIcons } from 'mussel'
+
+import MySvgIcon from 'path/name/icon.svg'
+
+const myApp = createApp()
+
+// 在安装 mussel 时注册
+installMussel(myApp, {
+  icons: {
+    icon1: MySvgIcon, // svg data
+    icon2: 'icon icon-bolt' // icon-font class
+  }
+})
+
+// 或在其他时候注册
+installIcons({
+  icon1: MySvgIcon, // svg data
+  icon2: 'icon icon-bolt' // icon-font class
+})
+```
+
+
+
+| 属性名称 | 类型   | 说明                                                  |
+| -------- | ------ | ----------------------------------------------------- |
+| icon     | String | 已注册的 icon 名称，或者以 "." 开头的 icon-font class |
+| tag      | String | 渲染的图标 dom 的 tagName，默认是 span                |
 
 
 
 ### MuSvgStripe
 
-一个 svg 画的装饰条纹，通常用于作为拖拽条装饰
+一个 svg 画的装饰条纹，例如可用于作为拖拽条装饰
 
 
 

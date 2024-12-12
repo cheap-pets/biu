@@ -22,6 +22,7 @@
 
   import { ref, shallowRef, computed, provide, onMounted, nextTick } from 'vue'
   import { sizeProps, useSize } from '@/hooks/size'
+  import { debounce } from 'throttle-debounce'
 
   defineOptions({ name: 'MusselTabs' })
 
@@ -43,29 +44,37 @@
     ...sizeProps
   })
 
+  const { sizeStyle } = useSize(props)
+
   const thisEl = shallowRef()
   const mountedButtons = ref(new WeakMap())
+  const buttonsUpdateKey = ref(0)
 
   const buttons = computed(() =>
-    !thisEl.value || props.tabButtons
-      ? props.tabButtons
-      : Array
-        .from(thisEl.value.childNodes)
-        .filter(child => mountedButtons.value.has(child))
-        .map(child => mountedButtons.value.get(child))
+    props.tabButtons || (
+      thisEl.value && buttonsUpdateKey.value
+        ? Array
+          .from(thisEl.value.childNodes)
+          .filter(child => mountedButtons.value.has(child))
+          .map(child => mountedButtons.value.get(child))
+          .sort((a, b) => a.tabOrder - b.tabOrder)
+        : []
+    )
   )
 
-  const { sizeStyle } = useSize(props)
+  const increaseButtonsUpdateKey = debounce(200, () => buttonsUpdateKey.value++)
 
   function mountTab (tabProps, tabElement) {
     if (!props.tabButtons) {
       mountedButtons.value.set(tabElement, tabProps)
+      increaseButtonsUpdateKey()
     }
   }
 
   function unmountTab (tabProps, tabElement) {
     if (!props.tabButtons) {
       mountedButtons.value.delete(tabElement)
+      increaseButtonsUpdateKey()
     }
   }
 

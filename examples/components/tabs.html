@@ -56,12 +56,11 @@
       v-model:active-tab="activeTab"
       :tab-style="tabStyle"
       :tab-position="tabPosition"
-      :tab-bar-attrs="{ width: ['left', 'right'].includes(tabPosition) ? '150px' : undefined }"
       class="mu-box" margin="2x" padding="1x" border="dashed">
-      <mu-tab-panel name="Tab_1" caption="Tab Alpha" layout="flex" content-center>This is Tab 1</mu-tab-panel>
-      <mu-tab-panel name="Tab_2" caption="Tab Bravo" layout="flex" content-center>This is Tab 2</mu-tab-panel>
-      <mu-tab-panel name="Tab_3" caption="Tab Charlie" layout="flex" content-center>This is Tab 3</mu-tab-panel>
-      <mu-tab-panel name="Tab_4" caption="Tab Delta" disabled layout="flex" content-center>This is Tab 4</mu-tab-panel>
+      <mu-tab-panel name="Tab_1" :tab-order="4" caption="Tab Alpha" layout="flex" content-center>This is Tab 1</mu-tab-panel>
+      <mu-tab-panel name="Tab_2" :tab-order="3" caption="Tab Bravo" layout="flex" content-center>This is Tab 2</mu-tab-panel>
+      <mu-tab-panel name="Tab_3" :tab-order="2" caption="Tab Charlie" layout="flex" content-center>This is Tab 3</mu-tab-panel>
+      <mu-tab-panel v-if="tab4Visible" name="Tab_4" :tab-order="1" caption="Tab Delta" disabled layout="flex" content-center>This is Tab 4</mu-tab-panel>
     </mu-tabs>
 
     <div class="mu-divider mu-box" margin-x="2x" thin></div>
@@ -138,6 +137,12 @@
           activeTab2.value = tabName
         }
 
+        const tab4Visible = Vue.ref(false)
+
+        setTimeout(() => {
+          tab4Visible.value = true
+        }, 3000)
+
         return { 
           darkMode,
           positions,
@@ -149,7 +154,8 @@
           tabPosition,
           artists,
           onUIModeChange,
-          updateActiveTab2
+          updateActiveTab2,
+          tab4Visible
         }
       }
     })

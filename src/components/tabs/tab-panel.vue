@@ -1,5 +1,5 @@
 <template>
-  <div v-show="activeTab === name" ref="el" class="mu-tab-panel mu-box">
+  <div v-show="visible" ref="el" class="mu-tab-panel mu-box">
     <slot />
   </div>
 </template>
@@ -16,12 +16,17 @@
     name: String,
     title: String,
     caption: String,
-    disabled: Boolean
+    disabled: Boolean,
+    tabOrder: { type: Number, default: null }
   })
 
   const el = shallowRef()
   const tabs = inject('tabs', {})
-  const activeTab = computed(() => tabs.activeTab?.value)
+  const visible = computed(() => tabs.activeTab?.value === props.name)
+
+  defineExpose({
+    visible
+  })
 
   onMounted(() => tabs.mountTab?.(props, el.value))
   onBeforeUnmount(() => tabs.unmountTab?.(props, el.value))
