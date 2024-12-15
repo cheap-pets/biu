@@ -32,6 +32,10 @@ window.addEventListener('keydown', event => {
   }
 })
 
+window.addEventListener('resize', event => {
+  activePopup?.onCaptureWindowResize?.()
+})
+
 window.addEventListener('scroll', event => {
   activePopup?.onCaptureScroll?.(event)
 }, true)

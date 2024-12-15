@@ -224,6 +224,16 @@
     ) hide()
   }
 
+  function onCaptureWindowResize () {
+    if (visible.value) updatePosition()
+
+    if (!isElementInViewport(ctx.snapTo)) {
+      hide()
+    } else {
+      updatePosition()
+    }
+  }
+
   function onCaptureScroll (event) {
     if (!isPositionAssignable()) return
 
@@ -244,6 +254,7 @@
 
   usePopupManager(visible, {
     hide,
+    onCaptureWindowResize,
     onCaptureEscKeyDown,
     onCaptureMouseDown,
     onCaptureScroll

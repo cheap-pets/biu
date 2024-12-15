@@ -6,6 +6,8 @@
 </template>
 
 <script>
+  import './scroll-box.scss'
+
   import { attach, detach } from 'mussel-scrollbar'
 
   export default {

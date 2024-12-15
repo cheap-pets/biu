@@ -1,8 +1,9 @@
 <template>
   <a
     :class="['mu-tool-button', iconData.cls]"
-    :icon="icon"
     :active="active || null"
+    :icon="icon"
+    :size="size"
     @click="onClick"
     v-html="iconData.svg" />
 </template>
@@ -15,7 +16,15 @@
   defineOptions({ name: 'MusselToolButton' })
 
   const active = defineModel('active', { type: Boolean })
-  const props = defineProps({ icon: String, toggle: Boolean })
+
+  const props = defineProps({
+    icon: String,
+    toggle: Boolean,
+    size: {
+      type: String,
+      validator: v => ['small', 'normal', 'large'].includes(v)
+    }
+  })
 
   const iconData = useIcon(props).data
 

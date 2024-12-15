@@ -23,13 +23,13 @@
   border-radius: var(--mu-common-border-radius);
   outline: none;
 
-  &[small] {
+  &[size="small"] {
     --mu-button_size: var(--mu-input-size-small);
 
     font-size: 14px;
   }
 
-  &[large] {
+  &[size="large"] {
     --mu-button_size: var(--mu-input-size-large);
 
     font-size: 22px;

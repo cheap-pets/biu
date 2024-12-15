@@ -143,14 +143,18 @@
   }
 
   function hideOnEvent (event) {
-    if (popupVisible.value && !menu.value.contains(event.target)) hide()
+    if (
+      popupVisible.value &&
+      (!event || !menu.value.contains(event.target))
+    ) hide()
   }
 
   usePopupManager(popupVisible, {
     hide,
     onCaptureEscKeyDown,
+    onCaptureScroll: hideOnEvent,
     onCaptureMouseDown: hideOnEvent,
-    onCaptureScroll: hideOnEvent
+    onCaptureWindowResize: hideOnEvent
   })
 
   provide('popup', {

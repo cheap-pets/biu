@@ -27,7 +27,7 @@
   import { modalProps, modalEvents, useModal } from './modal'
   import { sizeProps, useSize } from '@/hooks/size'
 
-  defineOptions({ name: 'MusselDialog', inheritAttrs: false })
+  defineOptions({ name: 'MusselDrawer', inheritAttrs: false })
 
   const props = defineProps({
     ...sizeProps,
@@ -42,6 +42,7 @@
       validate: v => ['top', 'right', 'bottom', 'left'].includes(v.toLowerCase())
     }
   })
+
   const emit = defineEmits([...modalEvents])
 
   const { ready, container, modalVisible, onMaskClick } = useModal(props, emit)

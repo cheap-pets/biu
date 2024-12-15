@@ -1,5 +1,7 @@
 # MUSSEL 4 - 组件
 
+该文档为组件开发快速参考，请结合示例代码进行使用
+
 
 
 ## 1 - 布局
@@ -77,11 +79,21 @@ Flex 布局子元素分隔条，可拖拽调整元素尺寸。
 
 带非原生渲染滚动条的容器
 
+示例：
+
+```vue
+<template>
+  <mu-scroll-box />
+	<div v-mu-scrollbar style="overflow: auto" />
+  <div v-mu-scrollbar="false" style="overflow: auto" />
+</template>
+```
+
 > [!NOTE]
 >
-> 由 overflow (-x / -y) 样式控制滚动条的显示。
+> 由 overflow (-x / -y) 样式控制滚动条的显示，使用组件时默认自带 overflow: auto 样式。
 >
-> 亦可使用 v-mu-scrollbar 指令为容器元素增加同款滚动条。
+> 亦可使用 v-mu-scrollbar 指令为容器元素增加同款滚动条，指令绑定参数为 false 时将不渲染滚动条。
 
 
 
@@ -200,7 +212,13 @@ installIcons({
 
 ### MuBadge
 
-徽章，可用作标签显示
+徽章，可用作标签或角标显示
+
+```vue
+<template>
+	<mu-badge primart|accent|success|warning|danger>{{ caption }}</mu-badge>
+</template>
+```
 
 
 
@@ -212,17 +230,51 @@ installIcons({
 
 各种形态的按钮
 
+| 属性名称     | 类型    | 说明                                              |
+| ------------ | ------- | ------------------------------------------------- |
+| type         | String  | HTML INPUT 元素 type 属性，默认为 "button"        |
+| caption      | String  | 按钮标题                                          |
+| icon         | String  | 按钮图标                                          |
+| size         | String  | 按钮尺寸：small \| normal \| large                |
+| button-style | String  | 按钮风格：normal \| outline \| text \| link       |
+| round        | Boolean | 左右圆弧形态                                      |
+| active       | Boolean | 选中状态                                          |
+| disabled     | Boolean | 禁用状态                                          |
+| primary      | Boolean | 主色按钮                                          |
+| danger       | Boolean | 危险色按钮                                        |
+| accent       | Boolwan | 强调色按钮                                        |
+| xColor       | String  | 指定特殊的按钮颜色，值可为标准颜色值或 CSS 变量值 |
+
 
 
 ### MuButtonGroup
 
 按钮组。按钮组的某些外观设置将覆盖其中按钮的设置。
 
+| 属性名称    | 类型    | 说明                                         |
+| ----------- | ------- | -------------------------------------------- |
+| round       | Boolean | 左右圆弧形态                                 |
+| disabled    | Boolean | 禁用状态，若为 true， 其内部 Button 全部禁用 |
+| size        | String  | 同 MuButton，将覆盖内部 Button 属性          |
+| buttonStyle |         | 按钮风格：normal \| outline                  |
+| primary      | Boolean | 默认按钮颜色为主色                                 |
+| danger       | Boolean | 默认按钮颜色为危险色                               |
+| accent       | Boolwan | 默认按钮颜色为强调色                                 |
+| xColor       | String  | 指定特殊的默认按钮颜色 |
+
 
 
 ### MuToolButton
 
-工具栏中的快捷按钮，仅支持图标，不包含文字标题。
+用在快速工具栏或列表项中的快捷按钮，仅支持图标，不包含文字标题。
+
+| 属性名称 | 类型    | 说明                                                    |
+| -------- | ------- | ------------------------------------------------------- |
+| icon     | String  | 按钮图标                                                |
+| toggle   | Boolean | 是否开关按钮，若为 true，按下后将会选中或取消选中该按钮 |
+| active   | Boolean | 双向绑定属性，表示选中状态                              |
+| danger   | Boolean | 危险色按钮                                              |
+| disabled | Boolean | 禁用状态                                                |
 
 
 
@@ -234,11 +286,57 @@ installIcons({
 
 模态对话框
 
+| 属性名称      | 类型              | 说明                                       |
+| ------------- | ----------------- | ------------------------------------------ |
+| visible       | Boolean           | 可见状态                                   |
+| width         | String \| Number  | 窗口宽度                                   |
+| height        | String  \| Number | 窗口高度                                   |
+| title         | String            | 对话框标题                                 |
+| close-button  | Boolean           | 是否显示右上角关闭按钮，默认为 true        |
+| z-index       | String            | 窗口元素的垂直堆叠顺序                     |
+| mask-class    |                   | 遮罩元素 class                             |
+| mask-attrs    | Object            | 遮罩元素绑定属性                           |
+| easy-hide     | Boolean           | 是否允许快速关闭（点击遮罩、按下 ESC 等）  |
+| lazy          | Boolean           | 为 true 时，仅当第一次打开时渲染对话框内容 |
+| keep-position | Boolean           | 窗口再次打开时，是否使用上次关闭时的位置   |
+| buttons       | Array             | 对话框底部的操作按钮                       |
+
+
+
+| 事件           | 参数                                                         | 说明                                   |
+| -------------- | ------------------------------------------------------------ | -------------------------------------- |
+| update:visible | value - 变更值, <br />action - 触发事件, <br />trigger - 触发元素 | 可在事件中判断触发原因，进行表单检查等 |
+| show           |                                                              |                                        |
+| hide           |                                                              |                                        |
+
 
 
 ### MuDrawer
 
 可从四周浮出的抽屉面板
+
+| 属性名称      | 类型             | 说明                                           |
+| ------------- | ---------------- | ---------------------------------------------- |
+| visible       | Boolean          | 可见状态                                       |
+| width         | String \| Number | 窗口宽度                                       |
+| height        | String \| Number | 窗口高度                                       |
+| teleport      | Boolean          | 默认 true，是否渲染到指定的页面根容器 DOM 中。 |
+| easy-hide     | Boolean          | 是否允许快速关闭（点击遮罩、按下 ESC 等）      |
+| mask          | Boolean          | 是否显示遮罩，默认 true                        |
+| mask-class    |                  | 遮罩元素 class                                 |
+| mask-attrs    | Object           | 遮罩元素绑定属性                               |
+| position      | String           | 浮出位置。top \| right \| bottom \| left       |
+| border-radius | Boolean          | 是否为圆角                                     |
+| lazy          | Boolean          | 为 true 时，仅当第一次打开时渲染抽屉内容       |
+
+
+
+
+| 事件           | 参数                                                         | 说明                                   |
+| -------------- | ------------------------------------------------------------ | -------------------------------------- |
+| update:visible | value - 变更值, <br />action - 触发事件, <br />trigger - 触发元素 | 可在事件中判断触发原因，进行表单检查等 |
+| show           |                                                              |                                        |
+| hide           |                                                              |                                        |
 
 
 
@@ -250,6 +348,15 @@ installIcons({
 
 表单容器
 
+目前仅为布局用途，后续会支持表单项快速定义
+
+| 属性名称    | 类型             | 说明                                      |
+| ----------- | ---------------- | ----------------------------------------- |
+| width       | String \| Number | 表单宽度                                  |
+| height      | String \| Number | 表单高度                                  |
+| label-width | String           | 默认标签宽度                              |
+| label-align | String           | 默认标签对齐方式，left \| center \| right |
+
 
 
 ### MuFormRow
@@ -260,7 +367,15 @@ installIcons({
 
 ### MuFormField
 
-表单字段容器
+表单字段
+
+| 属性名称    | 类型             | 说明                                  |
+| ----------- | ---------------- | ------------------------------------- |
+| width       | String \| Number | 表单宽度                              |
+| height      | String \| Number | 表单高度                              |
+| label-width | String           | 标签宽度                              |
+| label-align | String           | 标签对齐方式，left \| center \| right |
+| label       | String           | 标签                                  |
 
 
 
@@ -268,17 +383,65 @@ installIcons({
 
 基本输入框
 
+| 属性名称    | 类型             | 说明                                |
+| ----------- | ---------------- | ----------------------------------- |
+| modelValue  |                  | 输入的值双向绑定属性                |
+| type        | String           | 原生 Input 元素的 type，默认为 text |
+| placeholder | String           | 占位文本                            |
+| clearable   | Boolean          | 是否显示清除按钮                    |
+| readonly    | Boolean          | 是否只读                            |
+| disabled    | Boolean          | 是否禁用                            |
+| prefix      | String \| Object | 前置文本或按钮                      |
+| Suffix      | String \| Object | 后置文本或按钮                      |
+| tabindex    | String           | 元素 tab 聚焦顺序，默认为 -1        |
+| small       |                  | 小尺寸输入框                        |
+| round       |                  | 左右是圆边的输入框                  |
+| invalid     |                  | 表示无效状态的样式                  |
+| input-style | String           | default \| solid \| underline       |
 
 
-### MuComboBox
 
-组合输入框，可支持输入与选择
+| 事件              | 参数  | 说明                   |
+| ----------------- | ----- | ---------------------- |
+| update:modelValue | value | 输入值变更事件         |
+| prefix-click      |       | 当前置按钮被点击时触发 |
+| suffix-click      |       | 当后置按钮被点击时触发 |
+
+
+
+### MuInputGroup
+
+输入框组
 
 
 
 ### MuSelect
 
-下拉选择框，仅单选
+下拉单选框
+
+| 属性名称   | 类型   | 说明                                                         |
+| ---------- | ------ | ------------------------------------------------------------ |
+| options    | Array  | 下拉选项列表                                                 |
+| option-key | String | 下拉选项的 key 属性，默认为 'value'                          |
+| value-mode | String | normal - 默认；composite - modelValue 结构为 { label, value } |
+| (其他)     |        | 包含全部 MuInput 属性、MuDropdown 中 "dropdown-" 为前缀的属性 |
+
+
+
+### MuComboBox
+
+组合输入框，可支持输入与单选。
+
+| 属性名称 | 类型    | 说明                           |
+| -------- | ------- | ------------------------------ |
+| editable | Boolean | 是否可由用户输入，默认为 false |
+| (其他)   |         | 包含全部 MuSelect 属性         |
+
+> [!NOTE]
+>
+> 若无需用户输入，建议使用 MuSelect。
+>
+> 若设置为可编辑，则不支持选项中的 label 属性，直接使用 value 属性进行显示。
 
 
 
@@ -286,11 +449,24 @@ installIcons({
 
 下拉多选框
 
+| 属性名称    | 类型        | 说明                                                         |
+| ----------- | ----------- | ------------------------------------------------------------ |
+| max-tags    | Number      | 最大显示已选项标签数量，默认为 2，超出部分将合并省略显示     |
+| tag-shrink  | Boolean     | 已选标签是否可缩小，默认为 true                              |
+| tag-tooltip | Boolean     | 已选标签是否显示标题文字 tooltip，默认为 true                |
+| nowrap      | (attribute) | 已选结果不自动进行换行显示。默认多选项若超出选择框宽度将自动换行 |
+
 
 
 ### MuDateInput
 
 日期选择框，目前支持选择到日或月
+
+| 属性名称  | 类型   | 说明                                                   |
+| --------- | ------ | ------------------------------------------------------ |
+| type      | String | date - 选择日期; month - 选择月份                      |
+| format    | String | 日期格式，默认为 yyyy-MM-dd                            |
+| valueType | String | 返回日期值的类型，可选 date (默认) \| string \| object |
 
 
 
@@ -298,11 +474,26 @@ installIcons({
 
 复选按钮
 
+| 属性名称   | 类型             | 说明                                               |
+| ---------- | ---------------- | -------------------------------------------------- |
+| modelValue | Boolean \| Array | 双向绑定的输入值                                   |
+| value      |                  | 选项值（当输入值是数组时，该选项在数组中的对应值） |
+| label      | String           | 标签文字                                           |
+| disabled   | Boolean          | 禁用状态                                           |
+
 
 
 ### MuRadio
 
 单选按钮
+
+| 属性名称   | 类型    | 说明             |
+| ---------- | ------- | ---------------- |
+| modelValue |         | 双向绑定的输入值 |
+| value      |         | 选项值，必填     |
+| label      | String  | 标签文字         |
+| disabled   | Boolean | 禁用状态         |
+
 
 
 
@@ -310,9 +501,49 @@ installIcons({
 
 开关
 
+| 属性名称       | 类型   | 说明                     |
+| -------------- | ------ | ------------------------ |
+| modelValue     |        | 双向绑定的输入值         |
+| label          | String | 标签文字                 |
+| active-label   | String | 打开状态的标签文字       |
+| Inactive-label | String | 关闭状态的标签文字       |
+| active-value   |        | 打开状态值，默认为 true  |
+| Inactive-value |        | 关闭状态值，默认为 false |
+
 
 
 ## 6 - 导航
+
+
+
+### MuDropdownPanel
+
+下拉面板
+
+| 属性名称       | 类型    | 说明                                     |
+| -------------- | ------- | ---------------------------------------- |
+| width          | String  | 面板宽度                                 |
+| height         | String  | 面板高度                                 |
+| scrollbar      | Boolean | 是否渲染 mussel 滚动条                   |
+| trigger        | String  | 显示触发方式：hover \| click             |
+| position       | String  | 弹出位置：auto \| fixed \| top \| bottom |
+| dropdown-items | Array   | 列表项                                   |
+
+
+
+| 事件      | 参数                         | 说明                         |
+| --------- | ---------------------------- | ---------------------------- |
+| show      |                              | 面板弹出时触发               |
+| hide      |                              | 面板关闭时触发               |
+| action    | action - 下拉项定义的 action | 包含 action 的下拉项点击触发 |
+| itemclick | item - 下拉项属性            | 下拉项点击触发               |
+
+
+
+| 方法 | 参数 | 说明     |
+| ---- | ---- | -------- |
+| show |      | 弹出面板 |
+| hide |      | 关闭面板 |
 
 
 
@@ -320,17 +551,72 @@ installIcons({
 
 下拉菜单
 
+| 属性名称           | 类型    | 说明                                             |
+| ------------------ | ------- | ------------------------------------------------ |
+| dropdown-class     |         | 下拉面板 class                                   |
+| dropdown-style     |         | 下拉面板样式                                     |
+| dropdown-snap-to   |         | 下拉面板吸附目标，默认为组件根元素               |
+| dropdown-panel     | Object  | 指定外部下拉面板，用于重复使用                   |
+| dropdown-attrs     | Object  | 下拉面板绑定属性                                 |
+| dropdown-width     | String  | 下拉面板宽度                                     |
+| dropdown-height    | String  | 下拉面板宽度                                     |
+| dropdown-icon      | String  | 下拉按钮图标，默认为下箭头                       |
+| dropdown-disabled  | Boolean | 下拉面板禁用状态                                 |
+| dropdown-scrollbar | Boolean | 下拉面板是否渲染 Mussel 滚动条                   |
+| dropdown-items     | Array   | 下拉项列表                                       |
+| dropdown-trigger   | String  | 下拉面板弹出触发方式：click \| hover (默认)      |
+| dropdown-position  | String  | 下拉面板弹出位置：auto \| fixed \| top \| bottom |
+
+
+
+| 事件               | 参数                         | 说明                         |
+| ------------------ | ---------------------------- | ---------------------------- |
+| action             | action - 下拉项定义的 action | 包含 action 的下拉项点击触发 |
+| dropdown:itemclick | Item - 下拉项属性            | 下拉项点击触发               |
+| dropdown:show      |                              | 下拉面板弹出时触发           |
+| dropdown:hide      |                              | 下拉面板关闭时触发           |
+
 
 
 ### MuDropdownButton
 
 带下拉菜单的按钮，支持分割按钮形式
 
+| 属性名称               | 类型    | 说明               |
+| ---------------------- | ------- | ------------------ |
+| split-button           | Boolean | 是否显示为分割按钮 |
+| (其他 MuButton 属性)   |         |                    |
+| (其他 MuDropdown 属性) |         |                    |
+
 
 
 ### MuContextMenu
 
-右键菜单
+上下文菜单，在需要的地方弹出。
+
+示例：
+
+```vue
+<template>
+	<mu-context-menu ref="contextMenu" :menus="menuItems" @action="onMenuAction"/>
+  <div @contextmenu="contextMenu.show" />
+</template>
+<script setup>
+  const contextMenu = shallowRef()
+  
+  function onMenuAction (action) {
+    // do something
+  }
+</script>
+```
+
+
+
+| 属性名称 | 类型  | 说明         |
+| -------- | ----- | ------------ |
+| menus    | Array | 菜单项列表项 |
+
+事件与方法同 MuDropdownPanel
 
 
 
