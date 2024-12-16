@@ -216,7 +216,7 @@ installIcons({
 
 ```vue
 <template>
-	<mu-badge primart|accent|success|warning|danger>{{ caption }}</mu-badge>
+	<mu-badge primary|accent|success|warning|danger>{{ caption }}</mu-badge>
 </template>
 ```
 
@@ -242,7 +242,7 @@ installIcons({
 | disabled     | Boolean | 禁用状态                                          |
 | primary      | Boolean | 主色按钮                                          |
 | danger       | Boolean | 危险色按钮                                        |
-| accent       | Boolwan | 强调色按钮                                        |
+| accent       | Boolean | 强调色按钮                                        |
 | xColor       | String  | 指定特殊的按钮颜色，值可为标准颜色值或 CSS 变量值 |
 
 
@@ -259,7 +259,7 @@ installIcons({
 | buttonStyle |         | 按钮风格：normal \| outline                  |
 | primary      | Boolean | 默认按钮颜色为主色                                 |
 | danger       | Boolean | 默认按钮颜色为危险色                               |
-| accent       | Boolwan | 默认按钮颜色为强调色                                 |
+| accent       | Boolean | 默认按钮颜色为强调色                                 |
 | xColor       | String  | 指定特殊的默认按钮颜色 |
 
 
@@ -455,6 +455,7 @@ installIcons({
 | tag-shrink  | Boolean     | 已选标签是否可缩小，默认为 true                              |
 | tag-tooltip | Boolean     | 已选标签是否显示标题文字 tooltip，默认为 true                |
 | nowrap      | (attribute) | 已选结果不自动进行换行显示。默认多选项若超出选择框宽度将自动换行 |
+| (其他)      |             | 包含全部 MuSelect 属性                                       |
 
 
 
@@ -467,6 +468,7 @@ installIcons({
 | type      | String | date - 选择日期; month - 选择月份                      |
 | format    | String | 日期格式，默认为 yyyy-MM-dd                            |
 | valueType | String | 返回日期值的类型，可选 date (默认) \| string \| object |
+| (其他)    |        | 包含其他 MuSelect 属性，options 相关属性除外           |
 
 
 
@@ -632,7 +634,13 @@ installIcons({
 
 ### MuListItem
 
-列表项
+列表项，用于数据显示或导航，默认外观包含一个图标加标题
+
+| 属性名称 | 类型   | 说明                                  |
+| -------- | ------ | ------------------------------------- |
+| icon     | String | 注册的图标名称或者 icon-font class    |
+| label    | String | 标题                                  |
+| tag      | String | 渲染的图标 dom 的 tagName，默认是 div |
 
 
 
@@ -646,11 +654,35 @@ installIcons({
 
 树
 
+| 属性说明           | 类型                       | 说明                                      |
+| ------------------ | -------------------------- | ----------------------------------------- |
+| data               | Array                      | 树节点数据                                |
+| props              | Object                     | 树节点数据属性定义                        |
+| buttons            | Array                      | 树节点工具按钮                            |
+| checkbox           | Boolean                    | 是否显示节点勾选框                        |
+| cascaded-check     | Boolean                    | 是否级联勾选                              |
+| checked-nodes-keys | Set                        | 已选节点（多）唯一标识                    |
+| auto-expand-level  | Number                     | 自动展开层级数                            |
+| active-node        | Object \| Number \| String | 当前选中节点                              |
+| node-icons         | Boolean \| Object          | 是否显示节点图标 & 自定义图标             |
+| expand-icons       | Boolean \| Object          | 是否显示节点展开状态图标 & 自定义展开图标 |
 
 
-### MuTreeNode
 
-树节点
+| 事件              | 参数          | 说明                                           |
+| ----------------- | ------------- | ---------------------------------------------- |
+| node-click        | node          | 节点点击时触发，不含展开按钮和节点工具按钮点击 |
+| node-expand       | node          | 节点展开时触发，可用于子节点懒加载             |
+| node-collapse     | node          | 节点收拢时触发                                 |
+| node-button-click | node, button  | 节点工具按钮点击时触发                         |
+| node-check-change | node, checked | 节点勾选状态改变时触发                         |
+
+
+
+| 插槽名称 | 说明                              |
+| -------- | --------------------------------- |
+| default  | 树节点模板，作用域参数为 node     |
+| buttons  | 树节点工具模板，作用域参数为 node |
 
 
 
@@ -658,11 +690,34 @@ installIcons({
 
 标签组
 
+| 属性名称         | 类型    | 说明                                         |
+| ---------------- | ------- | -------------------------------------------- |
+| tags             | String  | 标签数据                                     |
+| max              | Number  | 最大显示标签个数                             |
+| removable        | Boolean | 是否可删除                                   |
+| expandable       | Boolean | 是否可下拉展开显示所有标签项                 |
+| tooltip          | Boolean | 是否显示标签标题 tooltip，默认 true          |
+| dropdown-snap-to |         | 下拉面板吸附目标，默认为当前组件根元素父节点 |
+
+
+
+| 事件       | 参数 | 说明                   |
+| ---------- | ---- | ---------------------- |
+| tag-remove | tag  | 点击标签删除按钮时触发 |
+
 
 
 ### MuCalendar
 
-日历面板
+月历
+
+| 属性名称   | 类型                              | 说明                                                 |
+| ---------- | --------------------------------- | ---------------------------------------------------- |
+| modeValue  | Date \| String \| Object \| Array | 双向绑定的日期值                                     |
+| format     | String                            | String 类型下的日期格式，默认为 yyyy-MM-dd           |
+| value-type | String                            | 返回日期值的类型，可选 date (默认) \|string \|object |
+
+
 
 
 
@@ -670,19 +725,63 @@ installIcons({
 
 
 
-### MuMessageBox
+### MessageBox
 
 消息提示对话框
 
+示例：
+
+```vue
+<script setup>
+	import { inject } from 'vue'
+  
+  const { messageBox } = inject('$mussel')
+  
+  messageBox.alert('Hello World').then(btn => console.log(btn))
+  messageBox.confirm('Hello World').then(btn => console.log(btn))
+  messageBox.error('Hello World').then(btn => console.log(btn))
+  messageBox.warn('Hello World').then(btn => console.log(btn))
+</script>
+```
 
 
-### MuNotifier
+
+### Notifier
 
 浮动消息提示
+
+```vue
+<script setup>
+	import { inject } from 'vue'
+  
+  const { messageBox } = inject('$mussel')
+  
+  messageBox.notify({
+    title: '提示标题',
+    message: '提示消息内容',
+    type: 'success' // alert | success | warn | error
+  })
+</script>
+```
+
+
 
 
 
 ### MuStatusBox
 
 状态显示面板
+
+| 属性名称 | 类型   | 说明     |
+| -------- | ------ | -------- |
+| icon     | String | 状态图标 |
+| title    | String | 状态标题 |
+| message  | String | 消息内容 |
+
+
+
+| 插槽名称 | 说明                   |
+| -------- | ---------------------- |
+| default  | 自定义内容             |
+| icon     | 自定义图标（图片）内容 |
 

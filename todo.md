@@ -10,3 +10,4 @@
 * MuToolbar 增加 items 属性
 * 统一列表型子元素的快捷定义方式
 * 增加 v-mu-x-color 和 v-mu-x-bg 指令，用于快速设置颜色
+* 完善 MuCalendar 的特性

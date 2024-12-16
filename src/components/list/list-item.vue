@@ -10,17 +10,16 @@
 <script setup>
   import './list-item.scss'
 
-  import { computed } from 'vue'
-
   defineOptions({
     name: 'MusselListItem'
   })
 
-  const props = defineProps({
-    tag: String,
+  defineProps({
     icon: String,
-    label: String
+    label: String,
+    tag: {
+      type: String,
+      default: 'div'
+    }
   })
-
-  const componentTag = computed(() => props.tag === 'a' ? 'a' : 'div')
 </script>

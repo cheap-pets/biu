@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui">
   <title>Selection Component Example</title>
 
   <script type="text/javascript" src="../../node_modules/vue/dist/vue.global.js"></script>
@@ -41,8 +42,8 @@
       <mu-check v-model="checked" label="Check 4" value="4"></mu-check>
       <mu-check v-model="checked" label="Check 5" value="5" disabled></mu-check>
     </div>
-    <div class="group">
-      <h3>RADIO</h3>
+    <div class="group" v-mu-scrollbar style="height: 200px; overflow: auto;">
+      <h3 style="height: 1000px;">RADIO</h3>
       <mu-radio value="1" label="Radio 1" v-model="radioValue"></mu-radio>
       <mu-radio value="2" label="Radio 2" v-model="radioValue"></mu-radio>
       <mu-radio value="3" label="Radio 3" v-model="radioValue" disabled></mu-radio>

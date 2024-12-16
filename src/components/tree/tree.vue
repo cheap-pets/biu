@@ -21,7 +21,6 @@
   defineOptions({ name: 'MusselTree' })
 
   const props = defineProps({
-    ui: Object,
     data: Array,
     props: Object,
     buttons: Array,
