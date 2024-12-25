@@ -286,20 +286,21 @@ installIcons({
 
 模态对话框
 
-| 属性名称      | 类型              | 说明                                       |
-| ------------- | ----------------- | ------------------------------------------ |
-| visible       | Boolean           | 可见状态                                   |
-| width         | String \| Number  | 窗口宽度                                   |
-| height        | String  \| Number | 窗口高度                                   |
-| title         | String            | 对话框标题                                 |
-| close-button  | Boolean           | 是否显示右上角关闭按钮，默认为 true        |
-| z-index       | String            | 窗口元素的垂直堆叠顺序                     |
-| mask-class    |                   | 遮罩元素 class                             |
-| mask-attrs    | Object            | 遮罩元素绑定属性                           |
-| easy-hide     | Boolean           | 是否允许快速关闭（点击遮罩、按下 ESC 等）  |
-| lazy          | Boolean           | 为 true 时，仅当第一次打开时渲染对话框内容 |
-| keep-position | Boolean           | 窗口再次打开时，是否使用上次关闭时的位置   |
-| buttons       | Array             | 对话框底部的操作按钮                       |
+| 属性名称             | 类型              | 说明                                        |
+| -------------------- | ----------------- | ------------------------------------------- |
+| visible              | Boolean           | 可见状态                                    |
+| width                | String \| Number  | 窗口宽度                                    |
+| height               | String  \| Number | 窗口高度                                    |
+| title                | String            | 对话框标题                                  |
+| close-button         | Boolean           | 是否显示右上角关闭按钮，默认为 true         |
+| z-index              | String            | 窗口元素的垂直堆叠顺序                      |
+| mask-class           |                   | 遮罩元素 class                              |
+| mask-attrs           | Object            | 遮罩元素绑定属性                            |
+| easy-hide            | Boolean           | 是否允许快速关闭（点击遮罩、按下 ESC 等）   |
+| lazy                 | Boolean           | 为 true 时，仅当第一次打开时渲染对话框内容  |
+| keep-position        | Boolean           | 窗口再次打开时，是否使用上次关闭时的位置    |
+| ignore-button-action | Boolean           | 是否忽略按钮的默认 Action（目前仅支持关闭） |
+| buttons              | Array             | 对话框底部的操作按钮                        |
 
 
 
@@ -474,7 +475,7 @@ installIcons({
 
 ### MuCheck
 
-复选按钮
+复选按钮  -
 
 | 属性名称   | 类型             | 说明                                               |
 | ---------- | ---------------- | -------------------------------------------------- |

@@ -1,5 +1,7 @@
 import './styles/index.scss'
 
+import pkg from '../package.json'
+
 import { install as installTheme } from './theme.js'
 import { install as installIcons } from './icons/index.js'
 import { install as installDirectives } from './directives/index.js'
@@ -7,6 +9,7 @@ import { install as installComponents } from './components/index.js'
 
 import { resolveElement } from './utils/dom.js'
 
+const version = pkg.version
 const isSysDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 
 function install (app, options = {}) {
@@ -32,4 +35,4 @@ function install (app, options = {}) {
 export * as scrollbar from 'mussel-scrollbar'
 
 export { EventInterceptor } from './events'
-export { install, installIcons }
+export { version, install, installIcons }

@@ -40,19 +40,19 @@ export function useModal (props, emit) {
   let isMouseDownInMask
   let isMouseUpInMask
 
-  function hide (action, trigger) {
-    emit('update:visible', false, action, trigger)
+  function hide (trigger) {
+    emit('update:visible', false, trigger)
   }
 
   function onMaskClick (event) {
     if (props.easyHide && isMouseDownInMask && isMouseUpInMask) {
       isMouseDownInMask = undefined
-      hide('mask-click', '$MASK')
+      hide('$MASK')
     }
   }
 
   function onCaptureEscKeyDown (event) {
-    if (props.visible && props.easyHide) hide('esc-key', '$ESC')
+    if (props.visible && props.easyHide) hide('$ESC')
   }
 
   function onCaptureMouseDown (event) {

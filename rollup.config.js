@@ -1,6 +1,7 @@
 import path from 'path'
 import browserslist from 'browserslist'
 
+import json from '@rollup/plugin-json'
 import alias from '@rollup/plugin-alias'
 import resolve from '@rollup/plugin-node-resolve'
 // import commonjs from '@rollup/plugin-commonjs'
@@ -53,6 +54,7 @@ export default {
     string({
       include: '**/*.svg'
     }),
+    json(),
     sass({
       extract: true,
       minify: isDevEnv ? 0 : 1,

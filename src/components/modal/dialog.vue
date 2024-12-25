@@ -22,7 +22,7 @@
                 <mu-tool-button
                   v-if="closeButton"
                   class="mu-close-button" icon="X"
-                  @click="hide('close-button-click', '$CLOSE')" />
+                  @click="hide('$X')" />
               </slot>
             </div>
             <slot />
@@ -31,7 +31,9 @@
                 <slot name="footer-prepend" />
                 <component
                   :is="el.is"
-                  v-for="el in footerButtons" :key="el.key" v-bind="el.bindings"
+                  v-for="el in footerButtons"
+                  :key="el.key"
+                  v-bind="el.attrs"
                   @click="el.is === 'mu-button' && onButtonClick(el)" />
                 <slot name="footer-append" />
               </slot>
@@ -48,7 +50,7 @@
 
   import { useSlots, ref, shallowRef, reactive, computed, watchEffect } from 'vue'
   import { modalProps, modalEvents, useModal } from './modal'
-  import { DialogToolPresets } from './dialog-tool-presets'
+  import { DialogButtonPresets } from './presets'
   import { sizeProps, useSize } from '@/hooks/size'
   import { useKeyGen } from '@/hooks/key-gen'
   import { isString } from '@/utils/type'
@@ -63,17 +65,18 @@
     ...modalProps,
     zIndex: String,
     buttons: Array,
-    keepPosition: Boolean,
     icon: [String, Object],
     title: [String, Object],
+    keepPosition: Boolean,
+    ignoreButtonAction: Boolean,
     closeButton: { type: Boolean, default: true }
   })
 
   const slots = useSlots()
 
   const { ready, container, modalVisible, hide, onMaskClick } = useModal(props, emit)
-  const { genKey, getObjectKey } = useKeyGen()
   const { sizeStyle } = useSize(props)
+  const { genKey } = useKeyGen()
 
   const headerVisible = computed(() => props.title || props.closeButton || slots.header)
   const footerVisible = computed(() => props.buttons?.length || slots.footer)
@@ -83,11 +86,24 @@
   )
 
   const footerButtons = computed(() =>
-    props.buttons?.map(el =>
-      isString(el)
-        ? { key: genKey(), is: 'mu-button', bindings: { caption: el }, ...DialogToolPresets[el] }
-        : { key: getObjectKey(el), is: 'mu-button', bindings: el }
-    )
+    props.buttons?.map(el => {
+      const { _el, is = 'mu-button', key = genKey(), ...attrs } = isString(el)
+        ? { _el: el, ...DialogButtonPresets[el] }
+        : el
+
+      if (is === 'mu-button') {
+        const { name = _el, action } = attrs
+
+        attrs.caption ??= name
+
+        delete attrs.name
+        delete attrs.action
+
+        return { is, key, name, action, attrs }
+      } else {
+        return { is, key, attrs }
+      }
+    })
   )
 
   const maskEl = shallowRef()
@@ -156,13 +172,14 @@
   }
 
   function onButtonClick (btn) {
-    const { action, bindings = {} } = btn
-    const { name = bindings.name || bindings.id || bindings.caption } = btn
+    emit('buttonClick', {
+      ...btn.attrs,
+      name: btn.name,
+      action: btn.action
+    })
 
-    if (action === 'close') {
-      hide('button-click', name)
-    } else {
-      emit('buttonClick', name)
+    if (btn.action === 'close' && !props.ignoreButtonAction) {
+      hide(btn.name)
     }
   }
 

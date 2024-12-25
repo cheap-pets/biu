@@ -4,28 +4,28 @@ export const MessageTypes = {
   ALERT: {
     icon: 'info',
     title: lang.Message.ALERT,
-    buttons: ['OK']
+    buttons: ['#OK']
   },
   SUCCESS: {
     icon: 'ok',
     title: lang.Message.SUCCESS,
-    buttons: ['OK']
+    buttons: ['#OK']
   },
   CONFIRM: {
     icon: 'question',
     title: lang.Message.CONFIRM,
-    buttons: ['CANCEL', 'OK']
+    buttons: ['#CANCEL', '#OK']
   },
   ERROR: {
     icon: 'x',
     title: lang.Message.ERROR,
-    buttons: ['OK!'],
+    buttons: ['#OK!'],
     danger: true
   },
   WARN: {
     icon: 'alert',
     title: lang.Message.WARN,
-    buttons: ['CANCEL', 'OK!'],
+    buttons: ['#CANCEL', '#OK!'],
     danger: true
   }
 }

@@ -2,9 +2,13 @@
   <mu-dialog
     ref="dialog"
     v-model:visible="visible"
-    :buttons="buttons" :easy-hide="easyHide"
-    class="mu-message-box" mask-class="mu-message-mask"
-    @button-click="onButtonClick" @update:visible="onVisibleChange">
+    ignore-button-action
+    class="mu-message-box"
+    mask-class="mu-message-mask"
+    :buttons="buttons"
+    :easy-hide="easyHide"
+    @button-click="onButtonClick"
+    @update:visible="onVisibleChange">
     <mu-message v-bind="{ icon, title, message, type }" />
   </mu-dialog>
 </template>
@@ -32,10 +36,10 @@
   const visible = ref(true)
 
   function onButtonClick (btn) {
-    dialog.value.hide('button-click', btn)
+    dialog.value.hide(btn.name)
   }
 
-  function onVisibleChange (v, action, trigger) {
+  function onVisibleChange (v, trigger) {
     if (!v) props.callback?.(trigger)
   }
 </script>

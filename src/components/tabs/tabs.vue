@@ -5,7 +5,8 @@
       v-bind="tabBarAttrs"
       :tab-style="tabStyle"
       :tab-buttons="buttons"
-      :tab-position="tabPosition">
+      :tab-position="tabPosition"
+      @button-click="$emit('buttonClick', $event)">
       <template #prepend>
         <slot name="tab-bar-prepend" />
       </template>
@@ -25,6 +26,7 @@
   import { debounce } from 'throttle-debounce'
 
   defineOptions({ name: 'MusselTabs' })
+  defineEmits(['buttonClick'])
 
   const activeTab = defineModel('activeTab', { type: String })
 

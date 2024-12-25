@@ -1,5 +1,28 @@
+function getRandomUUID () {
+  const array = new Uint8Array(16)
+
+  window.crypto.getRandomValues(array)
+
+  array[6] = (array[6] & 0x0f) | 0x40 // 设置版本为 4
+  array[8] = (array[8] & 0x3f) | 0x80 // 设置变体为 8-11
+
+  let uuid = ''
+
+  for (let i = 0; i < array.length; i++) {
+    const hex = array[i].toString(16).padStart(2, '0')
+
+    uuid += hex
+
+    if (i === 3 || i === 5 || i === 7 || i === 9) {
+      uuid += '-'
+    }
+  }
+
+  return uuid
+}
+
 export function generateUUID () {
-  return crypto.randomUUID()
+  return window.crypto.randomUUID?.() || getRandomUUID()
 }
 
 // FNV-a1 algorithm

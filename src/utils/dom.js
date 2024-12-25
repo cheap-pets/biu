@@ -34,12 +34,11 @@ export function resolveSafeHTML (html = '') {
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // <script> node
 }
 
-export function isElementInViewport (el) {
-  const { innerHeight, innerWidth } = window
-  const { top, left, height, width } = el.getBoundingClientRect()
+export function isElementInViewport (element) {
+  const { top, bottom, left, right } = element.getBoundingClientRect()
 
-  const xInView = (left <= innerWidth) && ((left + width) >= 0)
-  const yInView = (top <= innerHeight) && ((top + height) >= 0)
-
-  return xInView && yInView
+  return (
+    top <= window.innerHeight && bottom >= 0 &&
+    left <= window.innerWidth && right >= 0
+  )
 }

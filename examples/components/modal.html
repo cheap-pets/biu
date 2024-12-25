@@ -60,7 +60,7 @@
       keep-position
       :lazy="false"
       :icon="{ icon: 'box', style: 'color: var(--mu-accent-color)' }"
-      :buttons="['-', 'Find', ' ', 'CANCEL', 'OK']"
+      :buttons="['-', 'Find', ' ', '#CANCEL', '#OK']"
       @update:visible="(...args) => onDialogVisibleChange('dialog1', ...args)"
       @button-click="onButtonClick">
       <template #header-append>
@@ -124,15 +124,15 @@
           document.querySelector(divId).requestFullscreen()
         }
 
-        function onDialogVisibleChange (dialogName, value, action, btn) {
-          console.log(dialogName, value, action, btn)
+        function onDialogVisibleChange (dialogName, value, trigger) {
+          console.log(dialogName, value, trigger)
         }
 
         function onButtonClick(button) {
-          if (button === 'Find') {
+          if (button.name === 'Find') {
             $mussel.messageBox.alert('Cannot find any !')
           } else {
-            console.log(button)
+            console.log(button.name)
           }
         }
 

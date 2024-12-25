@@ -1,0 +1,43 @@
+.mu-dropdown-panel {
+  position: fixed !important;
+  z-index: var(--mu-z-index-popup);
+
+  overflow: auto;
+
+  padding: 4px;
+
+  text-align: start;
+  
+  opacity: 0;
+  background: var(--mu-bg-overlay);
+  border: 1px solid var(--mu-border-color-muted);
+  border-radius: var(--mu-common-border-radius);
+  box-shadow: var(--mu-shadow-popup);
+
+  transition-duration: .1s;
+  transition-property: opacity;
+
+  &[position="top"],
+  &[position="bottom"] {
+    transform: scaleY(0);
+    transition-property: transform, opacity;
+
+    &[pop-up] {
+      transform: scaleY(1);
+    }
+  }
+
+  &[position="bottom"] {
+    transform-origin: top;
+    margin-top: 4px;
+  }
+
+  &[position="top"] {
+    transform-origin: bottom;
+    margin-bottom: 4px;
+  }
+
+  &[pop-up] {
+    opacity: 1;
+  }
+}

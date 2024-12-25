@@ -56,7 +56,8 @@
       v-model:active-tab="activeTab"
       :tab-style="tabStyle"
       :tab-position="tabPosition"
-      class="mu-box" margin="2x" padding="1x" border="dashed">
+      class="mu-box" margin="2x" padding="1x" border="dashed"
+      @button-click="console.log($event)">
       <mu-tab-panel name="Tab_1" :tab-order="4" caption="Tab Alpha" layout="flex" content-center>This is Tab 1</mu-tab-panel>
       <mu-tab-panel name="Tab_2" :tab-order="3" caption="Tab Bravo" layout="flex" content-center>This is Tab 2</mu-tab-panel>
       <mu-tab-panel name="Tab_3" :tab-order="2" caption="Tab Charlie" layout="flex" content-center>This is Tab 3</mu-tab-panel>

@@ -7,7 +7,7 @@
         :key="el.name"
         :active="activeTab === el.name"
         v-bind="el"
-        @click="activeTab = el.name" />
+        @click="onButtonClick(el.name)" />
     </div>
     <slot name="append" />
   </div>
@@ -21,5 +21,12 @@
   defineOptions({ name: 'MusselTabBar' })
   defineProps({ tabButtons: Array })
 
+  const emit = defineEmits(['buttonClick'])
   const activeTab = defineModel('activeTab', { type: String })
+
+  function onButtonClick (name) {
+    activeTab.value = name
+
+    emit('buttonClick', name)
+  }
 </script>

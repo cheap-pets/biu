@@ -10,6 +10,7 @@
       @click="onClick"
       @mouseover.stop="clearHideTimer"
       @mouseleave.stop="delayHide">
+      <div v-if="scrollbar" class="mu-scrollbar_tracks" />
       <slot>
         <component
           :is="el.is"
@@ -22,6 +23,8 @@
 </template>
 
 <script setup>
+  import './dropdown-panel.scss'
+
   import { ref, toRef, shallowRef, shallowReactive, computed, provide, inject } from 'vue'
   import { useListItems } from '../list/list-items'
   import { usePopupManager } from '@/hooks/popup'
