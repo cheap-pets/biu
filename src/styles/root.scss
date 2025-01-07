@@ -42,7 +42,7 @@
     --mu-bg-translucent-#{$v}: rgb(from var(--mu-#{$v}-color) r g b / 0.1);
   }
 
-  --mu-border-color: var(--mu-gray-4);
+  --mu-border-color: var(--mu-gray-3);
   --mu-border-color-muted: var(--mu-gray-2);
 }
 
@@ -57,7 +57,7 @@
   --mu-content-spacing: 5px;
 
   --mu-common-font-size: 14px;
-  // --mu-common-line-height: 20px;
+  --mu-common-line-height: 20px;
 
   --mu-common-border-radius: 4px;
   --mu-window-border-radius: 8px;

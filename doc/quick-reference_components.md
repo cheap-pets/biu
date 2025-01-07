@@ -62,12 +62,14 @@
 
 Flex 布局子元素分隔条，可拖拽调整元素尺寸。
 
-| 属性名称           | 类型    | 说明                                                     |
-| ------------------ | ------- | -------------------------------------------------------- |
-| appearance         | String  | 外观选项：normal - 默认；slim - 细线条；concealed - 隐蔽 |
-| collapse-button    | Boolean | 是否显示收拢按钮，默认 false                             |
-| collapse-threshold | Number  | 收拢尺寸阈值， px 单位，默认 200                         |
-| resizable          | String  | 当为 "false" 时，不可拖拽调整尺寸                        |
+| 属性名称           | 类型    | 说明                                                         |
+| ------------------ | ------- | ------------------------------------------------------------ |
+| size               | String  | 尺寸选项：normal - 默认；slim - 细；concealed - 隐蔽         |
+| splitter-style     | String  | 风格选项：simple - 细长条；stripe - 带条纹装饰的细长条；bubble - 圆角短条 |
+| space-free         | Boolean | 是否不占用父容器空间，默认 false                             |
+| collapse-button    | Boolean | 是否显示收拢按钮，默认 false                                 |
+| collapse-threshold | Number  | 收拢尺寸阈值， px 单位，默认 200                             |
+| resizable          | Boolean | 当为 "false" 时，不可拖拽调整尺寸                            |
 
 > [!NOTE]
 >

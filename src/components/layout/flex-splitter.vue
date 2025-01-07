@@ -2,15 +2,17 @@
   <div
     ref="thisEl"
     class="mu-flex-splitter"
+    :size="size || defaultSize"
     :direction="direction"
-    :appearance="appearance || splitterOptions.appearance"
+    :resizable="resizable ? null : 'no'"
+    :space-free="spaceFree ? '' : null"
+    :splitter-style="splitterStyle || defaultStyle"
     @dblclick="onDblClick"
     @mousedown="onMouseDown">
-    <slot>
+    <slot v-if="resizable && isStriped" name="stripe">
       <mu-svg-stripe
-        v-if="handleDirection"
-        class="mu-flex-splitter_handle"
-        :direction="handleDirection" />
+        class="mu-flex-splitter_stripe"
+        :direction="StripeDirectionMap[direction]" />
     </slot>
   </div>
 </template>
@@ -19,25 +21,39 @@
   import './flex-splitter.scss'
 
   import { ref, computed, inject, provide, onMounted } from 'vue'
+  import { kebabCase } from '@/utils/case'
 
   const { splitter: splitterOptions = {} } = inject('$mussel').options
+  const { size: defaultSize = 'slim', style: defaultStyle = 'simple' } = splitterOptions
 
   const thisEl = ref()
   const direction = ref()
 
   const props = defineProps({
-    appearance: String,
+    resizable: {
+      type: Boolean,
+      default: true
+    },
+    size: {
+      type: String,
+      validate: v => ['normal', 'slim', 'concealed'].includes(v)
+    },
+    splitterStyle: {
+      type: String,
+      validate: v => ['simple', 'stripe', 'bubble'].includes(kebabCase(v))
+    },
+    spaceFree: Boolean,
     collapseButton: Boolean,
     collapseThreshold: { type: Number, default: 200 }
   })
 
-  const HandleDirectionMap = {
+  const StripeDirectionMap = {
     row: 'vertical',
     column: 'horizontal'
   }
 
-  const handleDirection = computed(() =>
-    (splitterOptions.handle !== false) && HandleDirectionMap[direction.value]
+  const isStriped = computed(() =>
+    (props.splitterStyle || defaultStyle) === 'stripe'
   )
 
   function isResizableElement (element) {
@@ -129,13 +145,29 @@
       return isRowDirection
         ? {
           size: element.offsetWidth,
-          min: calcPixelValue(style.minWidth),
+          min: Math.max(
+            calcPixelValue(style.minWidth),
+            (
+              calcPixelValue(style.paddingLeft) +
+              calcPixelValue(style.paddingRight) +
+              calcPixelValue(style.borderLeftWidth) +
+              calcPixelValue(style.borderRightWidth)
+            )
+          ),
           max: calcPixelValue(style.maxWidth),
           margin: calcPixelValue(style.marginLeft) + calcPixelValue(style.marginRight) + gap
         }
         : {
           size: element.offsetHeight,
-          min: calcPixelValue(style.minHeight),
+          min: Math.max(
+            calcPixelValue(style.minHeight),
+            (
+              calcPixelValue(style.paddingTop) +
+              calcPixelValue(style.paddingBottom) +
+              calcPixelValue(style.borderTopWidth) +
+              calcPixelValue(style.borderBottomWidth)
+            )
+          ),
           max: calcPixelValue(style.maxHeight),
           margin: calcPixelValue(style.marginTop) + calcPixelValue(style.marginBottom) + gap
         }
@@ -261,6 +293,7 @@
       nextSibling, nextStartSize, nextMargin, nextCollapseOffset
     } = params
 
+    const { parentNode } = thisEl.value
     const { pageX: startX, pageY: startY } = event
 
     function calcAndCollapse (offset) {
@@ -272,14 +305,19 @@
             : null
 
       if (!collapseTarget) {
+        thisEl.value.removeAttribute('collapsed')
+
         prevSibling.classList.remove('mu-flex-collapsed')
         nextSibling.classList.remove('mu-flex-collapsed')
+
         return
       }
 
       const [expandTarget, compensation] = collapseTarget === prevSibling
         ? [nextSibling, prevMargin]
         : [prevSibling, nextMargin]
+
+      thisEl.value.setAttribute('collapsed', '')
 
       collapseTarget.classList.add('mu-flex-collapsed')
       collapseTarget.style.flexBasis = 0
@@ -304,12 +342,14 @@
 
     function onMouseUp () {
       thisEl.value.removeAttribute('active')
+      parentNode.classList.remove('mu-resizing')
 
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
     }
 
     thisEl.value.setAttribute('active', true)
+    parentNode.classList.add('mu-resizing')
 
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)

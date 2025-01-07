@@ -28,6 +28,10 @@
     .mu-combo-box {
       width: 300px;
     }
+
+    .my-select > input {
+      color: green;
+    }
   </style>
 </head>
 
@@ -75,9 +79,11 @@
     </div>
     <div class="group">
       <mu-select
+        class="my-select"
         v-model="artist"
         dropdown-width="auto"
         placeholder="select an artist"
+        prefix="Artist:"
         :options="artists">
       </mu-select>
       <mu-multi-select

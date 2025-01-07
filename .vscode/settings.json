@@ -3,6 +3,15 @@
     "@/": "${folder}/src",
     "~icons/": "${folder}/node_modules/@tabler/icons/icons"
   },
+  "cSpell.ignorePaths": [
+    "dist",
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git",
+    ".vscode",
+    ".vscode-insiders"
+  ],
   "cSpell.words": [
     "colorette",
     "itemclick",

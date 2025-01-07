@@ -20,6 +20,6 @@
     --mu-bg-translucent-#{$v}: rgb(from var(--mu-#{$v}-color) r g b / 0.2);
   }
 
-  --mu-border-color: var(--mu-gray-4);
+  --mu-border-color: var(--mu-gray-5);
   --mu-border-color-muted: var(--mu-gray-6);
 }

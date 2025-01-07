@@ -14,7 +14,7 @@
   padding: 5px 11px;
 
   font-size: var(--mu-common-font-size);
-  // line-height: var(--mu-common-line-height);
+  line-height: var(--mu-common-line-height);
 
   border-radius: var(--mu-input_border-radius);
   outline: none;
@@ -44,7 +44,7 @@
     textarea#{&},
     input#{&},
     #{&} > input {
-      // line-height: var(--mu-common-line-height);
+      line-height: var(--mu-common-line-height);
       color: var(--mu-text-color-clear);
       outline: none;
 

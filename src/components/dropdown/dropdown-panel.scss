@@ -41,3 +41,17 @@
     opacity: 1;
   }
 }
+
+.mu-dropdown-panel.mu-popup_mask {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  overflow: hidden;
+
+  background-color: var(--mu-bg-mask);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
