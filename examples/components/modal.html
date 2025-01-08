@@ -53,6 +53,9 @@
     </div>
     <mu-dialog
       v-model:visible="dialog1Visible"
+      id="dialog1"
+      maximizable
+      maximize-to-fullscreen
       title="Modal Dialog 1"
       width="800"
       height="600"
@@ -69,8 +72,13 @@
           class="mu-icon-button"
           button-style="text"
           dropdown-icon="dots"
-          :dropdown-items="menus">
-        </mu-dropdown>
+          :dropdown-items="[
+            { label: 'Open Recent Files' },
+            { label: 'New File' },
+            '-',
+            { label: 'Exit' }
+          ]">
+        </mu-dropdown-button>
       </template>
       <div v-mu-scrollbar class="mu-dialog_body mu-bg-strong" style="padding: 24px;">
         <div style="height: 1000px; font-style: italic; font-size: 16px;">
@@ -104,13 +112,6 @@
         const maskVisible = Vue.ref(true)
         const borderRadius = Vue.ref(true)
 
-        const menus = [
-          { label: 'Open Recent Files' },
-          { label: 'New File' },
-          '-',
-          { label: 'Exit' }
-        ]
-
         function openDialog1 () {
           dialog1Visible.value = true
         }
@@ -120,8 +121,8 @@
           drawer1Visible.value = true
         }
         
-        function requestFullscreen (divId) {
-          document.querySelector(divId).requestFullscreen()
+        function requestFullscreen (selector) {
+          document.querySelector(selector).requestFullscreen()
         }
 
         function onDialogVisibleChange (dialogName, value, trigger) {
@@ -146,7 +147,6 @@
           drawerPosition,
           maskVisible,
           borderRadius,
-          menus,
           openDialog1,
           openDrawer1,
           onDialogVisibleChange,

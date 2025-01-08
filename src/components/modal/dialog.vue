@@ -19,10 +19,16 @@
                 <mu-icon v-if="icon" class="mu-dialog_icon" v-bind="iconBindings" />
                 <label class="mu-dialog_title" draggable="false">{{ title }}</label>
                 <slot name="header-append" />
-                <mu-tool-button
-                  v-if="closeButton"
-                  class="mu-close-button" icon="X"
-                  @click="hide('$X')" />
+                <div>
+                  <mu-tool-button
+                    v-if="maximizable"
+                    :icon="stateIcon"
+                    @click="toggleWindowState" />
+                  <mu-tool-button
+                    v-if="closeButton"
+                    class="mu-close-button" icon="X"
+                    @click="hide('$X')" />
+                </div>
               </slot>
             </div>
             <slot />
@@ -48,7 +54,7 @@
 <script setup>
   import './dialog.scss'
 
-  import { useSlots, ref, shallowRef, reactive, computed, watchEffect } from 'vue'
+  import { useSlots, ref, shallowRef, reactive, computed, watch, watchEffect } from 'vue'
   import { modalProps, modalEvents, useModal } from './modal'
   import { DialogButtonPresets } from './presets'
   import { sizeProps, useSize } from '@/hooks/size'
@@ -67,6 +73,8 @@
     buttons: Array,
     icon: [String, Object],
     title: [String, Object],
+    maximizable: Boolean,
+    maximizeToFullscreen: Boolean,
     keepPosition: Boolean,
     ignoreButtonAction: Boolean,
     closeButton: { type: Boolean, default: true }
@@ -78,6 +86,9 @@
   const { sizeStyle } = useSize(props)
   const { genKey } = useKeyGen()
 
+  const maximized = ref(false)
+
+  const stateIcon = computed(() => maximized.value ? 'windowNormal' : 'windowMaximized')
   const headerVisible = computed(() => props.title || props.closeButton || slots.header)
   const footerVisible = computed(() => props.buttons?.length || slots.footer)
 
@@ -144,6 +155,7 @@
 
   function onDragStart (event) {
     if (
+      maximized.value ||
       !['mu-dialog_header', 'mu-dialog_title']
         .find(cls => event.target.classList.contains(cls))
     ) return
@@ -182,6 +194,41 @@
       hide(btn.name)
     }
   }
+
+  function toggleWindowState () {
+    maximized.value = !maximized.value
+
+    if (maximized.value) {
+      if (props.maximizeToFullscreen) {
+        dialogEl.value.requestFullscreen()
+      } else {
+        dialogEl.value.classList.add('mu-dialog-maximized')
+      }
+    } else {
+      if (props.maximizeToFullscreen) {
+        document.exitFullscreen()
+      } else {
+        dialogEl.value.classList.remove('mu-dialog-maximized')
+      }
+    }
+  }
+
+  window.addEventListener('fullscreenchange', () => {
+    if (
+      maximized.value &&
+      props.maximizeToFullscreen &&
+      document.fullscreenElement !== dialogEl.value
+    ) {
+      maximized.value = false
+    }
+  })
+
+  watch(
+    () => props.visible,
+    v => {
+      if (!v && maximized.value && props.maximizeToFullscreen) toggleWindowState()
+    }
+  )
 
   watchEffect(() => {
     if (props.visible && !props.keepPosition) {

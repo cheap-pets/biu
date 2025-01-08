@@ -2,14 +2,14 @@
   <div
     ref="thisEl"
     class="mu-flex-splitter"
-    :size="size || defaultSize"
     :direction="direction"
+    :size="splitterSize"
+    :shape="splitterShape"
     :resizable="resizable ? null : 'no'"
     :space-free="spaceFree ? '' : null"
-    :splitter-style="splitterStyle || defaultStyle"
     @dblclick="onDblClick"
     @mousedown="onMouseDown">
-    <slot v-if="resizable && isStriped" name="stripe">
+    <slot v-if="isStriped" name="stripe">
       <mu-svg-stripe
         class="mu-flex-splitter_stripe"
         :direction="StripeDirectionMap[direction]" />
@@ -21,10 +21,14 @@
   import './flex-splitter.scss'
 
   import { ref, computed, inject, provide, onMounted } from 'vue'
-  import { kebabCase } from '@/utils/case'
 
   const { splitter: splitterOptions = {} } = inject('$mussel').options
-  const { size: defaultSize = 'slim', style: defaultStyle = 'simple' } = splitterOptions
+
+  const {
+    size: defaultSize = 'slim',
+    shape: defaultShape = 'stick',
+    striped: defaultStripe = false
+  } = splitterOptions
 
   const thisEl = ref()
   const direction = ref()
@@ -35,12 +39,13 @@
       default: true
     },
     size: {
-      type: String,
       validate: v => ['normal', 'slim', 'concealed'].includes(v)
     },
-    splitterStyle: {
-      type: String,
-      validate: v => ['simple', 'stripe', 'bubble'].includes(kebabCase(v))
+    shape: {
+      validate: v => ['line', 'bubble'].includes(v)
+    },
+    stripe: {
+      validate: v => [true, false].includes(v)
     },
     spaceFree: Boolean,
     collapseButton: Boolean,
@@ -52,8 +57,16 @@
     column: 'horizontal'
   }
 
+  const splitterSize = computed(() =>
+    props.size || defaultSize
+  )
+
+  const splitterShape = computed(() =>
+    props.shape || defaultShape
+  )
+
   const isStriped = computed(() =>
-    (props.splitterStyle || defaultStyle) === 'stripe'
+    props.resizable && splitterShape.value === 'line' && (props.stripe ?? defaultStripe)
   )
 
   function isResizableElement (element) {
@@ -293,7 +306,6 @@
       nextSibling, nextStartSize, nextMargin, nextCollapseOffset
     } = params
 
-    const { parentNode } = thisEl.value
     const { pageX: startX, pageY: startY } = event
 
     function calcAndCollapse (offset) {
@@ -342,14 +354,14 @@
 
     function onMouseUp () {
       thisEl.value.removeAttribute('active')
-      parentNode.classList.remove('mu-resizing')
+      document.body.classList.remove('mu-resizing')
 
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
     }
 
     thisEl.value.setAttribute('active', true)
-    parentNode.classList.add('mu-resizing')
+    document.body.classList.add('mu-resizing')
 
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)

@@ -91,7 +91,7 @@
   }
 }
 
-.mu-resizing > :not(.mu-flex-splitter[active]) {
+.mu-resizing :not(.mu-flex-splitter[active]) {
   pointer-events: none;
 }
 
@@ -145,7 +145,7 @@
   }
 }
 
-.mu-flex-splitter[splitter-style="bubble"] {
+.mu-flex-splitter[shape="bubble"] {
   &::before {
     background-color: transparent;
   }
@@ -159,7 +159,7 @@
     border-radius: var(--mu-flex-splitter_full-size);
     box-shadow: 0 0 1px 1px rgba(0, 0, 0, .35);
 
-    transition: all .2s;
+    transition: all .3s;
   }
 
   &:hover,
@@ -176,12 +176,12 @@
       bottom: auto;
 
       width: var(--mu-flex-splitter_bar-size);
-      height: 50px;
-      max-height: 90%;
+      height: 48px;
+      max-height: 80%;
     }
 
     &[active]::after {
-      transform: scaleY(1.3);
+      transform: scaleY(1.2);
     }
   }
 
@@ -190,14 +190,14 @@
       right: auto;
       left: auto;
 
-      width: 50px;
+      width: 48px;
       max-width: 90%;
       height: var(--mu-flex-splitter_bar-size);
     }
 
 
     &[active]::after {
-      transform: scaleX(1.3);
+      transform: scaleX(1.2);
     }
   }
 }
