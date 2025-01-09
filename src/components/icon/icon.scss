@@ -12,4 +12,8 @@
     width: 1em;
     height: 1em;
   }
+
+  &[animation="spin"] {
+    animation: mu-ani-rotate-360 2s linear infinite;
+  }
 }

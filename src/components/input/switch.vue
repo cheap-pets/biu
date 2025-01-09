@@ -1,9 +1,8 @@
 <template>
-  <div
-    class="mu-switch"
-    :active="isActive"
-    :label="innerLabel"
-    @click="toggle" />
+  <div class="mu-switch" :active="isActive" @click="toggle">
+    <span v-if="innerLabel" class="mu-switch_label">{{ innerLabel }}</span>
+    <mu-icon v-else-if="innerIcon" :icon="innerIcon" />
+  </div>
 </template>
 
 <script setup>
@@ -16,6 +15,9 @@
   const model = defineModel()
 
   const props = defineProps({
+    icon: String,
+    activeIcon: String,
+    inactiveIcon: String,
     label: String,
     activeLabel: String,
     inactiveLabel: String,
@@ -25,6 +27,10 @@
 
   const isActive = computed(() =>
     props.activeValue === model.value || null
+  )
+
+  const innerIcon = computed(() =>
+    (isActive.value ? props.activeIcon : props.inactiveIcon) || props.icon
   )
 
   const innerLabel = computed(() =>

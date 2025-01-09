@@ -5,6 +5,7 @@
     :is="componentTag"
     :class="['mu-icon', data.cls]"
     :icon="icon"
+    :animation="data.animation"
     v-html="data.svg" />
 </template>
 

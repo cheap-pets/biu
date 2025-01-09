@@ -23,8 +23,10 @@
       SWITCH, CHECK & RADIO
       <mu-switch
         v-model="darkMode"
-        active-label="Dark"
-        inactive-label="Light"
+        active-icon="sun"
+        inactive-icon="moon"
+        :active-value="false"
+        :inactive-value="true"
         @update:model-value="onUIModeChange">
       </mu-switch>
     </h2>

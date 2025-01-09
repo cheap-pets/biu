@@ -4,6 +4,7 @@
     :active="active || null"
     :icon="icon"
     :size="size"
+    :animation="iconData.animation"
     @click="onClick"
     v-html="iconData.svg" />
 </template>

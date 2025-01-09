@@ -5,6 +5,7 @@
 
 .mu-switch {
   cursor: pointer;
+  user-select: none;
 
   position: relative;
 
@@ -15,10 +16,11 @@
 
   min-width: 40px;
   height: var(--mu-switch_height);
-  padding-right: 10px;
+  padding-right: 4px;
   padding-left: var(--mu-switch_height);
 
   font-size: 12px;
+  line-height: var(--mu-common-line-height);
 
   background-color: var(--mu-gray-5);
   border-radius: calc(var(--mu-switch_height) / 2);
@@ -42,9 +44,12 @@
     transition: all 0.1s ease-in-out;
   }
 
-  &[label]::before {
-    content: attr(label);
+  & > span {
     color: #fff;
+  }
+
+  & > .mu-switch_label {
+    margin-right: 4px;
   }
 
   &:hover {
@@ -53,7 +58,7 @@
 
   &[active] {
     padding-right: var(--mu-switch_height);
-    padding-left: 10px;
+    padding-left: 4px;
     background-color: var(--mu-primary-color);
 
     &::after {
@@ -66,6 +71,11 @@
   
     &[danger] {
       background-color: var(--mu-danger-color);
+    }
+
+    & > .mu-switch_label {
+      margin-right: 0;
+      margin-left: 4px;
     }
   }
 

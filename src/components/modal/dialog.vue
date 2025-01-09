@@ -22,6 +22,7 @@
                 <div>
                   <mu-tool-button
                     v-if="maximizable"
+                    class="mu-maximize-button"
                     :icon="stateIcon"
                     @click="toggleWindowState" />
                   <mu-tool-button
@@ -76,7 +77,7 @@
     maximizable: Boolean,
     maximizeToFullscreen: Boolean,
     keepPosition: Boolean,
-    ignoreButtonAction: Boolean,
+    // ignoreButtonAction: Boolean,
     closeButton: { type: Boolean, default: true }
   })
 
@@ -88,7 +89,7 @@
 
   const maximized = ref(false)
 
-  const stateIcon = computed(() => maximized.value ? 'windowNormal' : 'windowMaximized')
+  const stateIcon = computed(() => maximized.value ? 'windowNormalize' : 'windowMaximize')
   const headerVisible = computed(() => props.title || props.closeButton || slots.header)
   const footerVisible = computed(() => props.buttons?.length || slots.footer)
 
@@ -105,7 +106,7 @@
       if (is === 'mu-button') {
         const { name = _el, action } = attrs
 
-        attrs.caption ??= name
+        if (!attrs.icon) attrs.caption ??= name
 
         delete attrs.name
         delete attrs.action
@@ -186,11 +187,12 @@
   function onButtonClick (btn) {
     emit('buttonClick', {
       ...btn.attrs,
+      key: btn.key,
       name: btn.name,
       action: btn.action
     })
 
-    if (btn.action === 'close' && !props.ignoreButtonAction) {
+    if (btn.action === 'close' /* && !props.ignoreButtonAction */) {
       hide(btn.name)
     }
   }

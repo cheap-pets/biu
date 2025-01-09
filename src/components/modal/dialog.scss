@@ -102,3 +102,7 @@
     background-color: var(--mu-danger-color);
   }
 }
+
+.mu-maximize-button:hover > svg {
+  animation: mu-ani-shrink .5s;
+}

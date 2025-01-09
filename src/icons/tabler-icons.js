@@ -1,8 +1,11 @@
 export { default as X } from '~icons/outline/x.svg'
 export { default as check } from '~icons/outline/check.svg'
 
-export { default as windowNormal } from '~icons/outline/squares.svg'
-export { default as windowMaximized } from '~icons/outline/square.svg'
+export { default as windowNormalize } from '~icons/outline/arrows-diagonal-minimize-2.svg'
+export { default as windowMaximize } from '~icons/outline/arrows-diagonal.svg'
+
+export { default as sun } from '~icons/outline/sun.svg'
+export { default as moon } from '~icons/outline/moon.svg'
 
 export { default as ok } from '~icons/filled/circle-check.svg'
 export { default as info } from '~icons/filled/info-circle.svg'
