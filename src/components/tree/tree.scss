@@ -34,10 +34,6 @@
 
   & > .mu-tree-node_expand-icon {
     pointer-events: auto;
-
-    &[icon="chevronRight"] {
-      transition: transform .1s ease-in-out;
-    }
   }
 
   & > .mu-tree-node_button {
@@ -79,11 +75,5 @@
     cursor: default;
     color: var(--mu-text-color-muted);
     background: inherit;
-  }
-
-  &[expanded] {
-    & > .mu-tree-node_expand-icon[icon="chevronRight"] {
-      transform: rotate(90deg);
-    }
   }
 }

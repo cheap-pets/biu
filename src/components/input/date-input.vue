@@ -17,7 +17,7 @@
           :active="selectingMonth"
           @click="selectingMonth = !selectingMonth">
           {{ caption }}
-          <mu-icon icon="chevronDown" class="mu-dropdown-arrow" :expanded="selectingMonth || null" />
+          <mu-icon icon="dropdownExpand" :expanded="selectingMonth || null" />
         </mu-button>
         <template v-if="!selectingMonth">
           <mu-button :caption="THIS_MONTH" primary @click="setCurrent(today)" />

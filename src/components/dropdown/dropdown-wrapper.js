@@ -1,5 +1,3 @@
-import './dropdown.scss'
-
 import { ref, shallowRef, readonly, computed } from 'vue'
 
 export const dropdownEvents = [
@@ -19,7 +17,7 @@ export const dropdownProps = {
   dropdownHeight: String,
   dropdownDisabled: Boolean,
   dropdownScrollbar: Boolean,
-  dropdownIcon: { type: String, default: 'chevronDown' }
+  dropdownIcon: { type: String, default: 'dropdownExpand' }
 }
 
 export const optionalProps = {
@@ -60,7 +58,7 @@ export function useDropdown (props, emit, options = {}) {
 
   const dropdownIconAttrs = computed(() => ({
     icon: props.dropdownIcon,
-    class: props.dropdownIcon === 'chevronDown' ? 'mu-dropdown-arrow' : null,
+    class: 'mu-dropdown-arrow',
     expanded: expanded.value || null
   }))
 

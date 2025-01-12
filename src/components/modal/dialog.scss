@@ -93,16 +93,6 @@
   font-weight: 600;
 }
 
-.mu-tool-button.mu-close-button {
-  transition: all .1s ease-in-out;
-
-  &:hover {
-    transform: rotate(-180deg);
-    color: #fff;
-    background-color: var(--mu-danger-color);
-  }
-}
-
-.mu-maximize-button:hover > svg {
-  animation: mu-ani-shrink .5s;
+.mu-dialog_sys-button {
+  background: none !important;
 }

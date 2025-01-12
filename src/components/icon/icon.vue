@@ -5,7 +5,7 @@
     :is="componentTag"
     :class="['mu-icon', data.cls]"
     :icon="icon"
-    :animation="data.animation"
+    :animation="animation || data.animation"
     v-html="data.svg" />
 </template>
 
@@ -17,7 +17,7 @@
 
   defineOptions({ name: 'MusselIcon' })
 
-  const props = defineProps({ icon: String, tag: String })
+  const props = defineProps({ tag: String, icon: String, animation: String })
   const data = useIcon(props).data
 
   const componentTag = computed(() => props.tag === 'a' ? 'a' : 'span')

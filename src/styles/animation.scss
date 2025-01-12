@@ -1,4 +1,4 @@
-@keyframes mu-ani-shrink {
+@keyframes -mu-ani-shrink {
   0% {
     transform: scale(1);
   }
@@ -10,7 +10,7 @@
   }
 }
 
-@keyframes mu-ani-grow {
+@keyframes -mu-ani-grow {
   0% {
     transform: scale(1);
   }
@@ -22,7 +22,7 @@
   }
 }
 
-@keyframes mu-ani-rotate-360 {
+@keyframes -mu-ani-rotate-360 {
   0% {
     transform: rotate(0);
   }

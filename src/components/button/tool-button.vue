@@ -1,10 +1,10 @@
 <template>
   <a
     :class="['mu-tool-button', iconData.cls]"
-    :active="active || null"
     :icon="icon"
     :size="size"
-    :animation="iconData.animation"
+    :active="active || null"
+    :animation="animation || iconData.animation"
     @click="onClick"
     v-html="iconData.svg" />
 </template>
@@ -21,6 +21,7 @@
   const props = defineProps({
     icon: String,
     toggle: Boolean,
+    animation: String,
     size: {
       type: String,
       validator: v => ['small', 'normal', 'large'].includes(v)

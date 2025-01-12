@@ -10,6 +10,7 @@
     <mu-icon
       v-if="expandIcon !== false"
       class="mu-tree-node_expand-icon"
+      :expanded="expanded || null"
       :icon="expandIcon"
       @click.stop="toggleExpand"
       @dblclick.stop />

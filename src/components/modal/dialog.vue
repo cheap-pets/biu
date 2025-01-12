@@ -19,15 +19,16 @@
                 <mu-icon v-if="icon" class="mu-dialog_icon" v-bind="iconBindings" />
                 <label class="mu-dialog_title" draggable="false">{{ title }}</label>
                 <slot name="header-append" />
-                <div>
+                <div class="mu-dialog_sys-buttons">
                   <mu-tool-button
                     v-if="maximizable"
-                    class="mu-maximize-button"
-                    :icon="stateIcon"
+                    class="mu-dialog_sys-button"
+                    :icon="stateIcon + ':hover-shrink'"
                     @click="toggleWindowState" />
                   <mu-tool-button
                     v-if="closeButton"
-                    class="mu-close-button" icon="X"
+                    class="mu-dialog_sys-button"
+                    icon="X:hover-rotate-180" danger
                     @click="hide('$X')" />
                 </div>
               </slot>

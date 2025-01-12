@@ -12,8 +12,49 @@
     width: 1em;
     height: 1em;
   }
+}
 
-  &[animation="spin"] {
-    animation: mu-ani-rotate-360 2s linear infinite;
+.mu-icon,
+.mu-tool-button {
+  &[animation="spin"] > svg {
+    animation: -mu-ani-rotate-360 2s linear infinite;
+  }
+
+  &[animation="hover-shrink"]:hover > svg {
+    animation: -mu-ani-shrink .2s linear;
+  }
+
+  &[animation="hover-grow"]:hover > svg {
+    animation: -mu-ani-grow .2s linear;
+  }
+
+  &[animation="hover-rotate-180"] {
+    & > svg {
+      transition: all .2s linear;
+    }
+
+    &:hover > svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  &[animation="expand-rotate-90"] {
+    & > svg {
+      transition: all .1s linear;
+    }
+
+    &[expanded] > svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  &[animation="expand-rotate--180"] {
+    & > svg {
+      transition: all .1s linear;
+    }
+
+    &[expanded] > svg {
+      transform: rotate(-180deg);
+    }
   }
 }

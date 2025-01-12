@@ -1,8 +1,8 @@
 export { default as X } from '~icons/outline/x.svg'
 export { default as check } from '~icons/outline/check.svg'
 
-export { default as windowNormalize } from '~icons/outline/arrows-diagonal-minimize-2.svg'
-export { default as windowMaximize } from '~icons/outline/arrows-diagonal.svg'
+export { default as windowNormalize } from '~icons/outline/arrow-down-left.svg'
+export { default as windowMaximize } from '~icons/outline/arrow-up-right.svg'
 
 export { default as sun } from '~icons/outline/sun.svg'
 export { default as moon } from '~icons/outline/moon.svg'
@@ -21,4 +21,5 @@ export { default as chevronDown } from '~icons/outline/chevron-down.svg'
 export { default as chevronLeft } from '~icons/outline/chevron-left.svg'
 export { default as chevronRight } from '~icons/outline/chevron-right.svg'
 
+export { default as loading } from '~icons/outline/loader.svg'
 export { default as calendar } from '~icons/outline/calendar-month.svg'

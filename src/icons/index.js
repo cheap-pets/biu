@@ -53,4 +53,16 @@ function install (data = {}, dataType) {
 install(tablerIcons, 'svg')
 install(customIcons, 'svg')
 
+icons.loading.animation = 'spin'
+
+icons.treeNodeExpand = {
+  svg: icons.chevronRight.svg,
+  animation: 'expand-rotate-90'
+}
+
+icons.dropdownExpand = {
+  svg: icons.chevronDown.svg,
+  animation: 'expand-rotate--180'
+}
+
 export { icons, install }
