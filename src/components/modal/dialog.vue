@@ -21,7 +21,7 @@
                 <slot name="header-append" />
                 <div class="mu-dialog_sys-buttons">
                   <mu-tool-button
-                    v-if="maximizable"
+                    v-if="maximizeButton"
                     class="mu-dialog_sys-button"
                     :icon="stateIcon + ':hover-shrink'"
                     @click="toggleWindowState" />
@@ -60,9 +60,10 @@
   import { modalProps, modalEvents, useModal } from './modal'
   import { DialogButtonPresets } from './presets'
   import { sizeProps, useSize } from '@/hooks/size'
+  import { debounce } from 'throttle-debounce'
   import { useKeyGen } from '@/hooks/key-gen'
   import { isString } from '@/utils/type'
-  import { debounce } from 'throttle-debounce'
+  import { pick } from '@/utils/object'
 
   defineOptions({ name: 'MusselDialog', inheritAttrs: false })
 
@@ -75,10 +76,9 @@
     buttons: Array,
     icon: [String, Object],
     title: [String, Object],
-    maximizable: Boolean,
-    maximizeToFullscreen: Boolean,
     keepPosition: Boolean,
-    // ignoreButtonAction: Boolean,
+    maximizeButton: Boolean,
+    maximizeToFullscreen: Boolean,
     closeButton: { type: Boolean, default: true }
   })
 
@@ -188,12 +188,10 @@
   function onButtonClick (btn) {
     emit('buttonClick', {
       ...btn.attrs,
-      key: btn.key,
-      name: btn.name,
-      action: btn.action
+      ...pick(btn, ['key', 'name', 'action'])
     })
 
-    if (btn.action === 'close' /* && !props.ignoreButtonAction */) {
+    if (['close', 'hide'].includes(btn.action)) {
       hide(btn.name)
     }
   }

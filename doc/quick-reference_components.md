@@ -304,7 +304,7 @@ installIcons({
 | keep-position          | Boolean           | 窗口再次打开时，是否使用上次关闭时的位置    |
 | ignore-button-action   | Boolean           | 是否忽略按钮的默认 Action（目前仅支持关闭） |
 | buttons                | Array             | 对话框底部的操作按钮                        |
-| maximizable            | Boolean           | 是否可以最大化（显示最大化按钮）            |
+| maximize-button        | Boolean           | 是否显示最大化按钮                          |
 | maximize-to-fullscreen | Boolean           | 最大化时是否全屏显示                        |
 
 
@@ -389,21 +389,21 @@ installIcons({
 
 基本输入框
 
-| 属性名称    | 类型             | 说明                                |
-| ----------- | ---------------- | ----------------------------------- |
-| modelValue  |                  | 输入的值双向绑定属性                |
-| type        | String           | 原生 Input 元素的 type，默认为 text |
-| placeholder | String           | 占位文本                            |
-| clearable   | Boolean          | 是否显示清除按钮                    |
-| readonly    | Boolean          | 是否只读                            |
-| disabled    | Boolean          | 是否禁用                            |
-| prefix      | String \| Object | 前置文本或按钮                      |
-| Suffix      | String \| Object | 后置文本或按钮                      |
-| tabindex    | String           | 元素 tab 聚焦顺序，默认为 -1        |
-| small       |                  | 小尺寸输入框                        |
-| round       |                  | 左右是圆边的输入框                  |
-| invalid     |                  | 表示无效状态的样式                  |
-| input-style | String           | default \| solid \| underline       |
+| 属性名称     | 类型             | 说明                                                         |
+| ------------ | ---------------- | ------------------------------------------------------------ |
+| modelValue   |                  | 输入的值双向绑定属性                                         |
+| type         | String           | 原生 Input 元素的 type，默认为 text                          |
+| placeholder  | String           | 占位文本                                                     |
+| clear-button | Boolean          | 是否显示清除按钮，以全局选项 $mussel.options.input.clearButton 为默认值（缺省为 true） |
+| readonly     | Boolean          | 是否只读                                                     |
+| disabled     | Boolean          | 是否禁用                                                     |
+| prefix       | String \| Object | 前置文本或按钮                                               |
+| Suffix       | String \| Object | 后置文本或按钮                                               |
+| tabindex     | String           | 元素 tab 聚焦顺序，默认为 -1                                 |
+| small        |                  | 小尺寸输入框                                                 |
+| round        |                  | 左右是圆边的输入框                                           |
+| invalid      |                  | 表示无效状态的样式                                           |
+| input-style  | String           | default \| solid \| underline                                |
 
 
 

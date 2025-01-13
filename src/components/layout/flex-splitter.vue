@@ -3,8 +3,8 @@
     ref="thisEl"
     class="mu-flex-splitter"
     :direction="direction"
-    :size="splitterSize"
-    :shape="splitterShape"
+    :size="size"
+    :shape="shape"
     :resizable="resizable ? null : 'no'"
     :space-free="spaceFree ? '' : null"
     @dblclick="onDblClick"
@@ -22,14 +22,6 @@
 
   import { ref, computed, inject, provide, onMounted } from 'vue'
 
-  const { splitter: splitterOptions = {} } = inject('$mussel').options
-
-  const {
-    size: defaultSize = 'slim',
-    shape: defaultShape = 'stick',
-    striped: defaultStripe = false
-  } = splitterOptions
-
   const thisEl = ref()
   const direction = ref()
 
@@ -39,17 +31,26 @@
       default: true
     },
     size: {
-      validate: v => ['normal', 'slim', 'concealed'].includes(v)
+      type: String,
+      default: () => inject('$mussel').options.splitter?.size || 'full',
+      validate: v => ['full', 'slim', 'concealed'].includes(v)
     },
     shape: {
+      type: String,
+      default: () => inject('$mussel').options.splitter?.shape || 'line',
       validate: v => ['line', 'bubble'].includes(v)
     },
     stripe: {
+      type: Boolean,
+      default: () => inject('$mussel').options.splitter?.stripe ?? false,
       validate: v => [true, false].includes(v)
     },
     spaceFree: Boolean,
     collapseButton: Boolean,
-    collapseThreshold: { type: Number, default: 200 }
+    collapseThreshold: {
+      type: Number,
+      default: () => inject('$mussel').options.splitter?.collapseThreshold || 200
+    }
   })
 
   const StripeDirectionMap = {
@@ -57,16 +58,8 @@
     column: 'horizontal'
   }
 
-  const splitterSize = computed(() =>
-    props.size || defaultSize
-  )
-
-  const splitterShape = computed(() =>
-    props.shape || defaultShape
-  )
-
   const isStriped = computed(() =>
-    props.resizable && splitterShape.value === 'line' && (props.stripe ?? defaultStripe)
+    props.resizable && props.shape === 'line' && props.stripe
   )
 
   function isResizableElement (element) {

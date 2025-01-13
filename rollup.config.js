@@ -1,10 +1,10 @@
+import fs from 'fs'
 import path from 'path'
 import browserslist from 'browserslist'
 
-import json from '@rollup/plugin-json'
 import alias from '@rollup/plugin-alias'
+import replace from '@rollup/plugin-replace'
 import resolve from '@rollup/plugin-node-resolve'
-// import commonjs from '@rollup/plugin-commonjs'
 
 import swc from 'rollup-plugin-swc'
 import vue from 'unplugin-vue/rollup'
@@ -14,6 +14,9 @@ import { string } from 'rollup-plugin-string'
 
 import { fileURLToPath } from 'url'
 import { generatePreCssVariables } from './src/theme.js'
+
+const pkgJson = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'), 'utf-8'))
+const version = pkgJson.version
 
 const isDevEnv = process.env.dev
 const scssVariables = generatePreCssVariables()
@@ -36,6 +39,14 @@ export default {
   },
   external: ['vue'],
   plugins: [
+    replace({
+      include: 'src/env.js',
+      preventAssignment: false,
+      values: {
+        __version: version,
+        __env: isDevEnv ? 'development' : 'production'
+      }
+    }),
     alias({
       entries: [
         {
@@ -54,7 +65,6 @@ export default {
     string({
       include: '**/*.svg'
     }),
-    json(),
     sass({
       extract: true,
       minify: isDevEnv ? 0 : 1,
@@ -75,7 +85,6 @@ export default {
       },
       minify: !isDevEnv
     })
-    // commonjs()
   ],
   onwarn: warning => {
     const { code, plugin, id, input, message } = warning

@@ -121,10 +121,10 @@
       setup () {
         const darkMode = Vue.ref(false)
 
-        const size = Vue.ref('slim')
-        const shape = Vue.ref('bubble')
+        const size = Vue.ref('full')
+        const shape = Vue.ref('line')
         const stripe = Vue.ref(false)
-        const spaceFree = Vue.ref(true)
+        const spaceFree = Vue.ref(false)
 
         function onUIModeChange () {
           document.querySelector('.mu-root').classList.toggle('mu-dark')
@@ -146,8 +146,9 @@
       app,
       {
         darkMode: false,
+        input: { clearButton: false },
         splitter: {
-          size: 'slim',
+          size: 'full',
           shape: 'line'
         }
       }

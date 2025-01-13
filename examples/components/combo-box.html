@@ -49,7 +49,6 @@
       <div class="mu-input-group">
         <mu-combo-box
           v-model="artist"
-          clearable
           prefix="Artist: "
           dropdown-host="$parent"
           :options="artists"
@@ -64,7 +63,6 @@
       </div>
       <mu-combo-box
         v-model="artist"
-        clearable
         prefix="Artist: "
         @prefix-click="onPrefixClick"
         @dropdown:show="onDropdownShow">
@@ -74,7 +72,7 @@
           <mu-option value="Frédéric François Chopin"></mu-option>
         </template>
       </mu-combo-box>
-      <mu-combo-box v-model="artist" editable clearable :options="artists">
+      <mu-combo-box v-model="artist" editable :options="artists">
       </mu-combo-box>
     </div>
     <div class="group">
@@ -102,7 +100,6 @@
         v-model="artistCn"
         value-mode="composite"
         dropdown-width="600px"
-        clearable
         :options="artistsCn">
       </mu-combo-box>
     </div>

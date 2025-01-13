@@ -1,14 +1,18 @@
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
+import { useCompatible } from '../compatible'
 import { isString, isEmpty } from '@/utils/type'
 
 export const inputProps = {
   readonly: Boolean,
   disabled: Boolean,
-  clearable: Boolean,
   placeholder: String,
   prefix: [String, Object],
   suffix: [String, Object],
-  tabindex: { default: '-1' }
+  tabindex: { default: '-1' },
+  clearButton: {
+    type: Boolean,
+    default: () => inject('$mussel').options.input?.clearButton ?? true
+  }
 }
 
 export const inputEvents = [
@@ -17,6 +21,8 @@ export const inputEvents = [
 ]
 
 export function useInput (model, props, emit) {
+  useCompatible('input')
+
   const wrapperAttrs = computed(() => ({
     tabindex: props.tabindex,
     disabled: props.disabled || null,
@@ -37,7 +43,7 @@ export function useInput (model, props, emit) {
   }
 
   const clearButtonVisible = computed(() =>
-    props.clearable &&
+    props.clearButton &&
     !props.disabled &&
     !props.readonly &&
     !isEmpty(model.value, { skipBoolean: true })
