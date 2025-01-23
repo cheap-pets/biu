@@ -30,7 +30,7 @@
 
   import { ref, computed, useAttrs } from 'vue'
   import { pickBy } from '@/utils/object'
-  import { useKeyGen } from '@/hooks/key-gen'
+  import { useKeyGen } from '@/components/common-hooks/key-gen'
 
   const { getObjectKey: getKey } = useKeyGen()
 

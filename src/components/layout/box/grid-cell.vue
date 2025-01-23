@@ -6,7 +6,7 @@
 
 <script setup>
   import { computed } from 'vue'
-  import { sizeProps, useSize } from '@/hooks/size'
+  import { sizeProps, useSize } from '@/components/common-hooks/size'
 
   defineOptions({ name: 'MusselGridCell' })
 

@@ -67,7 +67,12 @@
     </div>
     <div class="group">
       <h3>AFFIX：Icon, Text, Tool & Link</h3>
-      <mu-input v-model="value" prefix=":icon=search" label="shit"></mu-input>
+      <mu-input
+        v-model="value"
+        prefix=":icon=search"
+        label="myLabel">
+        <template #left>My Slot Content</template>
+      </mu-input>
       <mu-input v-model="value" suffix="Suffix"></mu-input>
       <mu-input v-model="value" prefix=":tool=folderOpen"></mu-input>
       <mu-input v-model="value" prefix=":tool=bug" suffix=":link=Link"></mu-input>

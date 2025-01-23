@@ -26,8 +26,8 @@
   import './dropdown-panel.scss'
 
   import { ref, toRef, shallowRef, shallowReactive, computed, provide, inject } from 'vue'
+  import { usePopupManager } from '@/components/common-hooks/popup'
   import { useListItems } from '../list/list-items'
-  import { usePopupManager } from '@/hooks/popup'
 
   import { findUp, isElementInViewport } from '@/utils/dom'
   import { getTransitionDuration } from '@/utils/style'

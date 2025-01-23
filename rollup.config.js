@@ -68,7 +68,7 @@ export default {
     sass({
       extract: true,
       minify: isDevEnv ? 0 : 1,
-      variables: scssVariables,
+      variables: scssVariables
     }),
     resolve({
       mainFields: ['module', 'main', 'browser']

@@ -25,7 +25,7 @@
   import './drawer.scss'
 
   import { modalProps, modalEvents, useModal } from './modal'
-  import { sizeProps, useSize } from '@/hooks/size'
+  import { sizeProps, useSize } from '@/components/common-hooks/size'
 
   defineOptions({ name: 'MusselDrawer', inheritAttrs: false })
 

@@ -1,5 +1,5 @@
 import { ref, shallowRef, readonly, computed } from 'vue'
-import { useCompatible } from '../compatible'
+import { useCompatible } from '../common-hooks/compatible'
 
 export const dropdownEvents = [
   'action',

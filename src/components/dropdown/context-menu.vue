@@ -22,7 +22,7 @@
 
 <script setup>
   import { ref, shallowRef, toRef, computed, provide, inject } from 'vue'
-  import { usePopupManager } from '@/hooks/popup'
+  import { usePopupManager } from '@/components/common-hooks/popup'
   import { useListItems } from '../list/list-items'
 
   import { getTransitionDuration } from '@/utils/style'

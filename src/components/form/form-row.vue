@@ -7,7 +7,7 @@
 <script setup>
   import './form-row.scss'
 
-  import { sizeProps, useSize } from '@/hooks/size'
+  import { sizeProps, useSize } from '@/components/common-hooks/size'
 
   defineOptions({ name: 'MusselFormRow' })
 

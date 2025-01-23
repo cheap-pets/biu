@@ -28,8 +28,8 @@ export function isEditableElement (el) {
   )
 }
 
-export function resolveSafeHTML (html = '') {
-  return html
+export function sanitizeHTML (htmlString = '') {
+  return htmlString
     .replace(/\s+on\w+="[^"]*"/gi, '') // event bindings
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // <script> node
 }

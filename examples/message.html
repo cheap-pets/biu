@@ -67,7 +67,7 @@
         title="NOT FOUND !"
         message="Something Wrong Here ! Something Wrong Here ! Something Wrong Here ! Something Wrong Here ! Something Wrong Here !">
         <template #icon>
-          <img style="margin-top: auto;" src="../images/a.jpg">
+          <img style="margin-top: auto;" src="./images/a.jpg">
         </template>
         <div class="mu-box" layout="flex" margin-top="auto" align-self="stretch">
           <mu-button primary round>
@@ -105,7 +105,7 @@
           this
             .$mussel
             .messageBox
-            .confirm('<div>Hello World !<div><p><img src="../images/a.jpg" onload="alert(1)">')
+            .confirm('<div>Hello World !<div><p><img src="./images/a.jpg" onload="alert(1)">')
             .then(btn => console.log(btn))
         },
         error () {

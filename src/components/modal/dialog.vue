@@ -28,7 +28,7 @@
                   <mu-tool-button
                     v-if="closeButton"
                     class="mu-dialog_sys-button"
-                    icon="X:hover-rotate-180" danger
+                    icon="windowClose" danger
                     @click="hide('$X')" />
                 </div>
               </slot>
@@ -57,11 +57,14 @@
   import './dialog.scss'
 
   import { useSlots, ref, shallowRef, reactive, computed, watch, watchEffect } from 'vue'
-  import { modalProps, modalEvents, useModal } from './modal'
-  import { DialogButtonPresets } from './presets'
-  import { sizeProps, useSize } from '@/hooks/size'
   import { debounce } from 'throttle-debounce'
-  import { useKeyGen } from '@/hooks/key-gen'
+
+  import { modalProps, modalEvents, useModal } from './modal'
+  import { ButtonPresets } from './button-presets'
+
+  import { sizeProps, useSize } from '../common-hooks/size'
+  import { useKeyGen } from '../common-hooks/key-gen'
+
   import { isString } from '@/utils/type'
   import { pick } from '@/utils/object'
 
@@ -91,7 +94,7 @@
   const maximized = ref(false)
 
   const stateIcon = computed(() => maximized.value ? 'windowNormalize' : 'windowMaximize')
-  const headerVisible = computed(() => props.title || props.closeButton || slots.header)
+  const headerVisible = computed(() => props.title || props.closeButton || props.maximizeButton || slots.header)
   const footerVisible = computed(() => props.buttons?.length || slots.footer)
 
   const iconBindings = computed(() =>
@@ -101,7 +104,7 @@
   const footerButtons = computed(() =>
     props.buttons?.map(el => {
       const { _el, is = 'mu-button', key = genKey(), ...attrs } = isString(el)
-        ? { _el: el, ...DialogButtonPresets[el] }
+        ? { _el: el, ...ButtonPresets[el] }
         : el
 
       if (is === 'mu-button') {

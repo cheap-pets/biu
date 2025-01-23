@@ -1,5 +1,5 @@
 import { computed, inject } from 'vue'
-import { useCompatible } from '../compatible'
+import { useCompatible } from '../common-hooks/compatible'
 import { isString, isEmpty } from '@/utils/type'
 
 export const inputProps = {

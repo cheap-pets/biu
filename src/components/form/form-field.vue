@@ -12,7 +12,7 @@
 
   import { computed, inject } from 'vue'
   import { resolveSize } from '@/utils/size'
-  import { sizeProps, useSize } from '@/hooks/size'
+  import { sizeProps, useSize } from '@/components/common-hooks/size'
 
   defineOptions({ name: 'MusselFormField' })
 

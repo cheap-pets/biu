@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useKeyGen } from '@/hooks/key-gen'
+import { useKeyGen } from '@/components/common-hooks/key-gen'
 
 import { isObject } from '@/utils/type'
 import { reverse } from '@/utils/object'

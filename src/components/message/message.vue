@@ -11,7 +11,7 @@
   import './message.scss'
 
   import { computed } from 'vue'
-  import { resolveSafeHTML } from '@/utils/dom'
+  import { sanitizeHTML } from '@/utils/dom'
 
   defineOptions({ name: 'MusselMessage' })
 
@@ -21,5 +21,5 @@
     message: String
   })
 
-  const html = computed(() => resolveSafeHTML(props.message))
+  const html = computed(() => sanitizeHTML(props.message))
 </script>
