@@ -12,55 +12,40 @@ const hashMap = {}
 function install (data = {}, dataType) {
   if (!['svg', 'cls'].includes(dataType)) dataType = null
 
-  function isInvalidIcon (key, icon) {
-    if (!icon || (!icon.svg && !icon.cls)) {
-      console.warn(`[MUSSEL:ICON] The option of icon "${key}" is invalid.`)
+  function isValidIcon (key, icon) {
+    if (icon && (icon.svg || icon.cls)) {
       return true
+    } else {
+      console.warn(`[MUSSEL:ICON] The option of icon "${key}" is invalid.`)
     }
   }
 
-  function isEqual (icon1, icon2) {
-    return !['svg', 'cls', 'animation'].find(key => {
-      const value1 = icon1[key] || null
-      const value2 = icon2[key] || null
+  function solveIconHash (key, icon) {
+    const { svg = '', cls = '', animation = '' } = icon
 
-      return value1 !== value2
-    })
-  }
-
-  function solveExistingKey (key, icon) {
-    if (!isDev) return
-
+    const hash = icon.hash = generateHash(svg + cls + (animation && ':' + animation))
     const old = icons[key]
 
     if (old) {
-      if (isEqual(old, icon)) {
+      if (old.hash === hash) {
         console.warn(
           '[MUSSEL:ICON]',
           `Same icon named "${key}" has been installed repeatedly.`
         )
-        return false
+        return
       } else {
-        const hash = old.hash
-        const keys = hash && hashMap[hash]
+        const oldKeys = hashMap[old.hash]
 
-        if (keys) {
-          keys.delete(key)
+        oldKeys.delete(key)
 
-          if (!keys.size) {
-            delete hashMap[hash]
-          }
+        if (!oldKeys.size) {
+          delete hashMap[old.hash]
         }
       }
     }
-  }
 
-  function solveSVGHash (key, icon) {
-    if (!isDev) return
-
-    const hash = icon.hash = generateHash(icon.svg + (icon.animation ? ':' + icon.animation : ''))
     const keys = hashMap[hash]
-    const key0 = keys?.[0]
+    const key0 = keys && [...keys][0]
 
     if (!key0) {
       hashMap[hash] = new Set([key])
@@ -69,7 +54,7 @@ function install (data = {}, dataType) {
 
       console.warn(
         '[MUSSEL:ICON]',
-        `Icon "${key}" and icon "${key0}" may have the same content.`
+        `Icon "${key}" may have the same content with icon "${key0}".`
       )
     }
   }
@@ -83,14 +68,11 @@ function install (data = {}, dataType) {
           : { cls: value.trim() }
       )
 
-    if (isInvalidIcon(key, icon)) return
-    if (solveExistingKey(key, icon) === false) return
+    if (isValidIcon(key, icon)) {
+      if (icon.svg) icon.svg = sanitizeHTML(icon.svg)
+      if (isDev) solveIconHash(key, icon)
 
-    icons[key] = icon
-
-    if (icon.svg) {
-      icon.svg = sanitizeHTML(icon.svg)
-      solveSVGHash(key, icon)
+      icons[key] = icon
     }
   })
 }
@@ -100,19 +82,17 @@ install(customIcons, 'svg')
 
 install({
   windowClose: {
-    svg: icons.X.svg,
+    svg: tablerIcons.X,
     animation: 'hover-rotate-180'
   },
   treeNodeExpand: {
-    svg: icons.chevronRight.svg,
+    svg: tablerIcons.chevronRight,
     animation: 'expand-rotate-90'
   },
   dropdownExpand: {
-    svg: icons.chevronDown.svg,
+    svg: tablerIcons.chevronDown,
     animation: 'expand-rotate--180'
   }
 })
-
-icons.loading.animation = 'spin'
 
 export { icons, install }

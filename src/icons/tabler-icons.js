@@ -1,3 +1,5 @@
+import loaderSvg from '~icons/outline/loader.svg'
+
 export { default as X } from '~icons/outline/x.svg'
 export { default as check } from '~icons/outline/check.svg'
 
@@ -21,5 +23,9 @@ export { default as chevronDown } from '~icons/outline/chevron-down.svg'
 export { default as chevronLeft } from '~icons/outline/chevron-left.svg'
 export { default as chevronRight } from '~icons/outline/chevron-right.svg'
 
-export { default as loading } from '~icons/outline/loader.svg'
 export { default as calendar } from '~icons/outline/calendar-month.svg'
+
+export const loading = {
+  svg: loaderSvg,
+  animation: 'spin'
+}
